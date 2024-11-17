@@ -1,0 +1,737 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище магазинModel" Provider="Npgsql" ProviderManifestToken="16.4" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="categories">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int8" Nullable="false" />
+          <Property Name="name" Type="text" Nullable="false" />
+        </EntityType>
+        <EntityType Name="client">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int8" Nullable="false" />
+          <Property Name="noomber" Type="text" Nullable="false" />
+          <Property Name="purchase_amount" Type="int8" />
+          <Property Name="discount_id" Type="int8" Nullable="false" />
+        </EntityType>
+        <EntityType Name="discount">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int8" Nullable="false" />
+          <Property Name="size" Type="int8" />
+          <Property Name="start" Type="int8" />
+          <Property Name="end" Type="int8" Nullable="false" />
+        </EntityType>
+        <EntityType Name="element_order">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int8" Nullable="false" />
+          <Property Name="quentity" Type="int8" Nullable="false" />
+          <Property Name="order_id" Type="int8" Nullable="false" />
+          <Property Name="products_id" Type="int8" Nullable="false" />
+        </EntityType>
+        <EntityType Name="loanAgreement">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int8" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="supplier_id" Type="int8" Nullable="false" />
+          <Property Name="sum" Type="int8" Nullable="false" />
+          <Property Name="percent" Type="int8" Nullable="false" />
+          <Property Name="start" Type="time" Precision="6" Nullable="false" />
+          <Property Name="end" Type="time" Precision="6" Nullable="false" />
+          <Property Name="status_id" Type="int8" Nullable="false" />
+        </EntityType>
+        <EntityType Name="products">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int8" Nullable="false" />
+          <Property Name="name" Type="text" Nullable="false" />
+          <Property Name="categoris_id" Type="int8" Nullable="false" />
+          <Property Name="price" Type="int8" Nullable="false" />
+          <Property Name="count" Type="int8" />
+        </EntityType>
+        <EntityType Name="sale">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int8" Nullable="false" />
+          <Property Name="data" Type="time" Precision="6" />
+          <Property Name="cost" Type="int8" Nullable="false" />
+          <Property Name="salesmn_id" Type="int8" Nullable="false" />
+          <Property Name="client_id" Type="int8" Nullable="false" />
+        </EntityType>
+        <EntityType Name="salesman">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="FullName" Type="text" Nullable="false" />
+          <Property Name="number" Type="text" Nullable="false" />
+          <Property Name="address" Type="text" Nullable="false" />
+          <Property Name="mail" Type="text" Nullable="false" />
+          <Property Name="password" Type="text" Nullable="false" />
+          <Property Name="salary" Type="int8" Nullable="false" />
+          <Property Name="id" Type="int8" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="status">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int8" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="title" Type="text" Nullable="false" />
+        </EntityType>
+        <EntityType Name="supplier">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int8" Nullable="false" />
+          <Property Name="FullName" Type="text" Nullable="false" />
+          <Property Name="CompanyName" Type="text" Nullable="false" />
+          <Property Name="address" Type="text" Nullable="false" />
+          <Property Name="mail" Type="text" Nullable="false" />
+          <Property Name="requisites" Type="text" Nullable="false" />
+          <Property Name="number" Type="text" Nullable="false" />
+        </EntityType>
+        <EntityType Name="supply">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int8" Nullable="false" />
+          <Property Name="supplier_id" Type="int8" Nullable="false" />
+          <Property Name="data" Type="timestamp" Nullable="false" />
+          <Property Name="cost" Type="int8" Nullable="false" />
+        </EntityType>
+        <Association Name="discount_fk">
+          <End Role="discount" Type="Self.discount" Multiplicity="1" />
+          <End Role="client" Type="Self.client" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="discount">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="client">
+              <PropertyRef Name="discount_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_categories">
+          <End Role="categories" Type="Self.categories" Multiplicity="1" />
+          <End Role="products" Type="Self.products" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="categories">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="products">
+              <PropertyRef Name="categoris_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_client">
+          <End Role="client" Type="Self.client" Multiplicity="1" />
+          <End Role="sale" Type="Self.sale" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="client">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="sale">
+              <PropertyRef Name="client_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_products">
+          <End Role="products" Type="Self.products" Multiplicity="1" />
+          <End Role="element_order" Type="Self.element_order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="products">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="element_order">
+              <PropertyRef Name="products_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_sale">
+          <End Role="sale" Type="Self.sale" Multiplicity="1" />
+          <End Role="element_order" Type="Self.element_order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="sale">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="element_order">
+              <PropertyRef Name="order_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_salesman">
+          <End Role="salesman" Type="Self.salesman" Multiplicity="1" />
+          <End Role="sale" Type="Self.sale" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="salesman">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="sale">
+              <PropertyRef Name="salesmn_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_status">
+          <End Role="status" Type="Self.status" Multiplicity="1" />
+          <End Role="loanAgreement" Type="Self.loanAgreement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="status">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="loanAgreement">
+              <PropertyRef Name="status_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_supplier">
+          <End Role="supplier" Type="Self.supplier" Multiplicity="1" />
+          <End Role="supply" Type="Self.supply" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="supplier">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="supply">
+              <PropertyRef Name="supplier_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_supplier1">
+          <End Role="supplier" Type="Self.supplier" Multiplicity="1" />
+          <End Role="loanAgreement" Type="Self.loanAgreement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="supplier">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="loanAgreement">
+              <PropertyRef Name="supplier_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_supply">
+          <End Role="supply" Type="Self.supply" Multiplicity="1" />
+          <End Role="element_order" Type="Self.element_order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="supply">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="element_order">
+              <PropertyRef Name="order_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище магазинModelContainer">
+          <EntitySet Name="categories" EntityType="Self.categories" Schema="public" store:Type="Tables" />
+          <EntitySet Name="client" EntityType="Self.client" Schema="public" store:Type="Tables" />
+          <EntitySet Name="discount" EntityType="Self.discount" Schema="public" store:Type="Tables" />
+          <EntitySet Name="element_order" EntityType="Self.element_order" Schema="public" store:Type="Tables" />
+          <EntitySet Name="loanAgreement" EntityType="Self.loanAgreement" Schema="public" store:Type="Tables" />
+          <EntitySet Name="products" EntityType="Self.products" Schema="public" store:Type="Tables" />
+          <EntitySet Name="sale" EntityType="Self.sale" Schema="public" store:Type="Tables" />
+          <EntitySet Name="salesman" EntityType="Self.salesman" Schema="public" store:Type="Tables" />
+          <EntitySet Name="status" EntityType="Self.status" Schema="public" store:Type="Tables" />
+          <EntitySet Name="supplier" EntityType="Self.supplier" Schema="public" store:Type="Tables" />
+          <EntitySet Name="supply" EntityType="Self.supply" Schema="public" store:Type="Tables" />
+          <AssociationSet Name="discount_fk" Association="Self.discount_fk">
+            <End Role="discount" EntitySet="discount" />
+            <End Role="client" EntitySet="client" />
+          </AssociationSet>
+          <AssociationSet Name="fk_categories" Association="Self.fk_categories">
+            <End Role="categories" EntitySet="categories" />
+            <End Role="products" EntitySet="products" />
+          </AssociationSet>
+          <AssociationSet Name="fk_client" Association="Self.fk_client">
+            <End Role="client" EntitySet="client" />
+            <End Role="sale" EntitySet="sale" />
+          </AssociationSet>
+          <AssociationSet Name="fk_products" Association="Self.fk_products">
+            <End Role="products" EntitySet="products" />
+            <End Role="element_order" EntitySet="element_order" />
+          </AssociationSet>
+          <AssociationSet Name="fk_sale" Association="Self.fk_sale">
+            <End Role="sale" EntitySet="sale" />
+            <End Role="element_order" EntitySet="element_order" />
+          </AssociationSet>
+          <AssociationSet Name="fk_salesman" Association="Self.fk_salesman">
+            <End Role="salesman" EntitySet="salesman" />
+            <End Role="sale" EntitySet="sale" />
+          </AssociationSet>
+          <AssociationSet Name="fk_status" Association="Self.fk_status">
+            <End Role="status" EntitySet="status" />
+            <End Role="loanAgreement" EntitySet="loanAgreement" />
+          </AssociationSet>
+          <AssociationSet Name="fk_supplier" Association="Self.fk_supplier">
+            <End Role="supplier" EntitySet="supplier" />
+            <End Role="supply" EntitySet="supply" />
+          </AssociationSet>
+          <AssociationSet Name="fk_supplier1" Association="Self.fk_supplier1">
+            <End Role="supplier" EntitySet="supplier" />
+            <End Role="loanAgreement" EntitySet="loanAgreement" />
+          </AssociationSet>
+          <AssociationSet Name="fk_supply" Association="Self.fk_supply">
+            <End Role="supply" EntitySet="supply" />
+            <End Role="element_order" EntitySet="element_order" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="магазинModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="categories">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="products" Relationship="Self.fk_categories" FromRole="categories" ToRole="products" />
+        </EntityType>
+        <EntityType Name="client">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" />
+          <Property Name="noomber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="purchase_amount" Type="Int64" />
+          <Property Name="discount_id" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="discount" Relationship="Self.discount_fk" FromRole="client" ToRole="discount" />
+          <NavigationProperty Name="sale" Relationship="Self.fk_client" FromRole="client" ToRole="sale" />
+        </EntityType>
+        <EntityType Name="discount">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" />
+          <Property Name="size" Type="Int64" />
+          <Property Name="start" Type="Int64" />
+          <Property Name="end" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="client" Relationship="Self.discount_fk" FromRole="discount" ToRole="client" />
+        </EntityType>
+        <EntityType Name="element_order">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" />
+          <Property Name="quentity" Type="Int64" Nullable="false" />
+          <Property Name="order_id" Type="Int64" Nullable="false" />
+          <Property Name="products_id" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="products" Relationship="Self.fk_products" FromRole="element_order" ToRole="products" />
+          <NavigationProperty Name="sale" Relationship="Self.fk_sale" FromRole="element_order" ToRole="sale" />
+          <NavigationProperty Name="supply" Relationship="Self.fk_supply" FromRole="element_order" ToRole="supply" />
+        </EntityType>
+        <EntityType Name="loanAgreement">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="supplier_id" Type="Int64" Nullable="false" />
+          <Property Name="sum" Type="Int64" Nullable="false" />
+          <Property Name="percent" Type="Int64" Nullable="false" />
+          <Property Name="start" Type="Time" Precision="6" Nullable="false" />
+          <Property Name="end" Type="Time" Precision="6" Nullable="false" />
+          <Property Name="status_id" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="status" Relationship="Self.fk_status" FromRole="loanAgreement" ToRole="status" />
+          <NavigationProperty Name="supplier" Relationship="Self.fk_supplier1" FromRole="loanAgreement" ToRole="supplier" />
+        </EntityType>
+        <EntityType Name="products">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="categoris_id" Type="Int64" Nullable="false" />
+          <Property Name="price" Type="Int64" Nullable="false" />
+          <Property Name="count" Type="Int64" />
+          <NavigationProperty Name="categories" Relationship="Self.fk_categories" FromRole="products" ToRole="categories" />
+          <NavigationProperty Name="element_order" Relationship="Self.fk_products" FromRole="products" ToRole="element_order" />
+        </EntityType>
+        <EntityType Name="sale">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" />
+          <Property Name="data" Type="Time" Precision="6" />
+          <Property Name="cost" Type="Int64" Nullable="false" />
+          <Property Name="salesmn_id" Type="Int64" Nullable="false" />
+          <Property Name="client_id" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="client" Relationship="Self.fk_client" FromRole="sale" ToRole="client" />
+          <NavigationProperty Name="element_order" Relationship="Self.fk_sale" FromRole="sale" ToRole="element_order" />
+          <NavigationProperty Name="salesman" Relationship="Self.fk_salesman" FromRole="sale" ToRole="salesman" />
+        </EntityType>
+        <EntityType Name="salesman">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="FullName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="number" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="mail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="salary" Type="Int64" Nullable="false" />
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="sale" Relationship="Self.fk_salesman" FromRole="salesman" ToRole="sale" />
+        </EntityType>
+        <EntityType Name="status">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="loanAgreement" Relationship="Self.fk_status" FromRole="status" ToRole="loanAgreement" />
+        </EntityType>
+        <EntityType Name="supplier">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" />
+          <Property Name="FullName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CompanyName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="mail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="requisites" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="number" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="loanAgreement" Relationship="Self.fk_supplier1" FromRole="supplier" ToRole="loanAgreement" />
+          <NavigationProperty Name="supply" Relationship="Self.fk_supplier" FromRole="supplier" ToRole="supply" />
+        </EntityType>
+        <EntityType Name="supply">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" />
+          <Property Name="supplier_id" Type="Int64" Nullable="false" />
+          <Property Name="data" Type="DateTime" Precision="6" Nullable="false" />
+          <Property Name="cost" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="element_order" Relationship="Self.fk_supply" FromRole="supply" ToRole="element_order" />
+          <NavigationProperty Name="supplier" Relationship="Self.fk_supplier" FromRole="supply" ToRole="supplier" />
+        </EntityType>
+        <Association Name="fk_categories">
+          <End Role="categories" Type="Self.categories" Multiplicity="1" />
+          <End Role="products" Type="Self.products" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="categories">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="products">
+              <PropertyRef Name="categoris_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="discount_fk">
+          <End Role="discount" Type="Self.discount" Multiplicity="1" />
+          <End Role="client" Type="Self.client" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="discount">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="client">
+              <PropertyRef Name="discount_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_client">
+          <End Role="client" Type="Self.client" Multiplicity="1" />
+          <End Role="sale" Type="Self.sale" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="client">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="sale">
+              <PropertyRef Name="client_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_products">
+          <End Role="products" Type="Self.products" Multiplicity="1" />
+          <End Role="element_order" Type="Self.element_order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="products">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="element_order">
+              <PropertyRef Name="products_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_sale">
+          <End Role="sale" Type="Self.sale" Multiplicity="1" />
+          <End Role="element_order" Type="Self.element_order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="sale">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="element_order">
+              <PropertyRef Name="order_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_supply">
+          <End Role="supply" Type="Self.supply" Multiplicity="1" />
+          <End Role="element_order" Type="Self.element_order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="supply">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="element_order">
+              <PropertyRef Name="order_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_status">
+          <End Role="status" Type="Self.status" Multiplicity="1" />
+          <End Role="loanAgreement" Type="Self.loanAgreement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="status">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="loanAgreement">
+              <PropertyRef Name="status_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_supplier1">
+          <End Role="supplier" Type="Self.supplier" Multiplicity="1" />
+          <End Role="loanAgreement" Type="Self.loanAgreement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="supplier">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="loanAgreement">
+              <PropertyRef Name="supplier_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_salesman">
+          <End Role="salesman" Type="Self.salesman" Multiplicity="1" />
+          <End Role="sale" Type="Self.sale" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="salesman">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="sale">
+              <PropertyRef Name="salesmn_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_supplier">
+          <End Role="supplier" Type="Self.supplier" Multiplicity="1" />
+          <End Role="supply" Type="Self.supply" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="supplier">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="supply">
+              <PropertyRef Name="supplier_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="магазинEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="categories" EntityType="Self.categories" />
+          <EntitySet Name="client" EntityType="Self.client" />
+          <EntitySet Name="discount" EntityType="Self.discount" />
+          <EntitySet Name="element_order" EntityType="Self.element_order" />
+          <EntitySet Name="loanAgreement" EntityType="Self.loanAgreement" />
+          <EntitySet Name="products" EntityType="Self.products" />
+          <EntitySet Name="sale" EntityType="Self.sale" />
+          <EntitySet Name="salesman" EntityType="Self.salesman" />
+          <EntitySet Name="status" EntityType="Self.status" />
+          <EntitySet Name="supplier" EntityType="Self.supplier" />
+          <EntitySet Name="supply" EntityType="Self.supply" />
+          <AssociationSet Name="fk_categories" Association="Self.fk_categories">
+            <End Role="categories" EntitySet="categories" />
+            <End Role="products" EntitySet="products" />
+          </AssociationSet>
+          <AssociationSet Name="discount_fk" Association="Self.discount_fk">
+            <End Role="discount" EntitySet="discount" />
+            <End Role="client" EntitySet="client" />
+          </AssociationSet>
+          <AssociationSet Name="fk_client" Association="Self.fk_client">
+            <End Role="client" EntitySet="client" />
+            <End Role="sale" EntitySet="sale" />
+          </AssociationSet>
+          <AssociationSet Name="fk_products" Association="Self.fk_products">
+            <End Role="products" EntitySet="products" />
+            <End Role="element_order" EntitySet="element_order" />
+          </AssociationSet>
+          <AssociationSet Name="fk_sale" Association="Self.fk_sale">
+            <End Role="sale" EntitySet="sale" />
+            <End Role="element_order" EntitySet="element_order" />
+          </AssociationSet>
+          <AssociationSet Name="fk_supply" Association="Self.fk_supply">
+            <End Role="supply" EntitySet="supply" />
+            <End Role="element_order" EntitySet="element_order" />
+          </AssociationSet>
+          <AssociationSet Name="fk_status" Association="Self.fk_status">
+            <End Role="status" EntitySet="status" />
+            <End Role="loanAgreement" EntitySet="loanAgreement" />
+          </AssociationSet>
+          <AssociationSet Name="fk_supplier1" Association="Self.fk_supplier1">
+            <End Role="supplier" EntitySet="supplier" />
+            <End Role="loanAgreement" EntitySet="loanAgreement" />
+          </AssociationSet>
+          <AssociationSet Name="fk_salesman" Association="Self.fk_salesman">
+            <End Role="salesman" EntitySet="salesman" />
+            <End Role="sale" EntitySet="sale" />
+          </AssociationSet>
+          <AssociationSet Name="fk_supplier" Association="Self.fk_supplier">
+            <End Role="supplier" EntitySet="supplier" />
+            <End Role="supply" EntitySet="supply" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище магазинModelContainer" CdmEntityContainer="магазинEntities">
+          <EntitySetMapping Name="categories">
+            <EntityTypeMapping TypeName="магазинModel.categories">
+              <MappingFragment StoreEntitySet="categories">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="client">
+            <EntityTypeMapping TypeName="магазинModel.client">
+              <MappingFragment StoreEntitySet="client">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="noomber" ColumnName="noomber" />
+                <ScalarProperty Name="purchase_amount" ColumnName="purchase_amount" />
+                <ScalarProperty Name="discount_id" ColumnName="discount_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="discount">
+            <EntityTypeMapping TypeName="магазинModel.discount">
+              <MappingFragment StoreEntitySet="discount">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="size" ColumnName="size" />
+                <ScalarProperty Name="start" ColumnName="start" />
+                <ScalarProperty Name="end" ColumnName="end" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="element_order">
+            <EntityTypeMapping TypeName="магазинModel.element_order">
+              <MappingFragment StoreEntitySet="element_order">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="quentity" ColumnName="quentity" />
+                <ScalarProperty Name="order_id" ColumnName="order_id" />
+                <ScalarProperty Name="products_id" ColumnName="products_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="loanAgreement">
+            <EntityTypeMapping TypeName="магазинModel.loanAgreement">
+              <MappingFragment StoreEntitySet="loanAgreement">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="supplier_id" ColumnName="supplier_id" />
+                <ScalarProperty Name="sum" ColumnName="sum" />
+                <ScalarProperty Name="percent" ColumnName="percent" />
+                <ScalarProperty Name="start" ColumnName="start" />
+                <ScalarProperty Name="end" ColumnName="end" />
+                <ScalarProperty Name="status_id" ColumnName="status_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="products">
+            <EntityTypeMapping TypeName="магазинModel.products">
+              <MappingFragment StoreEntitySet="products">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="categoris_id" ColumnName="categoris_id" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="count" ColumnName="count" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sale">
+            <EntityTypeMapping TypeName="магазинModel.sale">
+              <MappingFragment StoreEntitySet="sale">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="data" ColumnName="data" />
+                <ScalarProperty Name="cost" ColumnName="cost" />
+                <ScalarProperty Name="salesmn_id" ColumnName="salesmn_id" />
+                <ScalarProperty Name="client_id" ColumnName="client_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="salesman">
+            <EntityTypeMapping TypeName="магазинModel.salesman">
+              <MappingFragment StoreEntitySet="salesman">
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="number" ColumnName="number" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="mail" ColumnName="mail" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="salary" ColumnName="salary" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="status">
+            <EntityTypeMapping TypeName="магазинModel.status">
+              <MappingFragment StoreEntitySet="status">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="title" ColumnName="title" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="supplier">
+            <EntityTypeMapping TypeName="магазинModel.supplier">
+              <MappingFragment StoreEntitySet="supplier">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="mail" ColumnName="mail" />
+                <ScalarProperty Name="requisites" ColumnName="requisites" />
+                <ScalarProperty Name="number" ColumnName="number" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="supply">
+            <EntityTypeMapping TypeName="магазинModel.supply">
+              <MappingFragment StoreEntitySet="supply">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="supplier_id" ColumnName="supplier_id" />
+                <ScalarProperty Name="data" ColumnName="data" />
+                <ScalarProperty Name="cost" ColumnName="cost" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

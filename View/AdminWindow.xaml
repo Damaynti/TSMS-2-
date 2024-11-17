@@ -1,0 +1,94 @@
+﻿<Window x:Class="TSMS_2_.View.AdminWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TSMS_2_.View"
+        xmlns:vm="clr-namespace:TSMS_2_.ViewModel"
+        mc:Ignorable="d"
+         Title="AdminWindow" Height="450" Width="1008" 
+        
+           xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" d:DataContext="{d:DesignInstance Type=vm:SalesmanViewModel}"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+TextElement.FontWeight="Regular"
+TextElement.FontSize="13"
+TextOptions.TextFormattingMode="Ideal"
+TextOptions.TextRenderingMode="Auto"
+Background="#FF315266"
+FontFamily="{DynamicResource MaterialDesignFont}">
+    <Grid Margin="10" Background="White" >
+        <TabControl>
+            <TabItem Header="продавец" Background="White" DataContext="{Binding SalesmanViewModel}">
+                <Grid Background="#FF315266" >
+
+                    <DataGrid Background="#FF315266" 
+    ItemsSource="{Binding Salesmen}" 
+    SelectedItem="{Binding SelectedSalesman, Mode=OneWayToSource}"
+    AutoGenerateColumns="False" Foreground="#E5FFFFFF" >
+
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding id}" Foreground="#E5FFFFFF"/>
+                            <DataGridTextColumn Header="ФИО" Binding="{Binding FullName}" Foreground="#E5FFFFFF"/>
+                            <DataGridTextColumn Header="Номер" Binding="{Binding Number}" Foreground="#E5FFFFFF"/>
+                            <DataGridTextColumn Header="Адрес" Binding="{Binding Address}" Foreground="#E5FFFFFF"/>
+                            <DataGridTextColumn Header="Email" Binding="{Binding Mail}" Foreground="#E5FFFFFF"/>
+                            <DataGridTextColumn Header="Зарплата" Binding="{Binding Salary}" Foreground="#E5FFFFFF"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Button Content="➕ Добавить" HorizontalAlignment="Left" Margin="181,0,0,304" VerticalAlignment="Bottom" Width="120" RenderTransformOrigin="0.498,-1.309" Height="30" Background="#FF00BAB9" Foreground="White" FontWeight="Bold" Click="Button_Click_1"/>
+                    <Button Content="🗑️ Удалить" HorizontalAlignment="Left" Margin="350,10,0,0" VerticalAlignment="Top" Width="120" Height="30" Background="#FF00BAB9" Foreground="White" FontWeight="Bold" Click="Button_Click_2"/>
+                    <Button Content="💾 Сохранить" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.273,0.104" Width="134" Height="30" Background="#FF00BAB9" Foreground="White" FontWeight="Bold" Click="Button_Click"/>
+                    <Button Content="✏️ Изменить" HorizontalAlignment="Left" Margin="520,10,0,0" VerticalAlignment="Top" Width="120" Height="30" Background="#FF00BAB9" Foreground="White" FontWeight="Bold" Click="Button_Click_3"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="товар" Background="#FF00BAB9">
+                <Grid Background="#FF315266">
+                    <DataGrid d:ItemsSource="{d:SampleData ItemCount=5}" Background="#FF315266" Margin="0,43,0,-43"/>
+                    <Button Content="➕ Добавить" HorizontalAlignment="Left" Margin="110,10,0,0" VerticalAlignment="Top" Width="90" RenderTransformOrigin="0.498,-1.309" Height="20" Background="#FF00BAB9" Foreground="White" FontWeight="Bold"/>
+                    <Button Content="🗑️ Удалить" HorizontalAlignment="Left" Margin="210,10,0,0" VerticalAlignment="Top" Width="90" Height="20" Background="#FF00BAB9" Foreground="White" FontWeight="Bold"/>
+                    <Button Content="💾 Сохранить" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.273,0.104" Width="90" Height="20" Background="#FF00BAB9" Foreground="White" FontWeight="Bold"/>
+                    <Button Content="✏️ Изменить" HorizontalAlignment="Left" Margin="310,10,0,0" VerticalAlignment="Top" Width="90" Height="20" Background="#FF00BAB9" Foreground="White" FontWeight="Bold"/>
+
+                </Grid>
+            </TabItem>
+            <TabItem Header="поставщик">
+                <Grid Background="#FF315266">
+                    <DataGrid d:ItemsSource="{d:SampleData ItemCount=5}" Background="#FF315266" Margin="0,43,0,-43"/>
+                    <Button Content="➕ Добавить" HorizontalAlignment="Left" Margin="110,10,0,0" VerticalAlignment="Top" Width="90" RenderTransformOrigin="0.498,-1.309" Height="20" Background="#FF00BAB9" Foreground="White" FontWeight="Bold"/>
+                    <Button Content="🗑️ Удалить" HorizontalAlignment="Left" Margin="210,10,0,0" VerticalAlignment="Top" Width="90" Height="20" Background="#FF00BAB9" Foreground="White" FontWeight="Bold"/>
+                    <Button Content="💾 Сохранить" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.273,0.104" Width="90" Height="20" Background="#FF00BAB9" Foreground="White" FontWeight="Bold"/>
+                    <Button Content="✏️ Изменить" HorizontalAlignment="Left" Margin="310,10,0,0" VerticalAlignment="Top" Width="90" Height="20" Background="#FF00BAB9" Foreground="White" FontWeight="Bold"/>
+
+                </Grid>
+            </TabItem>
+            <TabItem Header="поставки" Background="#FF00BAB9">
+                <Grid Background="#FF315266">
+                    <DataGrid d:ItemsSource="{d:SampleData ItemCount=5}" Background="#FF315266" Margin="0,43,0,-43"/>
+                    <Button Content="➕ Добавить" HorizontalAlignment="Left" Margin="110,10,0,0" VerticalAlignment="Top" Width="90" RenderTransformOrigin="0.498,-1.309" Height="20" Background="#FF00BAB9" Foreground="White" FontWeight="Bold"/>
+                    <Button Content="🗑️ Удалить" HorizontalAlignment="Left" Margin="210,10,0,0" VerticalAlignment="Top" Width="90" Height="20" Background="#FF00BAB9" Foreground="White" FontWeight="Bold"/>
+                    <Button Content="💾 Сохранить" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.273,0.104" Width="90" Height="20" Background="#FF00BAB9" Foreground="White" FontWeight="Bold"/>
+                    <Button Content="✏️ Изменить" HorizontalAlignment="Left" Margin="310,10,0,0" VerticalAlignment="Top" Width="90" Height="20" Background="#FF00BAB9" Foreground="White" FontWeight="Bold"/>
+
+                </Grid>
+            </TabItem>
+            <TabItem Header="продажи" Background="#FF00BAB9">
+                <Grid Background="#FF315266">
+                    <DataGrid d:ItemsSource="{d:SampleData ItemCount=5}" Background="#FF315266" Margin="0,43,0,-43"/>
+                    <Button Content="➕ Добавить" HorizontalAlignment="Left" Margin="110,10,0,0" VerticalAlignment="Top" Width="90" RenderTransformOrigin="0.498,-1.309" Height="20" Background="#FF00BAB9" Foreground="White" FontWeight="Bold"/>
+                    <Button Content="🗑️ Удалить" HorizontalAlignment="Left" Margin="210,10,0,0" VerticalAlignment="Top" Width="90" Height="20" Background="#FF00BAB9" Foreground="White" FontWeight="Bold"/>
+                    <Button Content="💾 Сохранить" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.273,0.104" Width="90" Height="20" Background="#FF00BAB9" Foreground="White" FontWeight="Bold"/>
+                    <Button Content="✏️ Изменить" HorizontalAlignment="Left" Margin="310,10,0,0" VerticalAlignment="Top" Width="90" Height="20" Background="#FF00BAB9" Foreground="White" FontWeight="Bold"/>
+
+                </Grid>
+            </TabItem>
+            <TabItem Header="отчет по продажам">
+                <Grid Background="#FF315266">
+                    <DataGrid d:ItemsSource="{d:SampleData ItemCount=5}" Background="#FF315266" Margin="0,43,0,-43"/>
+
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+
+    </Grid>
+</Window>

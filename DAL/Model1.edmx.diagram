@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="2e68933c13904deeaffd424c98d3fcdc" Name="Diagram1">
+        <EntityTypeShape EntityType="магазинModel.categories" Width="1.5" PointX="3" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="магазинModel.client" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="магазинModel.discount" Width="1.5" PointX="0.75" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="магазинModel.element_order" Width="1.5" PointX="7.5" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="магазинModel.loanAgreement" Width="1.5" PointX="8.25" PointY="11.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="магазинModel.products" Width="1.5" PointX="5.25" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="магазинModel.sale" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="магазинModel.salesman" Width="1.5" PointX="3" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="магазинModel.status" Width="1.5" PointX="6" PointY="15" IsExpanded="true" />
+        <EntityTypeShape EntityType="магазинModel.supplier" Width="1.5" PointX="3" PointY="11.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="магазинModel.supply" Width="1.5" PointX="5.25" PointY="11.75" IsExpanded="true" />
+        <AssociationConnector Association="магазинModel.fk_categories" ManuallyRouted="false" />
+        <AssociationConnector Association="магазинModel.discount_fk" ManuallyRouted="false" />
+        <AssociationConnector Association="магазинModel.fk_client" ManuallyRouted="false" />
+        <AssociationConnector Association="магазинModel.fk_products" ManuallyRouted="false" />
+        <AssociationConnector Association="магазинModel.fk_sale" ManuallyRouted="false" />
+        <AssociationConnector Association="магазинModel.fk_supply" ManuallyRouted="false" />
+        <AssociationConnector Association="магазинModel.fk_status" ManuallyRouted="false" />
+        <AssociationConnector Association="магазинModel.fk_supplier1" ManuallyRouted="false" />
+        <AssociationConnector Association="магазинModel.fk_salesman" ManuallyRouted="false" />
+        <AssociationConnector Association="магазинModel.fk_supplier" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
