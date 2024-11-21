@@ -56,43 +56,16 @@ namespace TSMS_2_.View
             //viewModel.AddSalesman(); // Call the method in ViewModel to add a salesman
         }
 
-        private void ButtonSave_Click(object sender, RoutedEventArgs e)
-        {
-            // Logic to save changes for the selected salesman
-            var viewModel = (AdminVM)DataContext;
-            viewModel.SaveChanges(); // Call the method in ViewModel to save changes
-        }
-
-        //private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        //{
-        //    // Logic to handle selection changes in the DataGrid
-        //    var viewModel = (SalesmanViewModel)DataContext;
-        //    if (salGrid.SelectedItem is salesmanDTO selectedSalesman)
-        //    {
-        //        viewModel.SelectedSalesman = selectedSalesman; // Update the ViewModel with the selected salesman
-        //    }
-        //}
+       
         
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-
+            var viewModel = (AdminVM)DataContext;
+            viewModel.SaveChanges();
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void Button_Click_2(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void Button_Click_3(object sender, RoutedEventArgs e)
-        {
-
-        }
+      
     }
 
 }

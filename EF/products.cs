@@ -12,11 +12,9 @@ namespace TSMS_2_.EF
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public products()
         {
-            element_order = new HashSet<element_order>();
+            element_sale = new HashSet<element_sale>();
+            element_supply = new HashSet<element_supply>();
         }
-
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public long id { get; set; }
 
         [Required]
         public string name { get; set; }
@@ -27,9 +25,14 @@ namespace TSMS_2_.EF
 
         public long? count { get; set; }
 
+        public long id { get; set; }
+
         public virtual categories categories { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<element_order> element_order { get; set; }
+        public virtual ICollection<element_sale> element_sale { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<element_supply> element_supply { get; set; }
     }
 }

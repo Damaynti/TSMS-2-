@@ -16,9 +16,6 @@ namespace TSMS_2_.EF
             supply = new HashSet<supply>();
         }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public long id { get; set; }
-
         [Required]
         public string FullName { get; set; }
 
@@ -36,6 +33,8 @@ namespace TSMS_2_.EF
 
         [Required]
         public string number { get; set; }
+
+        public long id { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<loanAgreement> loanAgreement { get; set; }

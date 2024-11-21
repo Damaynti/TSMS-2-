@@ -11,6 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using TSMS_2_.DTO;
+using TSMS_2_.ViewModel;
 
 namespace TSMS_2_.View
 {
@@ -19,9 +21,36 @@ namespace TSMS_2_.View
     /// </summary>
     public partial class SellerWindow : Window
     {
-        public SellerWindow()
+        
+        public SellerWindow(long i)
         {
             InitializeComponent();
+            this.DataContext = new SellerVM(i);
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            //var window=new ADDElementSave(this);
+            //window.Show();
+        }
+        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            // Здесь вы можете обработать выбранный элемент
+            if (dataGrid.SelectedItem is Element_saleDto selectedItem)
+            {
+                // Логика для работы с выбранным элементом
+                MessageBox.Show($"Выбран товар: {selectedItem.ProductName}, Количество: {selectedItem.Quantity}");
+            }
         }
     }
 }

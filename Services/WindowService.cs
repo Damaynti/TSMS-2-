@@ -8,9 +8,9 @@ using TSMS_2_.View;
 
 namespace TSMS_2_.Services
 {
-    internal class WindowService:IWindowService
+    public class WindowService:IWindowService
     {
-        public void ShowWindow(string windowType, object viewModel)
+        public void ShowWindow(string windowType, object viewModel,long i)
         {
             Window window;
 
@@ -20,8 +20,11 @@ namespace TSMS_2_.Services
                     window = new AdminWindow();
                     window.DataContext = viewModel;
                     break;
-                //case "Employee":
-                //    window = new EmployeeWindow();
+                case "SellerWindow":
+                    window = new SellerWindow(i);
+                    break;
+                //case "ADDElementSave":
+                //    window = new ADDElementSave();
                 //    break;
                 //case "AddObj":
                 //    window = new AddObjWindow();
@@ -44,20 +47,61 @@ namespace TSMS_2_.Services
 
             switch (windowType)
             {
-                case "Add":
-                    //if (mode == 1)
-                    //{
-                    //    window = new AddUserWindow(1, vM);
-                    //}
-                    //else
-                    //{
-                    //    window = new AddUserWindow(2, vM);
-                    //}
-                    //break;
+                case "ADDSalesman":
+                    if (mode == 1)
+                    {
+                        window = new ADDSalesmenxamlxaml(1, vM);
+                    }
+                    else
+                    {
+                        window = new ADDSalesmenxamlxaml(2, vM);
+                    }
+                    break;
+                case "AddProduct":
+                    if(mode == 1)
+                    {
+                        window = new ADDProduct(1, vM);
+                    }
+                    else
+                    {
+                        window = new ADDProduct(2, vM);
+                    }
+                    break;
+                case "AddSupplier":
+                    if (mode == 1)
+                    {
+                        window = new ADDSupplier(1, vM);
+                    }
+                    else
+                    {
+                        window = new ADDSupplier(2, vM);
+                    }
+                    break;
+                case "AddSale":
+                    if (mode == 1)
+                    {
+                        window = new ADDSale(1, vM);
+                    }
+                    else
+                    {
+                        window = new ADDSale(2, vM);
+                    }
+                    break;
+                case "ADDLoanAgreement":
+                    if (mode == 1)
+                    {
+                        window = new ADDLoanAgreement(1, vM);
+                    }
+                    else
+                    {
+                        window = new ADDLoanAgreement(2, vM);
+                    }
+                    break;
                 default:
                     throw new ArgumentException("Unknown window type");
             }
 
+            window.ShowDialog();
             //window.ShowDialog();
         }
         public void CloseWindow(Window window)

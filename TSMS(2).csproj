@@ -115,11 +115,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Command.cs" />
+    <Compile Include="DTO\Element_saleDto.cs" />
+    <Compile Include="DTO\loanAgreementDTO.cs" />
+    <Compile Include="DTO\ProductsDTO.cs" />
+    <Compile Include="DTO\SaleDTO.cs" />
     <Compile Include="DTO\salesmanDTO.cs" />
+    <Compile Include="DTO\SupplierDTO.cs" />
+    <Compile Include="DTO\SupplyDTO.cs" />
     <Compile Include="EF\categories.cs" />
     <Compile Include="EF\client.cs" />
     <Compile Include="EF\discount.cs" />
-    <Compile Include="EF\element_order.cs" />
+    <Compile Include="EF\element_sale.cs" />
+    <Compile Include="EF\element_supply.cs" />
     <Compile Include="EF\loanAgreement.cs" />
     <Compile Include="EF\Model1.cs" />
     <Compile Include="EF\products.cs" />
@@ -128,15 +136,49 @@
     <Compile Include="EF\status.cs" />
     <Compile Include="EF\supplier.cs" />
     <Compile Include="EF\supply.cs" />
+    <Compile Include="Model\Element_saleModel.cs" />
+    <Compile Include="Model\loanAgreementModel.cs" />
+    <Compile Include="Model\ProductsModel.cs" />
     <Compile Include="Model\SalesmanModel.cs" />
+    <Compile Include="Model\SalesReport.cs" />
+    <Compile Include="Model\SalyModel.cs" />
+    <Compile Include="Model\SupplierModel.cs" />
+    <Compile Include="Model\SupplyModel.cs" />
     <Compile Include="Model\TableModel.cs" />
     <Compile Include="RelayCommand.cs" />
     <Compile Include="Services\IWindowService.cs" />
     <Compile Include="Services\WindowService.cs" />
+    <Compile Include="ViewModel\AddElementViewModel.cs" />
     <Compile Include="ViewModel\AdminVM.cs" />
+    <Compile Include="ViewModel\credVM.cs" />
+    <Compile Include="ViewModel\Element_saleViewModel.cs" />
+    <Compile Include="ViewModel\loanAgreementVM.cs" />
     <Compile Include="ViewModel\MainWindowsVM.cs" />
+    <Compile Include="ViewModel\ProductsViewModel.cs" />
     <Compile Include="ViewModel\SalesmanViewModel.cs" />
+    <Compile Include="ViewModel\SalesReportViewModel.cs" />
+    <Compile Include="ViewModel\SaleViewModel.cs" />
     <Compile Include="ViewModel\SellerVM.cs" />
+    <Compile Include="ViewModel\SupplierViewModel.cs" />
+    <Compile Include="ViewModel\SupplyViewModel.cs" />
+    <Compile Include="View\ADDElementSave.xaml.cs">
+      <DependentUpon>ADDElementSave.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ADDLoanAgreement.xaml.cs">
+      <DependentUpon>ADDLoanAgreement.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ADDProduct.xaml.cs">
+      <DependentUpon>ADDProduct.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ADDSale.xaml.cs">
+      <DependentUpon>ADDSale.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ADDSalesmenxamlxaml.xaml.cs">
+      <DependentUpon>ADDSalesmenxamlxaml.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ADDSupplier.xaml.cs">
+      <DependentUpon>ADDSupplier.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\AdminWindow.xaml.cs">
       <DependentUpon>AdminWindow.xaml</DependentUpon>
     </Compile>
@@ -150,6 +192,30 @@
     <Compile Include="View\SellerWindow.xaml.cs">
       <DependentUpon>SellerWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="View\ADDElementSave.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ADDLoanAgreement.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ADDProduct.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ADDSale.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ADDSalesmenxamlxaml.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ADDSupplier.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\AdminWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

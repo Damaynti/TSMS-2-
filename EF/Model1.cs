@@ -8,14 +8,15 @@ namespace TSMS_2_.EF
     public partial class Model1 : DbContext
     {
         public Model1()
-            : base("name=Model12")
+            : base("name=Model17")
         {
         }
 
         public virtual DbSet<categories> categories { get; set; }
         public virtual DbSet<client> client { get; set; }
         public virtual DbSet<discount> discount { get; set; }
-        public virtual DbSet<element_order> element_order { get; set; }
+        public virtual DbSet<element_sale> element_sale { get; set; }
+        public virtual DbSet<element_supply> element_supply { get; set; }
         public virtual DbSet<loanAgreement> loanAgreement { get; set; }
         public virtual DbSet<products> products { get; set; }
         public virtual DbSet<sale> sale { get; set; }
@@ -45,15 +46,21 @@ namespace TSMS_2_.EF
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<products>()
-                .HasMany(e => e.element_order)
+                .HasMany(e => e.element_sale)
+                .WithRequired(e => e.products)
+                .HasForeignKey(e => e.products_id)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<products>()
+                .HasMany(e => e.element_supply)
                 .WithRequired(e => e.products)
                 .HasForeignKey(e => e.products_id)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<sale>()
-                .HasMany(e => e.element_order)
+                .HasMany(e => e.element_sale)
                 .WithRequired(e => e.sale)
-                .HasForeignKey(e => e.order_id)
+                .HasForeignKey(e => e.sale_id)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<salesman>()
@@ -81,9 +88,9 @@ namespace TSMS_2_.EF
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<supply>()
-                .HasMany(e => e.element_order)
+                .HasMany(e => e.element_supply)
                 .WithRequired(e => e.supply)
-                .HasForeignKey(e => e.order_id)
+                .HasForeignKey(e => e.supply_id)
                 .WillCascadeOnDelete(false);
         }
     }

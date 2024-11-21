@@ -6,22 +6,20 @@ namespace TSMS_2_.EF
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("public.element_order")]
-    public partial class element_order
+    [Table("public.element_sale")]
+    public partial class element_sale
     {
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public long id { get; set; }
 
         public long quentity { get; set; }
 
-        public long order_id { get; set; }
+        public long sale_id { get; set; }
 
         public long products_id { get; set; }
 
         public virtual products products { get; set; }
 
         public virtual sale sale { get; set; }
-
-        public virtual supply supply { get; set; }
     }
 }

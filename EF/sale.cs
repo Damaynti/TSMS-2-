@@ -12,14 +12,8 @@ namespace TSMS_2_.EF
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public sale()
         {
-            element_order = new HashSet<element_order>();
+            element_sale = new HashSet<element_sale>();
         }
-
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public long id { get; set; }
-
-        [Column(TypeName = "time")]
-        public TimeSpan? data { get; set; }
 
         public long cost { get; set; }
 
@@ -27,10 +21,14 @@ namespace TSMS_2_.EF
 
         public long client_id { get; set; }
 
+        public DateTime? data { get; set; }
+
+        public long id { get; set; }
+
         public virtual client client { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<element_order> element_order { get; set; }
+        public virtual ICollection<element_sale> element_sale { get; set; }
 
         public virtual salesman salesman { get; set; }
     }

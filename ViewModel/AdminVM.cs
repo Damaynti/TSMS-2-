@@ -18,7 +18,13 @@ namespace TSMS_2_.ViewModel
     {
         private readonly TableModel _tableModel = new TableModel();
         private readonly IWindowService _windowService;
+        public AdminVM()
+        {
+            _windowService = new WindowService();
+            SaveChangesCommand = new RelayCommand(SaveChanges);
+            DeleteSalesmanCommand = new RelayCommand(DeleteSelectedSalesman);
 
+        }
         public ICommand AddSalesmanCommand { get; }
         public ICommand SaveChangesCommand { get; }
         public ICommand DeleteSalesmanCommand { get; }

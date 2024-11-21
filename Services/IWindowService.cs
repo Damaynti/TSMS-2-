@@ -10,7 +10,7 @@ namespace TSMS_2_.Services
     public interface IWindowService
     {
        
-        void ShowWindow(string windowType, object viewModel = null);
+        void ShowWindow(string windowType, object viewModel = null,long i=0);
         void OpenWindow(string windowType, object viewModel, int mode);
         void CloseWindow(Window window);
     }
