@@ -47,7 +47,7 @@ namespace TSMS_2_.DTO
         }
         public salesmanDTO(salesmanDTO m)
         {
-            if (m == null)
+            if (m != null)
             {
                 id = m.id;
                 FullName = m.FullName;
@@ -55,7 +55,7 @@ namespace TSMS_2_.DTO
                 address = m.address;
                 mail = m.mail;
                 password = m.password;
-                salary = m.salary;
+                salary =  m.salary;
             }
         }
     }

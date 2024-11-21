@@ -18,11 +18,11 @@ namespace TSMS_2_.ViewModel
 {
     public class SalesmanViewModel : INotifyPropertyChanged
     {
-        TableModel _tableModel = new TableModel();
-         SalesmanModel _salesmanModel = new SalesmanModel();
+        private readonly TableModel _tableModel = new TableModel();
+        private readonly SalesmanModel _salesmanModel = new SalesmanModel();
         private List<salesmanDTO> _salesmen;
         private readonly IWindowService _windowService;
-
+        private salesmanDTO _selectedSalesman;
         public ICommand UpdObjInDBCommand { get; }
         public ICommand AddObjInDBCommand { get; }
         public ICommand AddObjCommand { get; }
@@ -40,6 +40,7 @@ namespace TSMS_2_.ViewModel
        
         public SalesmanViewModel()
         {
+            _salesmen = new List<salesmanDTO>();
             _windowService = new WindowService();
             AddObjInDBCommand = new RelayCommand(CreateSalesman);
             UpdObjInDBCommand = new RelayCommand(UpdateSalesman);
@@ -49,14 +50,19 @@ namespace TSMS_2_.ViewModel
             RefreshObjCommand = new RelayCommand(RefreshSalesmen);
         }
 
+      
+
         // List of salesmen
         public List<salesmanDTO> Salesmen
         {
             get
             {
-                if (_salesmen == null)
+                
+                if (0 == _salesmen.Count)
                 {
-                    LoadSalesmen();
+                    _salesmen = _tableModel.GetSalesmanDTO()/*.Select(i => new UserDTO(i)).ToList()*/;
+                    //_users = /*new ObservableCollection<UserDTO>*/(us.Select(u => new UserDTO(u)));
+                    OnPropertyChanged(nameof(Salesmen));
                 }
                 return _salesmen;
             }
@@ -70,7 +76,6 @@ namespace TSMS_2_.ViewModel
             }
         }
 
-        private salesmanDTO _selectedSalesman;
         public salesmanDTO SelectedSalesman
         {
             get => _selectedSalesman;
@@ -81,18 +86,12 @@ namespace TSMS_2_.ViewModel
             }
         }
 
-        // Load salesmen from the database
-        private void LoadSalesmen()
-        {
-            Salesmen = _tableModel.GetSalesmanDTO();
-            OnPropertyChanged(nameof(Salesmen));
-        }
-
+        
         // Open the window to add a new salesman
         public void OpenAddSalesman()
         {
             SelectedSalesman = new salesmanDTO(); // Reset the selected salesman
-            _windowService.OpenWindow("AddSalesman", this, 1);
+            _windowService.OpenWindow("ADDSalesman", this, 1);
         }
 
         // Open the window to update an existing salesman
@@ -101,15 +100,17 @@ namespace TSMS_2_.ViewModel
             if (SelectedSalesman != null)
             {
                 SelectedSalesman = new salesmanDTO(SelectedSalesman); // Create a copy for editing
-                _windowService.OpenWindow("AddSalesman", this, 2);
+                _windowService.OpenWindow("ADDSalesman", this, 2);
             }
         }
 
         // Refresh the list of salesmen
         public void RefreshSalesmen()
         {
-            LoadSalesmen();
-            OnPropertyChanged(nameof(Salesmen));
+            var us = _tableModel.GetSalesmanDTO();
+            Salesmen.Clear();
+            Salesmen = _tableModel.GetSalesmanDTO()/*.Select(i => new UserDTO(i)).ToList()*/;
+            OnPropertyChanged("Salesmen");
         }
 
         // Delete the selected salesman
@@ -136,11 +137,8 @@ namespace TSMS_2_.ViewModel
         // Create a new salesman in the database
         public void CreateSalesman()
         {
-            if (SelectedSalesman != null)
-            {
-                _salesmanModel.CreateSalesman(SelectedSalesman);
-                RefreshSalesmen();
-            }
+            _salesmanModel.CreateSalesman(SelectedSalesman);
+            RefreshSalesmen();
         }
 
         // Property changed event handler

@@ -17,13 +17,12 @@ namespace TSMS_2_.EF
 
         public long percent { get; set; }
 
-        [Column(TypeName = "time")]
-        public TimeSpan start { get; set; }
-
-        [Column(TypeName = "time")]
-        public TimeSpan end { get; set; }
-
         public long status_id { get; set; }
+
+        public DateTime? start { get; set; }
+
+        [Column(TypeName = "time")]
+        public TimeSpan? end { get; set; }
 
         public virtual status status { get; set; }
 

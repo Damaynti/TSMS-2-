@@ -73,9 +73,10 @@ namespace TSMS_2_.ViewModel
 
                 // Открытие нового окна в зависимости от роли
                 string nextWindow = SelectedRole == "Продавец" ? "SellerWindow" : "AdminWindow";
-                var nextViewModel = SelectedRole == "Продавец" ? (INotifyPropertyChanged)new SellerVM() : new AdminVM(_windowService);
+                var nextViewModel = SelectedRole == "Продавец" ? (object)new SellerVM(us.id) : new AdminVM(_windowService);
 
-                _windowService.ShowWindow(nextWindow,nextViewModel);
+
+                _windowService.ShowWindow(nextWindow,nextViewModel,us.id);
 
                 // Закрытие текущего окна
                 var currentWindow = Application.Current.Windows.OfType<MainWindow>().FirstOrDefault();

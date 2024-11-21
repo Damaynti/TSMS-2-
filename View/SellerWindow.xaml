@@ -6,15 +6,60 @@
         xmlns:local="clr-namespace:TSMS_2_.View"
         mc:Ignorable="d"
         Title="SellerWindow" Height="450" Width="800"
-           xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+                   xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
 TextElement.Foreground="{DynamicResource MaterialDesignBody}"
 TextElement.FontWeight="Regular"
 TextElement.FontSize="13"
 TextOptions.TextFormattingMode="Ideal"
 TextOptions.TextRenderingMode="Auto"
-Background="{DynamicResource MaterialDesignPaper}"
+Background="#FF315266"
 FontFamily="{DynamicResource MaterialDesignFont}">
-    <Grid>
-        
+    <Grid Margin="10">
+        <StackPanel>
+            <Button Content="Отменить покупку" Margin="440,0,0,10" Background="#FF00BAB9" Foreground="White" FontWeight="Bold"/>
+            <DataGrid x:Name="dataGrid"
+          ItemsSource="{Binding CartItems}" 
+          AutoGenerateColumns="False"
+          SelectionChanged="DataGrid_SelectionChanged"
+                      CanUserAddRows="False">
+                <DataGrid.Resources>
+                    <!-- Определяем стиль для заголовков столбцов -->
+                    <Style TargetType="{x:Type DataGridColumnHeader}">
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="Background" Value="#FF315266"/>
+                        <Setter Property="FontWeight" Value="Bold"/>
+                        <!-- Выравнивание текста -->
+                        <!-- Жирный шрифт для заголовков -->
+                        <Setter Property="Padding" Value="10,0,0,0"/>
+                        <!-- Сдвиг вправо -->
+                        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                    </Style>
+
+                    <!-- Определяем стиль для строк -->
+                    <Style TargetType="{x:Type DataGridRow}">
+                        <Setter Property="Height" Value="30"/>
+                        <Setter Property="Background" Value="#FF315266"/>
+                        <Setter Property="Foreground" Value="White"/>
+                    </Style>
+                </DataGrid.Resources>
+
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Товар" Binding="{Binding ProductName}" />
+                    <DataGridTextColumn Header="Количество" Binding="{Binding Quantity}" />
+                    <DataGridTextColumn Header="Цена" Binding="{Binding ProductPrice}" />
+                    <DataGridTextColumn Header="Сумма" Binding="{Binding TotalPrice}" />
+                </DataGrid.Columns>
+            </DataGrid>
+
+        </StackPanel>
+        <Button Content="🔍 Найти товар" HorizontalAlignment="Left" Margin="0,313,0,0" VerticalAlignment="Top" Height="30" 
+        Background="#FF00BAB9" Foreground="White" Width="128" 
+        FontWeight="Bold" Command="{Binding OpenAddElementSaleCommand}" Click="Button_Click_2" Cursor=""/>
+
+        <Label Content="Итог:" HorizontalAlignment="Left" Margin="481,328,0,0" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" FontSize="20"/>
+        <TextBox HorizontalAlignment="Left" Margin="567,327,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Background="{x:Null}" Foreground="White" BorderBrush="{x:Null}" SelectionBrush="{x:Null}" FontSize="20" />
+        <Button Content="оплатить" HorizontalAlignment="Left" Margin="567,376,0,0" VerticalAlignment="Top" Background="#FF00BAB9" Foreground="White" Height="27" FontWeight="Bold" FontSize="16" Width="203" RenderTransformOrigin="0.494,1.127"  Command="{Binding Creat}"/>
+        <Button Content="📞 Номер телефона" HorizontalAlignment="Left" Margin="0,374,0,0" VerticalAlignment="Top" Height="30" Background="#FF00BAB9" Foreground="White" Width="128" FontWeight="Bold" Click="Button_Click_1"/>
+
     </Grid>
 </Window>
