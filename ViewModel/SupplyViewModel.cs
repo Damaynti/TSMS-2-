@@ -12,7 +12,8 @@ using TSMS_2_.Services;
 
 namespace TSMS_2_.ViewModel
 {
-    public class SupplyViewModel
+    public class SupplyViewModel : INotifyPropertyChanged
+    
     {
         private readonly TableModel _tableModel = new TableModel();
         private readonly SupplyModel _supplyModel = new SupplyModel();

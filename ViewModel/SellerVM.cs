@@ -36,6 +36,7 @@ namespace TSMS_2_.ViewModel
         public ICommand AddToCartCommand { get; }
         public ICommand OpenAddElementSaleCommand { get; } // Команда для открытия окна
         public ICommand Creat { get; }
+        public ICommand OpenNoomberCommand { get; }
         public SellerVM(long idsal)
         {
             _tableModel = new TableModel();
@@ -43,10 +44,12 @@ namespace TSMS_2_.ViewModel
             AddToCartCommand = new Command<ProductsDTO>(AddToCart); // Инициализация команды добавления в корзину
             OpenAddElementSaleCommand = new RelayCommand(OpenAddElementSale); // Инициализация команды открытия окна
             Creat = new RelayCommand(CreateOrder);
+            OpenNoomberCommand = new RelayCommand(OpenNoomber);
 
             LoadProducts(); // Загружаем продукты при инициализации
             this.idsal = idsal;
         }
+       
         public void CreateOrder()
         {
             if (CartItems.Count == 0)
@@ -127,7 +130,11 @@ namespace TSMS_2_.ViewModel
                 OnPropertyChanged("CartItems"); // Уведомляем об изменении свойства CartItems
             }
         }
-
+        public void OpenNoomber()
+        {
+            var noomberWindows = new Noomber();
+            noomberWindows.Show();
+        }
         public void OpenAddElementSale()
         {
             var addElementSaleWindow = new ADDElementSave(this); // Создание экземпляра окна ADDElementSale

@@ -21,7 +21,7 @@ namespace TSMS_2_.DTO
 
         public long ProductId { get; set; }
 
-       
+        public long price { get; set; }
         public string ProductName { get; set; }
         public decimal ProductPrice { get; set; }
         public decimal TotalPrice { get; set; }
@@ -30,6 +30,7 @@ namespace TSMS_2_.DTO
         {
             Id = elementSale.id;
             Quantity = elementSale.quentity;
+            price= elementSale.price;
             SaleId = elementSale.sale_id;
             ProductId = elementSale.products_id;
 
@@ -48,6 +49,7 @@ namespace TSMS_2_.DTO
                 Id = dto.Id;
                 Quantity = dto.Quantity;
                 SaleId = dto.SaleId;
+                price= dto.price;
                 ProductId = dto.ProductId;
                 ProductName = dto.ProductName;
                 ProductPrice = dto.ProductPrice;

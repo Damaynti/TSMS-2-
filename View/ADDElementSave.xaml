@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TSMS_2_.View"
         mc:Ignorable="d" 
-        Title="ADDElementSave" Height="454" Width="800"
+        Title="ADDElementSave" Height="464" Width="800"
                            xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
 TextElement.Foreground="{DynamicResource MaterialDesignBody}"
 TextElement.FontWeight="Regular"
@@ -14,28 +14,32 @@ TextOptions.TextFormattingMode="Ideal"
 TextOptions.TextRenderingMode="Auto"
 Background="#FF315266"
 FontFamily="{DynamicResource MaterialDesignFont}">
-    <Grid Margin="10,-9,10,-6" >
-        <TextBlock Text="Поиск по артикулу:" Foreground="White" FontWeight="Bold" Margin="12,20,670,413" />
-        <Button Content="🔍" HorizontalAlignment="Left" Margin="196,48,0,0" VerticalAlignment="Top" Height="32" 
+    <Grid Margin="10,0,10,-6" Height="453" VerticalAlignment="Bottom" >
+        <TextBlock Text="Поиск по артикулу:" Foreground="White" FontWeight="Bold" Margin="12,28,625,405" />
+        <Button Content="🔍" HorizontalAlignment="Left" Margin="197,48,0,0" VerticalAlignment="Top" Height="32" 
  Background="#FF00BAB9" Foreground="White" Width="59" 
- FontWeight="Bold" Command="{Binding FindProductCommand}" RenderTransformOrigin="2.002,-2.622"/>
+ FontWeight="Bold" Command="{Binding FindProductCommand}" RenderTransformOrigin="2.002,-2.622" Click="Button_Click_1"/>
 
-        <TextBox Width="200" Margin="316,46,264,358" 
+        <TextBox x:Name="Sname" Width="200" Margin="316,52,264,373" 
                  
                  Text="{Binding SearchTerm, UpdateSourceTrigger=PropertyChanged}" Background="White"  />
-        <TextBlock Text="Поиск по названию:" Foreground="White" FontWeight="Bold" Margin="316,19,333,412" />
-        <TextBox Width="200" Margin="10,46,570,354" 
+        <TextBlock Text="Поиск по названию:" Foreground="White" FontWeight="Bold" Margin="316,30,333,401" />
+        <TextBox x:Name="id" Width="200" Margin="12,48,568,373" 
                  Text="{Binding IdFilter}" Background="White"  />
 
 
         <Grid Margin="0,100,0,47" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="31*"/>
+                <ColumnDefinition Width="99*"/>
+            </Grid.ColumnDefinitions>
 
             <DataGrid x:Name="datagrid" Background="#FF315266" 
     ItemsSource="{Binding Products}" 
     SelectedItem="{Binding SelectedProduct, Mode=OneWayToSource}"
     AutoGenerateColumns="False" 
     BorderBrush="White" 
-    Margin="10,10,0,81"
+    Margin="10,0,0,-16"
     RowHeight="30"
     CanUserAddRows="False" Grid.ColumnSpan="2">
                 <!-- Убираем пустую строку -->
@@ -75,6 +79,6 @@ FontFamily="{DynamicResource MaterialDesignFont}">
 
 
 
-        <Button Content="Сбросить фильтры" Command="{Binding RefreshProductsCommand}" Margin="12,374,542,10" Grid.ColumnSpan="2" Background="#FF046565" />
+        <Button Content="Сбросить фильтры" Command="{Binding RefreshProductsCommand}" Margin="12,374,542,10" Grid.ColumnSpan="2" Background="#FF046565" Click="Button_Click_2" />
     </Grid>
 </Window>

@@ -1,7 +1,9 @@
-﻿using System;
+﻿using PdfSharp.Pdf.Filters;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Threading.Tasks;
 using TSMS_2_.DTO;
@@ -25,7 +27,7 @@ namespace TSMS_2_.Model
             {
                 db.salesman.Load();
                 List<salesmanDTO> r = db.salesman.ToList().Select(i => new salesmanDTO(i)).ToList();
-              
+
                 return r;
             }
             //// Получаем данные из базы данных без использования конструктора
@@ -35,7 +37,37 @@ namespace TSMS_2_.Model
             //return salesmen.Select(i => new salesmanDTO(i)).ToList();
         }
 
+        public List<ProductsDTO> GetProductsDTOID(long Id, List<ProductsDTO> allProducts) {
 
+            return allProducts
+                    .Where(p => p.id == Id)
+                    .ToList();
+        }
+
+        public List<ProductsDTO> GetProductsDTOName(string SearchTerm, List<ProductsDTO> allProducts) {
+
+            return allProducts
+                    .Where(p => p.name.IndexOf(SearchTerm, StringComparison.OrdinalIgnoreCase) >= 0)
+                    .ToList();
+        }
+
+        public List<ClientDTO> GetClientDTO()
+        {
+            using (var db = new Model1())
+            {
+                db.client.Load();
+                List<ClientDTO> r = db.client.ToList().Select(i => new ClientDTO(i)).ToList();
+
+                return r;
+            }
+        }
+
+        public List<ClientDTO> GetnClientDTONoom(string SearchTerm, List<ClientDTO> allClients)
+        {
+            return allClients
+                    .Where(p => p.noomber.IndexOf(SearchTerm, StringComparison.OrdinalIgnoreCase) >= 0)
+                    .ToList();
+        }
         public List<SupplierDTO> GetSupplierDTO()
         {
             // Получаем данные из базы данных без использования конструктора
@@ -46,6 +78,45 @@ namespace TSMS_2_.Model
 
                 return r;
             }
+        }
+        // Допустим, у вас есть метод в TableModel или в ViewModel, который будет преобразовывать ID категории в название
+        public string GetCategoryName(long categoryId)
+        {
+            // Здесь предполагается, что у вас есть доступ к данным категорий
+            var category = db.categories.FirstOrDefault(c => c.id == categoryId);
+            return category?.name ?? "Unknown"; // Возвращаем имя категории или "Unknown" если не найдено
+        }
+
+        public long GetTotalRevenue(DateTime startDate, DateTime endDate)
+        {
+            var totalRevenue = db.sale
+                .Where(s => s.data.HasValue && // Проверяем, что дата не пустая
+                            s.data.Value >= startDate && // Фильтруем по начальной дате
+                            s.data.Value <= endDate) // Фильтруем по конечной дате
+                .Select(s => (long?)s.cost) // Преобразуем в long? для предотвращения ошибок с пустыми коллекциями
+                .DefaultIfEmpty(0) // Если коллекция пуста, возвращаем 0
+                .Sum(); // Суммируем поле cost
+
+            return totalRevenue ?? 0; // Возвращаем сумму или 0, если результат null
+        }
+
+        public Dictionary<long, long> GetTotalRevenueByCategories(DateTime startDate, DateTime endDate)
+        {
+            var revenueByCategories = db.element_sale
+    .Include(es => es.products) // Загружаем связанные данные
+    .Where(es => es.sale.data.HasValue &&
+                 es.sale.data.Value >= startDate &&
+                 es.sale.data.Value <= endDate)
+    .GroupBy(es => es.products.categoris_id)
+    .Select(g => new
+    {
+        CategoryId = g.Key,
+        TotalRevenue = g.Sum(es => (long?)(es.price * es.quentity)) ?? 0
+    })
+    .ToDictionary(x => x.CategoryId, x => x.TotalRevenue);
+
+
+            return revenueByCategories;
         }
 
         public List<loanAgreementDTO> GetLoanAgreementDTOs()
@@ -114,8 +185,8 @@ namespace TSMS_2_.Model
                              {
                                  Id = es.id,
                                  ProductName = es.products.name,
-                                 Quantity = es.quentity
-                                 // Другие свойства...
+                                 Quantity = es.quentity,
+                                 price=es.price
                              })
                              .ToList();
         }

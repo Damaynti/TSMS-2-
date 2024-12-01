@@ -1,118 +1,197 @@
-﻿//using System;
-//using System.Collections.ObjectModel;
-//using System.IO;
-//using System.Windows;
-//using PdfSharp.Pdf;
-//using PdfSharp.Drawing;
-//using System.Collections.Generic;
-//using System.Drawing;
-//using System.Xml.Linq;
-//using TSMS_2_.Model;
-//using TSMS_2_.ViewModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Windows;
+using System.Windows.Input;
+using TSMS_2_.Model;
+using PdfSharp.Pdf;
+using PdfSharp.Drawing;
+using TSMS_2_.Services;  // Импортировать сервис для работы с таблицами, если он используется
 
-//namespace SalesApp
-//{
-//    public class SalesReportViewModel 
-//    {
-//        private ObservableCollection<SalesReport> _salesReports;
-//        private DateTime _startDate;
-//        private DateTime _endDate;
-//        private string _categoryFilter;
-//        private string _fileName;
+namespace TSMS_2_.ViewModel
+{
+    public class SalesReportViewModel : INotifyPropertyChanged
+    {
 
-//        public ObservableCollection<SalesReport> SalesReports
-//        {
-//            get { return _salesReports; }
-//            set { SetProperty(ref _salesReports, value); }
-//        }
+        private readonly TableModel _tableModel = new TableModel();
+        private ObservableCollection<SalesReport> _salesReports;
+        private DateTime _startDate;
+        private DateTime _endDate;
+        private string _categoryFilter;
+        private string _fileName;
 
-//        public DateTime StartDate
-//        {
-//            get { return _startDate; }
-//            set { SetProperty(ref _startDate, value); }
-//        }
+        // Команды
+        public ICommand GenerateReportCommand { get; }
+        public ICommand TotalSumCommand { get; }
+        public ICommand SaveReportAsPdfCommand { get; }
 
-//        public DateTime EndDate
-//        {
-//            get { return _endDate; }
-//            set { SetProperty(ref _endDate, value); }
-//        }
+        // Событие для изменения свойств
+        public event PropertyChangedEventHandler PropertyChanged;
+        public SalesReportViewModel()
+        {
+            _salesReports = new ObservableCollection<SalesReport>();
+            _startDate = DateTime.Now.AddMonths(-1);
+            _endDate = DateTime.Now;
+            _categoryFilter = string.Empty;
 
-//        public string CategoryFilter
-//        {
-//            get { return _categoryFilter; }
-//            set { SetProperty(ref _categoryFilter, value); }
-//        }
+            // Инициализация команд
+            GenerateReportCommand = new RelayCommand(GenerateReport);
+            SaveReportAsPdfCommand = new RelayCommand(SaveReportAsPdf);
+        }
+        private long _totalSum;
+        public long TotalSum
+        {
+            get => _totalSum;
+            set => SetProperty(ref _totalSum, value);
+        }
 
-//        public string FileName
-//        {
-//            get { return _fileName; }
-//            set { SetProperty(ref _fileName, value); }
-//        }
 
-//        public SalesReportViewModel()
-//        {
-//            _salesReports = new ObservableCollection<SalesReport>();
-//            _startDate = DateTime.Now.AddMonths(-1); // по умолчанию месяц назад
-//            _endDate = DateTime.Now; // по умолчанию текущая дата
-//            _categoryFilter = string.Empty;
-//        }
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
-//        public void GenerateReport()
-//        {
-//            // Пример: фильтруем отчеты по датам и категории
-//            var filteredReports = GetSalesData()
-//                .Where(r => r.Date >= _startDate && r.Date <= _endDate)
-//                .ToList();
+        protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
+        {
+            if (EqualityComparer<T>.Default.Equals(storage, value)) return false;
+            storage = value;
+            OnPropertyChanged(propertyName);
+            return true;
+        }
 
-//            if (!string.IsNullOrEmpty(_categoryFilter))
-//            {
-//                filteredReports = filteredReports.Where(r => r.Category.Equals(_categoryFilter, StringComparison.OrdinalIgnoreCase)).ToList();
-//            }
+        // Свойства
+        public ObservableCollection<SalesReport> SalesReports
+        {
+            get { return _salesReports; }
+            set { SetProperty(ref _salesReports, value); }
+        }
 
-//            SalesReports.Clear();
-//            foreach (var report in filteredReports)
-//            {
-//                SalesReports.Add(report);
-//            }
-//        }
+        public DateTime StartDate
+        {
+            get { return _startDate; }
+            set { SetProperty(ref _startDate, value); }
+        }
 
-//        public void SaveReportAsPdf()
-//        {
-//            if (string.IsNullOrEmpty(FileName))
-//            {
-//                MessageBox.Show("Please enter a file name.");
-//                return;
-//            }
+        public DateTime EndDate
+        {
+            get { return _endDate; }
+            set { SetProperty(ref _endDate, value); }
+        }
 
-//            // Сохраняем PDF
-//            PdfDocument document = new PdfDocument();
-//            PdfPage page = document.AddPage();
-//            XGraphics gfx = XGraphics.FromPdfPage(page);
-//            XFont font = new XFont("Arial", 12);
+        public string CategoryFilter
+        {
+            get { return _categoryFilter; }
+            set { SetProperty(ref _categoryFilter, value); }
+        }
 
-//            double yPosition = 20;
+        public string FileName
+        {
+            get { return _fileName; }
+            set { SetProperty(ref _fileName, value); }
+        }
+        private Dictionary<long, long> _revenueByCategories;
 
-//            foreach (var report in SalesReports)
-//            {
-//                gfx.DrawString($"{report.Category} | {report.Date.ToShortDateString()} | {report.Amount} | {report.Quantity}",
-//                    font, XBrushes.Black, new XRect(20, yPosition, page.Width, page.Height), XStringFormats.TopLeft);
-//                yPosition += 20;
-//            }
+        public Dictionary<long, long> RevenueByCategories
+        {
+            get => _revenueByCategories;
+            set
+            {
+                _revenueByCategories = value;
+                OnPropertyChanged(nameof(RevenueByCategories));
+            }
+        }
+        // Генерация отчета
+        public void GenerateReport()
+        {
+            TotalSum = _tableModel.GetTotalRevenue(StartDate, EndDate);
+            RevenueByCategories = _tableModel.GetTotalRevenueByCategories(StartDate, EndDate);
 
-//            document.Save(FileName);
-//            MessageBox.Show("Report saved successfully.");
-//        }
+            SalesReports.Clear();  // Очищаем старые данные
 
-//        private List<SalesReport> GetSalesData()
-//        {
-//            // Здесь имитация получения данных, можно подключить к БД
-//            return new List<SalesReport>
-//            {
-//                new SalesReport { Category = "Electronics", Date = DateTime.Now, Amount = 1500, Quantity = 5 },
-//                new SalesReport { Category = "Clothing", Date = DateTime.Now.AddDays(-1), Amount = 500, Quantity = 2 },
-//                new SalesReport { Category = "Groceries", Date = DateTime.Now.AddDays(-3), Amount = 300, Quantity = 10 }
-//            };
-//        }
-//    }
-//}
+            // Добавляем общую сумму
+          
+
+            // Добавляем данные по категориям
+            foreach (var categoryRevenue in RevenueByCategories)
+            {
+                string categoryName = _tableModel.GetCategoryName(categoryRevenue.Key);  // Получаем название категории по ее ID
+                SalesReports.Add(new SalesReport
+                {
+                    Category = categoryName,  // Название категории
+                    TotalRevenue = categoryRevenue.Value  // Сумма для этой категории
+                });
+            }
+        }
+
+
+        // Сохранение отчета в PDF
+
+        public void SaveReportAsPdf()
+        {
+            if (string.IsNullOrEmpty(FileName))
+            {
+                MessageBox.Show("Please enter a file name.");
+                return;
+            }
+
+            var saveFileDialog = new Microsoft.Win32.SaveFileDialog
+            {
+                Filter = "PDF Files (*.pdf)|*.pdf",
+                FileName = FileName  // По умолчанию будет предложено имя файла
+            };
+
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                PdfDocument document = new PdfDocument();
+                PdfPage page = document.AddPage();
+                XGraphics gfx = XGraphics.FromPdfPage(page);
+                XFont font = new XFont("Arial", 12);
+
+                double yPosition = 20;
+
+                // Сначала выводим общую сумму
+                gfx.DrawString($"Общая сумма продаж: {TotalSum}",
+                    font, XBrushes.Black, new XRect(20, yPosition, page.Width, page.Height), XStringFormats.TopLeft);
+                yPosition += 20;
+
+                // Далее выводим данные по категориям
+                foreach (var report in SalesReports)
+                {
+                    gfx.DrawString($"{report.Category} | {report.TotalRevenue}",
+                        font, XBrushes.Black, new XRect(20, yPosition, page.Width, page.Height), XStringFormats.TopLeft);
+                    yPosition += 20;
+                }
+
+                document.Save(saveFileDialog.FileName);
+                MessageBox.Show("Report saved successfully.");
+            }
+        }
+
+
+        // Командный класс для реализации ICommand
+        public class RelayCommand : ICommand
+        {
+            private readonly Action _execute;
+            private readonly Func<bool> _canExecute;
+
+            public RelayCommand(Action execute, Func<bool> canExecute = null)
+            {
+                _execute = execute ?? throw new ArgumentNullException(nameof(execute));
+                _canExecute = canExecute;
+            }
+
+            public bool CanExecute(object parameter) => _canExecute?.Invoke() ?? true;
+
+            public void Execute(object parameter) => _execute();
+
+            public event EventHandler CanExecuteChanged
+            {
+                add => CommandManager.RequerySuggested += value;
+                remove => CommandManager.RequerySuggested -= value;
+            }
+        }
+    }
+}

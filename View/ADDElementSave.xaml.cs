@@ -25,7 +25,7 @@ namespace TSMS_2_.View
         public ADDElementSave()
         {
             InitializeComponent();
-            this.DataContext = new ProductsViewModel();
+            this.DataContext = new AddElementViewModel();
         }
         private SellerVM _sellerViewModel;
 
@@ -33,7 +33,7 @@ namespace TSMS_2_.View
         {
             InitializeComponent();
             _sellerViewModel = sellerViewModel; // Сохраняем ссылку на SellerVM
-            this.DataContext = new ProductsViewModel(); // Устанавливаем контекст данных
+            this.DataContext = new AddElementViewModel(); // Устанавливаем контекст данных
         }
 
         private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -55,6 +55,17 @@ namespace TSMS_2_.View
                 _sellerViewModel.AddToCart(selectedProduct);
                 this.Close(); // Закрываем окно после выбора продукта
             }
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            id.Text=null;
+            Sname.Text=null;
         }
     }
 }

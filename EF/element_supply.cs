@@ -18,6 +18,8 @@ namespace TSMS_2_.EF
 
         public long products_id { get; set; }
 
+        public long price { get; set; }
+
         public virtual products products { get; set; }
 
         public virtual supply supply { get; set; }

@@ -339,11 +339,44 @@
                 </Grid>
             </TabItem>
             <TabItem Header="отчет по продажам">
-                <Grid Background="#FF315266">
-                    <DataGrid d:ItemsSource="{d:SampleData ItemCount=5}" Background="#FF315266" Margin="0,43,0,-43"/>
+                <TabItem.DataContext>
+                    <vm:SalesReportViewModel/>
+                </TabItem.DataContext>
+                <Grid>
 
+                    <DataGrid ItemsSource="{Binding SalesReports}" AutoGenerateColumns="False" HeadersVisibility="Column">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Category" Binding="{Binding Category}" Width="*" />
+                            <DataGridTextColumn Header="Total Revenue" Binding="{Binding TotalRevenue}" Width="*" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <!--<DataGrid ItemsSource="{Binding SalesReports}" AutoGenerateColumns="True" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="200"/>-->
+
+                    <StackPanel VerticalAlignment="Bottom" Margin="10">
+                        <TextBlock Text="Общая сумма продаж:" Grid.Row="0" VerticalAlignment="Center" />
+                        <TextBox Text="{Binding TotalSum, Mode=OneWay, StringFormat=N0}" 
+Grid.Row="1" Margin="0,5,0,0" IsReadOnly="True" />
+                        <Label Content="Категория" VerticalAlignment="Center"/>
+                        <TextBox Text="{Binding CategoryFilter}" Width="200" Margin="0,0,0,10"/>
+
+                        <Label Content="Дата начала" VerticalAlignment="Center"/>
+                        <DatePicker SelectedDate="{Binding StartDate}" Margin="0,0,0,10"/>
+
+                        <Label Content="Дата окончания" VerticalAlignment="Center"/>
+                        <DatePicker SelectedDate="{Binding EndDate}" Margin="0,0,0,10"/>
+
+                        <Label Content="Имя файла" VerticalAlignment="Center"/>
+                        <TextBox Text="{Binding FileName}" Width="200" Margin="0,0,0,10"/>
+
+                        <Button Content="Сгенерировать отчет" Command="{Binding GenerateReportCommand}" Margin="0,0,0,10"/>
+
+                        <Button Content="Сохранить как PDF" Command="{Binding SaveReportAsPdfCommand}"/>
+                    </StackPanel>
                 </Grid>
             </TabItem>
+
+
         </TabControl>
 
 

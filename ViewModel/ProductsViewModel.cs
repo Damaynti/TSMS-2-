@@ -22,11 +22,11 @@ namespace TSMS_2_.ViewModel
         public ICommand AddProductCommand { get; }
         public ICommand UpdateProductCommand { get; }
         public ICommand DeleteProductCommand { get; }
-        public ICommand RefreshProductsCommand { get; }
+        //public ICommand RefreshProductsCommand { get; }
         public ICommand UpdObjInDBCommand { get; }
         public ICommand AddObjInDBCommand { get; }
-        public ICommand FindProductCommand { get; }
-        public ICommand AddToCartCommand { get; } // Команда для добавления в корзину
+        //public ICommand FindProductCommand { get; }
+        /*public ICommand AddToCartCommand { get; }*/ // Команда для добавления в корзину
 
         // Properties for Product details
         public string Name { get; set; }
@@ -35,42 +35,42 @@ namespace TSMS_2_.ViewModel
         public long? Count { get; set; }
 
         // Search properties
-        private string _searchTerm;
-        public string SearchTerm
-        {
-            get => _searchTerm;
-            set
-            {
-                _searchTerm = value;
-                OnPropertyChanged(nameof(SearchTerm));
-                FindProducts(); // Автоматически ищем при изменении термина
-            }
-        }
+        //private string _searchTerm;
+        //public string SearchTerm
+        //{
+        //    get => _searchTerm;
+        //    set
+        //    {
+        //        _searchTerm = value;
+        //        OnPropertyChanged(nameof(SearchTerm));
+        //        FindProducts(); // Автоматически ищем при изменении термина
+        //    }
+        //}
 
-        private long? _idFilter;
-        public long? IdFilter
-        {
-            get => _idFilter;
-            set
-            {
-                _idFilter = value;
-                OnPropertyChanged(nameof(IdFilter));
-                FindProducts(); // Автоматически ищем при изменении фильтра ID
-            }
-        }
+        //private long? _idFilter;
+        //public long? IdFilter
+        //{
+        //    get => _idFilter;
+        //    set
+        //    {
+        //        _idFilter = value;
+        //        OnPropertyChanged(nameof(IdFilter));
+        //        FindProducts(); // Автоматически ищем при изменении фильтра ID
+        //    }
+        //}
 
         // Корзина для хранения продуктов
-        private List<ProductsDTO> _cart;
+        //private List<ProductsDTO> _cart;
 
-        public List<ProductsDTO> Cart
-        {
-            get => _cart ?? (_cart = new List<ProductsDTO>());
-            set
-            {
-                _cart = value;
-                OnPropertyChanged(nameof(Cart));
-            }
-        }
+        //public List<ProductsDTO> Cart
+        //{
+        //    get => _cart ?? (_cart = new List<ProductsDTO>());
+        //    set
+        //    {
+        //        _cart = value;
+        //        OnPropertyChanged(nameof(Cart));
+        //    }
+        //}
 
         public ProductsViewModel()
         {
@@ -81,9 +81,9 @@ namespace TSMS_2_.ViewModel
             AddProductCommand = new RelayCommand(OpenAddProduct);
             UpdateProductCommand = new RelayCommand(OpenUpdateProduct);
             DeleteProductCommand = new RelayCommand(DeleteSelectedProduct);
-            RefreshProductsCommand = new RelayCommand(RefreshProducts);
-            AddToCartCommand = new RelayCommand(AddToCart); // Инициализация команды добавления в корзину
-            FindProductCommand = new RelayCommand(FindProducts);
+            //RefreshProductsCommand = new RelayCommand(RefreshProducts);
+            /*AddToCartCommand = new RelayCommand(AddToCart);*/ // Инициализация команды добавления в корзину
+            //FindProductCommand = new RelayCommand(FindProducts);
             LoadProducts(); // Загружаем продукты из базы данных при инициализации
         }
 
@@ -94,30 +94,30 @@ namespace TSMS_2_.ViewModel
             OnPropertyChanged(nameof(Products)); // Уведомляем об изменении свойства
         }
 
-        private void FindProducts()
-        {
-            var allProducts = _tableModel.GetProductsDTO(); // Получаем все продукты из базы данных
+        //private void FindProducts()
+        //{
+        //    var allProducts = _tableModel.GetProductsDTO(); // Получаем все продукты из базы данных
 
-            // Фильтруем по названию, если SearchTerm не пустой
-            if (!string.IsNullOrEmpty(SearchTerm))
-            {
-                allProducts = allProducts
-                    .Where(p => p.name.IndexOf(SearchTerm, StringComparison.OrdinalIgnoreCase) >= 0)
-                    .ToList();
-            }
+        //    // Фильтруем по названию, если SearchTerm не пустой
+        //    if (!string.IsNullOrEmpty(SearchTerm))
+        //    {
+        //        allProducts = allProducts
+        //            .Where(p => p.name.IndexOf(SearchTerm, StringComparison.OrdinalIgnoreCase) >= 0)
+        //            .ToList();
+        //    }
 
-            // Фильтруем по ID, если IdFilter задан
-            if (IdFilter.HasValue)
-            {
-                allProducts = allProducts
-                    .Where(p => p.id == IdFilter.Value)
-                    .ToList();
-            }
+        //    // Фильтруем по ID, если IdFilter задан
+        //    if (IdFilter.HasValue)
+        //    {
+        //        allProducts = allProducts
+        //            .Where(p => p.id == IdFilter.Value)
+        //            .ToList();
+        //    }
 
-            // Обновляем список продуктов с отфильтрованными результатами
-            Products = allProducts.ToList();
-            OnPropertyChanged(nameof(Products)); // Уведомляем об изменении свойства
-        }
+        //    // Обновляем список продуктов с отфильтрованными результатами
+        //    Products = allProducts.ToList();
+        //    OnPropertyChanged(nameof(Products)); // Уведомляем об изменении свойства
+        //}
 
 
         private List<categories> _categories;
@@ -229,24 +229,24 @@ namespace TSMS_2_.ViewModel
 
         // Метод для добавления продукта в корзину
 
-        public void AddToCart()
-        {
-            if (SelectedProduct != null)
-            {
-                Cart.Add(new ProductsDTO(SelectedProduct)); // Добавляем копию выбранного продукта в корзину
-                OnPropertyChanged(nameof(Cart)); // Уведомляем об изменении свойства Cart
-            }
-        }
+        //public void AddToCart()
+        //{
+        //    if (SelectedProduct != null)
+        //    {
+        //        Cart.Add(new ProductsDTO(SelectedProduct)); // Добавляем копию выбранного продукта в корзину
+        //        OnPropertyChanged(nameof(Cart)); // Уведомляем об изменении свойства Cart
+        //    }
+        //}
 
 
         // Метод для сброса фильтров
 
-        public void ResetFilters()
-        {
-            SearchTerm = string.Empty;  // Сбрасываем строку поиска по названию
-            IdFilter = null;  // Сбрасываем фильтр по ID
-            LoadProducts();  // Загружаем все продукты заново
-        }
+        //public void ResetFilters()
+        //{
+        //    SearchTerm = string.Empty;  // Сбрасываем строку поиска по названию
+        //    IdFilter = null;  // Сбрасываем фильтр по ID
+        //    LoadProducts();  // Загружаем все продукты заново
+        //}
 
 
         // Property changed event handler

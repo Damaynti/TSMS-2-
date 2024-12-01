@@ -28,21 +28,6 @@ namespace TSMS_2_.View
             this.DataContext = new SellerVM(i);
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-            
-        }
-
-        private void Button_Click_2(object sender, RoutedEventArgs e)
-        {
-            //var window=new ADDElementSave(this);
-            //window.Show();
-        }
         private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             // Здесь вы можете обработать выбранный элемент
