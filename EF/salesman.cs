@@ -36,6 +36,8 @@ namespace TSMS_2_.EF
 
         public bool admin { get; set; }
 
+        public bool work { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<sale> sale { get; set; }
     }

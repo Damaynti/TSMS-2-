@@ -19,6 +19,7 @@ namespace TSMS_2_.Model
             {
                 quentity = elementSaleDto.Quantity,
                 sale_id = elementSaleDto.SaleId,
+                price=elementSaleDto.price,
                 products_id = elementSaleDto.ProductId
             };
 

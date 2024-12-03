@@ -37,5 +37,12 @@ namespace TSMS_2_.View
                 MessageBox.Show($"Выбран товар: {selectedItem.ProductName}, Количество: {selectedItem.Quantity}");
             }
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            var _cont=this.DataContext as SellerVM;
+            _cont.End();
+            this.Close();
+        }
     }
 }

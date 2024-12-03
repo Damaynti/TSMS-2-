@@ -15,15 +15,14 @@ namespace TSMS_2_.EF
             sale = new HashSet<sale>();
         }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public long id { get; set; }
-
         [Required]
         public string noomber { get; set; }
 
         public long? purchase_amount { get; set; }
 
         public long discount_id { get; set; }
+
+        public long id { get; set; }
 
         public virtual discount discount { get; set; }
 

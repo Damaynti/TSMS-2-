@@ -11,6 +11,7 @@ using System.Windows.Input;
 using TSMS_2_.Model;
 using TSMS_2_.Services;
 using TSMS_2_.EF;
+using TSMS_2_.View;
 
 namespace TSMS_2_.ViewModel
 {
@@ -50,6 +51,12 @@ namespace TSMS_2_.ViewModel
                 }
                 return _salesmen;
             }
+        }
+
+        public void End()
+        {
+            var mainWindow = new MainWindow();
+            mainWindow.Show();
         }
 
         private salesman _selectedSalesman;

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using TSMS_2_.DTO;
 using TSMS_2_.EF;
 using TSMS_2_.Model;
@@ -18,16 +19,23 @@ namespace TSMS_2_.ViewModel
         private string _searchNoom;
         private List<ClientDTO> _client;
         private ClientDTO _selectedClient;
-
+        public ICommand RefreshClientsCommand { get; }
         public NoomberViewModel() {
             _client = new List<ClientDTO>();
+            RefreshClientsCommand = new RelayCommand(RefreshClients);
             LoadProducts();
         }
+
         private void LoadProducts()
         {
             var clientsFromDb = _tableModel.GetClientDTO();
             Clients = clientsFromDb.ToList(); // Загружаем список продуктов из модели
             OnPropertyChanged(nameof(Clients)); // Уведомляем об изменении свойства
+        }
+        
+        public void RefreshClients()
+        {
+            LoadProducts(); // Перезагружаем продукты из базы данных 
         }
         public string SearchNoom
         {
@@ -36,7 +44,7 @@ namespace TSMS_2_.ViewModel
             {
                 _searchNoom = value;
                 OnPropertyChanged(nameof(SearchNoom));
-                FindProducts(); // Автоматически ищем при изменении термина
+                FindNoom(); // Автоматически ищем при изменении термина
             }
         }
        
@@ -61,7 +69,7 @@ namespace TSMS_2_.ViewModel
                 }
             }
         }
-        private void FindProducts()
+        private void FindNoom()
         {
             var allClient = _tableModel.GetClientDTO(); // Получаем все продукты из базы данных
 

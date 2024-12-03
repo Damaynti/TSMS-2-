@@ -56,6 +56,7 @@ namespace TSMS_2_.View
 
             // Выполняем вход
             viewModel.LoginCommand.Execute(null);
+            this.Close();
         }
 
         private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)

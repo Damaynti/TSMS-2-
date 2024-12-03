@@ -43,7 +43,7 @@ namespace TSMS_2_.ViewModel
         //    {
         //        _searchTerm = value;
         //        OnPropertyChanged(nameof(SearchTerm));
-        //        FindProducts(); // Автоматически ищем при изменении термина
+        //        FindNoom(); // Автоматически ищем при изменении термина
         //    }
         //}
 
@@ -55,7 +55,7 @@ namespace TSMS_2_.ViewModel
         //    {
         //        _idFilter = value;
         //        OnPropertyChanged(nameof(IdFilter));
-        //        FindProducts(); // Автоматически ищем при изменении фильтра ID
+        //        FindNoom(); // Автоматически ищем при изменении фильтра ID
         //    }
         //}
 
@@ -83,7 +83,7 @@ namespace TSMS_2_.ViewModel
             DeleteProductCommand = new RelayCommand(DeleteSelectedProduct);
             //RefreshProductsCommand = new RelayCommand(RefreshProducts);
             /*AddToCartCommand = new RelayCommand(AddToCart);*/ // Инициализация команды добавления в корзину
-            //FindProductCommand = new RelayCommand(FindProducts);
+            //FindProductCommand = new RelayCommand(FindNoom);
             LoadProducts(); // Загружаем продукты из базы данных при инициализации
         }
 
@@ -94,7 +94,7 @@ namespace TSMS_2_.ViewModel
             OnPropertyChanged(nameof(Products)); // Уведомляем об изменении свойства
         }
 
-        //private void FindProducts()
+        //private void FindNoom()
         //{
         //    var allProducts = _tableModel.GetProductsDTO(); // Получаем все продукты из базы данных
 

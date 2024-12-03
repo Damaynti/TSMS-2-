@@ -19,7 +19,7 @@ namespace TSMS_2_.EF
 
         public long salesmn_id { get; set; }
 
-        public long client_id { get; set; }
+        public long? client_id { get; set; }
 
         public DateTime? data { get; set; }
 

@@ -8,7 +8,7 @@
         Title="Noomber" Height="460" Width="800"
         Background="#FF315266">
     <Grid Margin="0,-9,10,-6">
-        
+
         <Grid.RowDefinitions>
             <RowDefinition Height="163*"/>
             <RowDefinition Height="286*"/>
@@ -16,7 +16,7 @@
 
         <Grid Background="#FF315266" Margin="0,115,0,90" Grid.RowSpan="2">
 
-            <DataGrid Background="Transparent"  ItemsSource="{Binding Clients}" 
+            <DataGrid x:Name="datagrid" Background="Transparent"  ItemsSource="{Binding Clients}" 
  SelectedItem="{Binding SelectedClient, Mode=OneWayToSource}" CanUserAddRows="False" AutoGenerateColumns="False" HeadersVisibility="Column">
                 <DataGrid.Resources>
                     <!-- Стиль для текста строк -->
@@ -45,8 +45,8 @@
                  Text="{Binding SearchNoom, UpdateSourceTrigger=PropertyChanged}" Background="White"  />
         <TextBlock Text="Поиск по названию:" Foreground="White" FontWeight="Bold" Margin="12,26,637,119" />
 
-        <Button Content="Добавить в корзину" HorizontalAlignment="Left" Margin="425,224,0,0" VerticalAlignment="Top" Height="30" Background="#FF00BAB9" Foreground="White" Width="235" FontWeight="Bold" Grid.Row="1" />
+        <Button Content="Выбрать" HorizontalAlignment="Left" Margin="425,224,0,0" VerticalAlignment="Top" Height="30" Click="Button_Click1" Background="#FF00BAB9" Foreground="White" Width="235" FontWeight="Bold" Grid.Row="1" />
 
-        <Button Content="Сбросить фильтры" Command="{Binding RefreshProductsCommand}" Margin="12,228,542,26" Background="#FF046565" Grid.Row="1" />
+        <Button Content="Сбросить фильтры" Command="{Binding RefreshClientsCommand}" Margin="12,228,542,26" Background="#FF046565" Grid.Row="1" Click="Button_Click" />
     </Grid>
 </Window>

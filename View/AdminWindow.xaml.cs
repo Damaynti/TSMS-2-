@@ -65,7 +65,12 @@ namespace TSMS_2_.View
             viewModel.SaveChanges();
         }
 
-      
+        private void Button_Click_End(object sender, RoutedEventArgs e)
+        {
+            var _cont = this.DataContext as AdminVM;
+            _cont.End();
+            this.Close();
+        }
     }
 
 }

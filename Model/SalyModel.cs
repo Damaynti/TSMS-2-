@@ -13,7 +13,7 @@ namespace TSMS_2_.Model
         private Model1 db = new Model1();
 
         // Метод для создания новой продажи
-        public void CreateSale(SaleDTO s)
+        public long CreateSale(SaleDTO s)
         {
             sale newSale = new sale
             {
@@ -24,6 +24,7 @@ namespace TSMS_2_.Model
             };
             db.sale.Add(newSale);
             db.SaveChanges();
+            return newSale.id;
         }
 
         // Метод для обновления существующей продажи

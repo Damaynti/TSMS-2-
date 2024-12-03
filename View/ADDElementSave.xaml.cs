@@ -27,7 +27,7 @@ namespace TSMS_2_.View
             InitializeComponent();
             this.DataContext = new AddElementViewModel();
         }
-        private SellerVM _sellerViewModel;
+        private readonly SellerVM _sellerViewModel;
 
         public ADDElementSave(SellerVM sellerViewModel)
         {
@@ -36,15 +36,7 @@ namespace TSMS_2_.View
             this.DataContext = new AddElementViewModel(); // Устанавливаем контекст данных
         }
 
-        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (datagrid.SelectedItem is ProductsDTO selectedProduct) // Убедитесь, что имя 'dataGrid' совпадает
-            {
-                // Добавляем выбранный продукт в корзину
-                _sellerViewModel.AddToCart(selectedProduct);
-                this.Close(); // Закрываем окно после выбора продукта
-            }
-        }
+   
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {

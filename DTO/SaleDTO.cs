@@ -25,7 +25,7 @@ namespace TSMS_2_.DTO
         public long salesmn_id { get; set; } // ID продавца
 
         [Required]
-        public long client_id { get; set; } // ID клиента
+        public long? client_id { get; set; } // ID клиента
 
         // Конструктор для преобразования из сущности sale
         public SaleDTO(sale s)
