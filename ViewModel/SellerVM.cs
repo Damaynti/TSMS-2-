@@ -58,6 +58,7 @@ namespace TSMS_2_.ViewModel
         // Обновляем сумму при изменении коллекции
         private void CartItems_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
+
             OnPropertyChanged(nameof(TotalSum)); // Обновляем TotalSum после изменения корзины
         }
 
@@ -226,6 +227,25 @@ namespace TSMS_2_.ViewModel
             var addClientWindow = new ADDClient(this); // Создание экземпляра окна ADDElementSale
             addClientWindow.ShowDialog(); // Открываем окно как диалог
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         public event PropertyChangedEventHandler PropertyChanged;
 

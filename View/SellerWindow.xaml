@@ -50,7 +50,7 @@ FontFamily="{DynamicResource MaterialDesignFont}">
 
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Товар" Binding="{Binding ProductName}" />
-                    <DataGridTextColumn Header="Количество" Binding="{Binding Quantity}" />
+                    <DataGridTextColumn Header="Количество" Binding="{Binding Quantity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  />
                     <DataGridTextColumn Header="Цена" Binding="{Binding ProductPrice}" />
                     <DataGridTextColumn Header="Сумма" Binding="{Binding TotalPrice}" />
                 </DataGrid.Columns>
