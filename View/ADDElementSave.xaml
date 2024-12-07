@@ -18,7 +18,7 @@ FontFamily="{DynamicResource MaterialDesignFont}">
         <TextBlock Text="Поиск по артикулу:" Foreground="White" FontWeight="Bold" Margin="12,28,625,405" />
         <Button Content="🔍" HorizontalAlignment="Left" Margin="197,48,0,0" VerticalAlignment="Top" Height="32" 
  Background="#FF00BAB9" Foreground="White" Width="59" 
- FontWeight="Bold" Command="{Binding FindProductCommand}" RenderTransformOrigin="2.002,-2.622" Click="Button_Click_1"/>
+ FontWeight="Bold" Command="{Binding FindProductCommand}" RenderTransformOrigin="2.002,-2.622" />
 
         <TextBox x:Name="Sname" Width="200" Margin="316,52,264,373" 
                  
@@ -66,11 +66,11 @@ FontFamily="{DynamicResource MaterialDesignFont}">
                 </DataGrid.Resources>
 
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Артикул" Binding="{Binding id}" />
-                    <DataGridTextColumn Header="Название" Binding="{Binding name}" />
-                    <DataGridTextColumn Header="Категория" Binding="{Binding categorisName}" />
-                    <DataGridTextColumn Header="Цена" Binding="{Binding price}" />
-                    <DataGridTextColumn Header="Количество" Binding="{Binding count}" />
+                    <DataGridTextColumn Header="Артикул" Binding="{Binding id, Mode=OneWay}" />
+                    <DataGridTextColumn Header="Название" Binding="{Binding name, Mode=OneWay}" />
+                    <DataGridTextColumn Header="Категория" Binding="{Binding categorisName, Mode=OneWay}" />
+                    <DataGridTextColumn Header="Цена" Binding="{Binding price, Mode=OneWay}" />
+                    <DataGridTextColumn Header="Количество" Binding="{Binding count, Mode=OneWay}" />
                 </DataGrid.Columns>
             </DataGrid>
 

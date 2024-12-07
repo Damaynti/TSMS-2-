@@ -5,66 +5,99 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TSMS_2_.View"
         mc:Ignorable="d"
-        Title="SellerWindow" Height="542" Width="800"
-                   xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-TextElement.Foreground="{DynamicResource MaterialDesignBody}"
-TextElement.FontWeight="Regular"
-TextElement.FontSize="13"
-TextOptions.TextFormattingMode="Ideal"
-TextOptions.TextRenderingMode="Auto"
-Background="#FF315266"
-FontFamily="{DynamicResource MaterialDesignFont}">
+        Title="SellerWindow" Height="512" Width="800"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="#FF315266"
+        FontFamily="{DynamicResource MaterialDesignFont}">
     <Grid Margin="10">
-        <StackPanel>
-            <Button Content="Выйти"   Background="#FF00BAB9" Foreground="White" FontWeight="Bold" Width="104" HorizontalAlignment="Right" Click="Button_Click"/>
+        <StackPanel Margin="0,3,-10,-8">
+            <Button Content="Выйти" Background="#FF00BAB9" Foreground="White" FontWeight="Bold" Width="104" HorizontalAlignment="Right" Click="Button_Click"/>
             <Grid>
                 <TextBlock HorizontalAlignment="Left" Margin="10,-4,0,0" TextWrapping="Wrap" Text="{Binding PhoneNumber,StringFormat='Телефон: {0}'}" VerticalAlignment="Top" Foreground="White"/>
             </Grid>
 
             <DataGrid x:Name="dataGrid"
-          ItemsSource="{Binding CartItems}" 
-          AutoGenerateColumns="False"
-          SelectionChanged="DataGrid_SelectionChanged"
-                      CanUserAddRows="False">
+                      ItemsSource="{Binding CartItems}"
+                      AutoGenerateColumns="False"
+                      CanUserAddRows="False"
+                      IsReadOnly="False">
                 <DataGrid.Resources>
-                    <!-- Определяем стиль для заголовков столбцов -->
                     <Style TargetType="{x:Type DataGridColumnHeader}">
                         <Setter Property="Foreground" Value="White"/>
                         <Setter Property="Background" Value="#FF315266"/>
                         <Setter Property="FontWeight" Value="Bold"/>
-                        <!-- Выравнивание текста -->
-
-                        <!-- Жирный шрифт для заголовков -->
                         <Setter Property="Padding" Value="10,0,0,0"/>
-                        <!-- Сдвиг вправо -->
                         <Setter Property="HorizontalContentAlignment" Value="Left"/>
                     </Style>
-
-                    <!-- Определяем стиль для строк -->
                     <Style TargetType="{x:Type DataGridRow}">
-                        <Setter Property="Height" Value="30"/>
+                        <Setter Property="Height" Value="40"/>
                         <Setter Property="Background" Value="#FF315266"/>
                         <Setter Property="Foreground" Value="White"/>
                     </Style>
                 </DataGrid.Resources>
 
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Товар" Binding="{Binding ProductName}" />
-                    <DataGridTextColumn Header="Количество" Binding="{Binding Quantity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  />
-                    <DataGridTextColumn Header="Цена" Binding="{Binding ProductPrice}" />
-                    <DataGridTextColumn Header="Сумма" Binding="{Binding TotalPrice}" />
+                    <DataGridTextColumn Header="Товар" Binding="{Binding ProductName, Mode=OneWay}" Width="200"/>
+                    <DataGridTextColumn Header="Цена" Binding="{Binding ProductPrice, Mode=OneWay}" Width="100"/>
+                    <DataGridTextColumn Header="Сумма" Binding="{Binding TotalPrice, Mode=OneWay}" Width="100"/>
+
+                    <!-- Количество с кнопками для увеличения и уменьшения -->
+                    <DataGridTemplateColumn Header="Количество" Width="150">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                    <Button Content="-" 
+                                            Command="{Binding DataContext.DecreaseQuantityCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                            CommandParameter="{Binding}"
+                                            Background="Transparent"
+                                            Foreground="White"
+                                            FontWeight="Bold" 
+                                            BorderThickness="0"
+                                            Padding="5,0" />
+                                    <TextBlock VerticalAlignment="Center" Text="{Binding Quantity}" Width="40" TextAlignment="Center" />
+                                    <Button Content="+" 
+                                            Command="{Binding DataContext.IncreaseQuantityCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                            CommandParameter="{Binding}"
+                                            Background="Transparent"
+                                            Foreground="White"
+                                            FontWeight="Bold" 
+                                            BorderThickness="0"
+                                            Padding="5,0" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <!-- Кнопка для удаления товара -->
+                    <DataGridTemplateColumn Header="Удалить" Width="120">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="Удалить" 
+                                        Command="{Binding DataContext.RemoveItemCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                        CommandParameter="{Binding}" 
+                                        Background="#FF673AB7" 
+                                        Foreground="White" 
+                                        FontWeight="Bold" 
+                                        Padding="5,0" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
 
         </StackPanel>
-        <Button Content="🔍 Найти товар" HorizontalAlignment="Left" Margin="0,331,0,0" VerticalAlignment="Top" Height="30" 
-        Background="#FF00BAB9" Foreground="White" Width="224" 
-        FontWeight="Bold" Command="{Binding OpenAddElementSaleCommand}"  Cursor=""/>
-        <TextBlock HorizontalAlignment="Left" Margin="567,327,0,0" Text="{Binding TotalSum, StringFormat='Итог: {0}₽'}" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Background="{x:Null}" Foreground="White"  FontSize="20" />
-        <Button Content="оплатить" HorizontalAlignment="Left" Margin="567,376,0,0" VerticalAlignment="Top" Background="#FF00BAB9" Foreground="White" Height="27" FontWeight="Bold" FontSize="16" Width="203" RenderTransformOrigin="0.494,1.127"  Command="{Binding Creat}"/>
-        <Button Content="📞 Найти Номер телефона" HorizontalAlignment="Left" Margin="-4,383,0,0" VerticalAlignment="Top" Height="30" Background="#FF00BAB9" Foreground="White" Width="228" FontWeight="Bold"  Command="{Binding OpenNoomberCommand}"/>
-        <Button Content="📞 Новый Номер телефона" HorizontalAlignment="Left" Margin="0,433,0,0" VerticalAlignment="Top" Height="30" Background="#FF673AB7" Foreground="White" Width="224" FontWeight="Bold"  Command="{Binding OpenADDCientCommand}"/>
-        <Button Content="Отменить покупку"  Command="{Binding CleanCommand}" Margin="430,464,10,10" Background="#FF00BAB9" Foreground="White" FontWeight="Bold"/>
 
+        <Button Content="🔍 Найти товар" HorizontalAlignment="Left" Margin="0,407,0,0" VerticalAlignment="Top" Height="30" 
+                Background="#FF00BAB9" Foreground="White" Width="224" FontWeight="Bold" Command="{Binding OpenAddElementSaleCommand}" Cursor=""/>
+        <TextBlock HorizontalAlignment="Left" Margin="567,327,0,0" Text="{Binding TotalSum, StringFormat='Итог: {0}₽'}" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Background="{x:Null}" Foreground="White" FontSize="20"/>
+        <Button Content="оплатить" HorizontalAlignment="Left" Margin="567,376,0,0" VerticalAlignment="Top" Background="#FF00BAB9" Foreground="White" Height="27" FontWeight="Bold" FontSize="16" Width="203" RenderTransformOrigin="0.494,1.127" Command="{Binding Creat}"/>
+        <Button Content="📞 Найти Номер телефона" HorizontalAlignment="Left" Margin="264,376,0,0" VerticalAlignment="Top" Height="30" Background="#FF00BAB9" Foreground="White" Width="228" FontWeight="Bold" Command="{Binding OpenNoomberCommand}"/>
+        <Button Content="📞 Новый Номер телефона" HorizontalAlignment="Left" Margin="264,429,0,0" VerticalAlignment="Top" Height="30" Background="#FF673AB7" Foreground="White" Width="224" FontWeight="Bold" Command="{Binding OpenADDCientCommand}"/>
+        <Button Content="Отменить покупку" Command="{Binding CleanCommand}" Margin="567,427,0,0" Background="#FF673AB7" Foreground="White" FontWeight="Bold" VerticalAlignment="Top" HorizontalAlignment="Left" Width="203"/>
     </Grid>
 </Window>

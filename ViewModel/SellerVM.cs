@@ -21,8 +21,9 @@ namespace TSMS_2_.ViewModel
         private List<ProductsDTO> _products; // Список доступных продуктов
         private ProductsDTO _selectedProduct; // Выбранный продукт
         private ClientDTO _client;
+        private readonly IWindowService _windowService;
 
-        
+
         private readonly long idsal;
         private string _phoneNumber = "Номер не указан";
         public string PhoneNumber
@@ -58,12 +59,12 @@ namespace TSMS_2_.ViewModel
         // Обновляем сумму при изменении коллекции
         private void CartItems_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-
+            OnPropertyChanged(nameof(CartItems));
             OnPropertyChanged(nameof(TotalSum)); // Обновляем TotalSum после изменения корзины
         }
 
         // Общая сумма товаров в корзине
-        public decimal TotalSum => CartItems.Sum(item => item.Quantity * item.ProductPrice);
+        public decimal TotalSum => CartItems.Sum(item => item.TotalPrice);
 
         // Метод добавления товара в корзину
         public void AddToCart(ProductsDTO selectedProduct)
@@ -76,7 +77,7 @@ namespace TSMS_2_.ViewModel
                 {
                     // Увеличиваем количество и пересчитываем сумму
                     existingItem.Quantity++;
-                    existingItem.TotalPrice = existingItem.ProductPrice * existingItem.Quantity;
+                    //existingItem.TotalPrice = existingItem.ProductPrice * existingItem.Quantity;
                 }
                 else
                 {
@@ -87,7 +88,7 @@ namespace TSMS_2_.ViewModel
                         ProductName = selectedProduct.name,
                         ProductPrice = selectedProduct.price,
                         Quantity = 1,
-                        TotalPrice = selectedProduct.price
+                        //TotalPrice = selectedProduct.price
                     });
                 }
 
@@ -96,6 +97,20 @@ namespace TSMS_2_.ViewModel
                 OnPropertyChanged(nameof(TotalSum));   // Обновить TotalSum
             }
         }
+        public ICommand RemoveItemCommand { get; }
+
+        public ICommand IncreaseQuantityCommand { get; }
+        public ICommand DecreaseQuantityCommand { get; }
+
+        public void RemoveItem(Element_saleDto item)
+        {
+            if (item != null)
+            {
+                CartItems.Remove(item);  // Удаляем элемент из корзины
+                OnPropertyChanged(nameof(TotalSum));  // Обновляем общую сумму
+            }
+        }
+
         public ICommand AddToCartCommand { get; }
         public ICommand CleanCommand {  get; }
         public ICommand AddToNoomCommand { get; }
@@ -115,10 +130,33 @@ namespace TSMS_2_.ViewModel
             OpenAddElementSaleCommand = new RelayCommand(OpenAddElementSale); // Инициализация команды открытия окна
             Creat = new RelayCommand(CreateOrder);
             OpenNoomberCommand = new RelayCommand(OpenNoomber);
-           
+            _windowService = new WindowService();
+            RemoveItemCommand = new Command<Element_saleDto>(RemoveItem);
+            IncreaseQuantityCommand = new Command<Element_saleDto>(IncreaseQuantity);
+            DecreaseQuantityCommand = new Command<Element_saleDto>(DecreaseQuantity);
             LoadProducts(); // Загружаем продукты при инициализации
             this.idsal = idsal;
         }
+        private void IncreaseQuantity(Element_saleDto item)
+        {
+            if (item != null)
+            {
+                item.Quantity++;
+                OnPropertyChanged(nameof(TotalSum));  // Обновляем общую сумму
+            }
+        }
+
+        // Метод для уменьшения количества товара
+        private void DecreaseQuantity(Element_saleDto item)
+        {
+            if (item != null && item.Quantity > 1)
+            {
+                item.Quantity--;
+                OnPropertyChanged(nameof(TotalSum));  // Обновляем общую сумму
+            }
+        }
+
+        // Метод для удаления товара из корзины
        
         public void CreateOrder()
         {
@@ -149,7 +187,7 @@ namespace TSMS_2_.ViewModel
                     ProductId = item.ProductId,   // ID товара
                     Quantity = item.Quantity,     // Количество товара
                     price = (long)item.ProductPrice,    // Цена за единицу товара
-                    TotalPrice = item.TotalPrice, // Общая стоимость товара
+                    //TotalPrice = item.TotalPrice, // Общая стоимость товара
                 };
 
                 // Используем ваш метод для сохранения элемента продажи
@@ -209,8 +247,7 @@ namespace TSMS_2_.ViewModel
         }
         public void OpenNoomber()
         {
-            var noomberWindows = new Noomber(this);
-            noomberWindows.Show();
+            _windowService.OpenWindow("Noomber", this);
         }
         public void End()
         {
@@ -219,30 +256,12 @@ namespace TSMS_2_.ViewModel
         }
         public void OpenAddElementSale()
         {
-            var addElementSaleWindow = new ADDElementSave(this); // Создание экземпляра окна ADDElementSale
-            addElementSaleWindow.ShowDialog(); // Открываем окно как диалог
+            _windowService.OpenWindow("ADDElementSave", this);
         }
         public void OpenADDClient()
         {
-            var addClientWindow = new ADDClient(this); // Создание экземпляра окна ADDElementSale
-            addClientWindow.ShowDialog(); // Открываем окно как диалог
+            _windowService.OpenWindow("ADDClient", this);
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

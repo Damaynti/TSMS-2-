@@ -9,8 +9,11 @@ using System.Windows.Input;
 using TSMS_2_.Model;
 using PdfSharp.Pdf;
 using PdfSharp.Drawing;
-using TSMS_2_.Services;  // Импортировать сервис для работы с таблицами, если он используется
-
+using TSMS_2_.Services;
+using System.IO;
+using PdfSharp.Charting;
+using System.Windows.Media.Imaging;
+using System.Windows.Media;
 namespace TSMS_2_.ViewModel
 {
     public class SalesReportViewModel : INotifyPropertyChanged
@@ -36,7 +39,6 @@ namespace TSMS_2_.ViewModel
             _startDate = DateTime.Now.AddMonths(-1);
             _endDate = DateTime.Now;
             _categoryFilter = string.Empty;
-
             // Инициализация команд
             GenerateReportCommand = new RelayCommand(GenerateReport);
             SaveReportAsPdfCommand = new RelayCommand(SaveReportAsPdf);
@@ -48,6 +50,7 @@ namespace TSMS_2_.ViewModel
             set => SetProperty(ref _totalSum, value);
         }
 
+        
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {

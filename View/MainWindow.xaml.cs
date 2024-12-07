@@ -30,11 +30,8 @@ namespace TSMS_2_.View
             DataContext = new MainWindowsVM(windowService);
         }
 
-        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            if (e.LeftButton == MouseButtonState.Pressed)
-                DragMove();
-        }
+
+
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
@@ -56,15 +53,6 @@ namespace TSMS_2_.View
 
             // Выполняем вход
             viewModel.LoginCommand.Execute(null);
-        }
-
-        private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
-        {
-            var passwordBox = sender as PasswordBox;
-            if (passwordBox != null)
-            {
-                ((MainWindowsVM)DataContext).Password = passwordBox.Password;
-            }
         }
     }
 }

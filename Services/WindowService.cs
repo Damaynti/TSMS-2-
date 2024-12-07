@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using TSMS_2_.View;
+using TSMS_2_.ViewModel;
 
 namespace TSMS_2_.Services
 {
@@ -41,7 +42,7 @@ namespace TSMS_2_.Services
             //window.DataContext = viewModel;
             window.Show();
         }
-        public void OpenWindow(string windowType, object vM, int mode)
+        public void OpenWindow(string windowType, object vM, int mode=0)
         {
             Window window;
 
@@ -97,6 +98,15 @@ namespace TSMS_2_.Services
                         window = new ADDLoanAgreement(2, vM);
                     }
                     break;
+                case "Noomber":
+                    window = new Noomber( (SellerVM)vM);
+                    break;
+                case "ADDElementSave":
+                    window = new ADDElementSave((SellerVM)vM);
+                    break;
+                case "ADDClient":
+                    window = new ADDClient((SellerVM)vM);
+                    break;
                 default:
                     throw new ArgumentException("Unknown window type");
             }
@@ -104,6 +114,7 @@ namespace TSMS_2_.Services
             window.ShowDialog();
             //window.ShowDialog();
         }
+
         public void CloseWindow(Window window)
         {
             if (window != null)

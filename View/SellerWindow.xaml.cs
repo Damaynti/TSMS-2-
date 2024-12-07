@@ -28,15 +28,6 @@ namespace TSMS_2_.View
             this.DataContext = new SellerVM(i);
         }
 
-        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            // Здесь вы можете обработать выбранный элемент
-            if (dataGrid.SelectedItem is Element_saleDto selectedItem)
-            {
-                // Логика для работы с выбранным элементом
-                MessageBox.Show($"Выбран товар: {selectedItem.ProductName}, Количество: {selectedItem.Quantity}");
-            }
-        }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
