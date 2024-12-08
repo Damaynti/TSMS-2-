@@ -14,40 +14,20 @@ using System.Windows.Shapes;
 
 namespace TSMS_2_.View
 {
-    /// <summary>
-    /// Логика взаимодействия для ADDSalesmenxamlxaml.xaml
-    /// </summary>
     public partial class ADDSalesmenxamlxaml : Window
     {
-        public ADDSalesmenxamlxaml(int mode, object vM)
+        public ADDSalesmenxamlxaml(int mode)
         {
             InitializeComponent();
             if (mode == 1)
             {
-                this.DataContext = vM;
                 btn.SetBinding(Button.CommandProperty, new Binding("AddObjInDBCommand"));
             }
             else
             {
-                this.DataContext = vM;
                 btn.SetBinding(Button.CommandProperty, new Binding("UpdObjInDBCommand"));
             }
         }
-        public ADDSalesmenxamlxaml() { InitializeComponent(); }
 
-
-
-        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            // Закрытие окна
-            this.Close();
-        }
-
-       
-       
     }
 }

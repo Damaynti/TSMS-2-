@@ -21,9 +21,7 @@ namespace TSMS_2_.ViewModel
         private readonly TableModel _tableModel = new TableModel();
         private ObservableCollection<Element_saleDto> _saleElements;
         private Element_saleDto _selectedElement;
-      
-        public long CurrentSaleId { get; set; } // Идентификатор текущей продажи
-
+        public long CurrentSaleId { get; set; }
         public ObservableCollection<Element_saleDto> SaleElements
         {
             get => _saleElements;
@@ -36,7 +34,6 @@ namespace TSMS_2_.ViewModel
                 }
             }
         }
-
         public Element_saleDto SelectedElement
         {
             get => _selectedElement;
@@ -46,16 +43,14 @@ namespace TSMS_2_.ViewModel
                 OnPropertyChanged(nameof(SelectedElement));
             }
         }
-
         public ICommand AddElementCommand { get; }
         public ICommand AddObjCommand { get; }
         public ICommand UpdateElementCommand { get; }
         public ICommand DeleteElementCommand { get; }
         public ICommand RefreshElementsCommand { get; }
-
         public Element_saleViewModel(long saleId)
         {
-            CurrentSaleId = saleId; // Устанавливаем идентификатор текущей продажи
+            CurrentSaleId = saleId; 
             _windowService = new WindowService();
             SaleElements = new ObservableCollection<Element_saleDto>();
             AddElementCommand = new RelayCommand(CreateElement);
@@ -63,36 +58,22 @@ namespace TSMS_2_.ViewModel
             DeleteElementCommand = new RelayCommand(DeleteSelectedElement);
             RefreshElementsCommand = new RelayCommand(RefreshElements);
             AddObjCommand = new RelayCommand(OpenAddSalesman);
-            LoadSaleElements(); // Загружаем элементы продажи при инициализации
+            LoadSaleElements();
         }
-
-        public Element_saleViewModel()
-        {
-            _windowService = new WindowService();
-            SaleElements = new ObservableCollection<Element_saleDto>();
-            AddElementCommand = new RelayCommand(CreateElement);
-            UpdateElementCommand = new RelayCommand(UpdateElement);
-            DeleteElementCommand = new RelayCommand(DeleteSelectedElement);
-            RefreshElementsCommand = new RelayCommand(RefreshElements);
-            AddObjCommand = new RelayCommand(OpenAddSalesman);
-            LoadSaleElements(); // Загружаем элементы продажи при инициализации
-        }
-
         public void OpenAddSalesman()
         {
-            SelectedElement = new Element_saleDto(); // Reset the selected salesman
+            SelectedElement = new Element_saleDto();
             _windowService.ShowWindow("ADDElementSave");
         }
         private void LoadSaleElements()
         {
-            var elements = _tableModel.GetElementsBySaleId(CurrentSaleId); // Получаем элементы по идентификатору продажи
+            var elements = _tableModel.GetElementsBySaleId(CurrentSaleId); 
             SaleElements.Clear();
             foreach (var element in elements)
             {
                 SaleElements.Add(element);
             }
         }
-
         private void CreateElement()
         {
             if (SelectedElement != null)
@@ -101,7 +82,6 @@ namespace TSMS_2_.ViewModel
                 RefreshElements();
             }
         }
-
         private void UpdateElement()
         {
             if (SelectedElement != null)
@@ -110,7 +90,6 @@ namespace TSMS_2_.ViewModel
                 RefreshElements();
             }
         }
-
         private void DeleteSelectedElement()
         {
             if (SelectedElement != null)
@@ -120,14 +99,11 @@ namespace TSMS_2_.ViewModel
                 RefreshElements();
             }
         }
-
         private void RefreshElements()
         {
-            LoadSaleElements(); // Обновляем элементы продажи
+            LoadSaleElements(); 
         }
-
         public event PropertyChangedEventHandler PropertyChanged;
-
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) 
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

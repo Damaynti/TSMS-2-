@@ -22,19 +22,19 @@ ResizeMode="NoResize"
             <Label Content="Выберите роль:" Background="Transparent" Foreground="White" FontWeight="Bold" />
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Height="40" Width="262">
                 <Image Source="/View/937.jpg" Width="31" Height="34"/>
-                <ComboBox x:Name="RoleComboBox" Width="231"  Height="30" VerticalContentAlignment="Center" Background="White" >
-                    <ComboBoxItem Content="Продавец" />
-                    <ComboBoxItem Content="Администратор" />
+                <ComboBox x:Name="RoleComboBox" Width="231"  SelectedItem="{Binding SelectedRole, Mode=TwoWay}" Height="30" VerticalContentAlignment="Center" Background="White" >
+                    <ComboBoxItem Content="Продавец"/>
+                    <ComboBoxItem Content="Администратор"/>
                 </ComboBox>
             </StackPanel>
             <Label Content="Введите пароль:" Margin="0,10,0,0" Foreground="White" FontWeight="Bold" />
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Height="40" Width="262">
                 <Image Height="43" Width="32" Source="/View/vector-lock-icon.jpg"/>
 
-                <PasswordBox x:Name="PasswordBox" Height="30" Width="231" VerticalContentAlignment="Center" Background="White" />
+                <PasswordBox x:Name="PasswordBox"  PasswordChanged="PasswordBox_PasswordChanged" Height="30" Width="231" VerticalContentAlignment="Center" Background="White" />
             </StackPanel>
 
-            <Button Content="Войти" Margin="0,30,0,0" Click="LoginButton_Click" Background="#FF00BAB9" FontWeight="Bold" BorderBrush="{x:Null}" Foreground="White" Panel.ZIndex="-8" Opacity="0.99" Height="30"/>
+            <Button Content="Войти" Margin="0,30,0,0" Command="{Binding LoginCommand}" Background="#FF00BAB9" FontWeight="Bold" BorderBrush="{x:Null}" Foreground="White" Panel.ZIndex="-8" Opacity="0.99" Height="30"/>
 
         </StackPanel>
     </Grid>

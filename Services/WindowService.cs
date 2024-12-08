@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OxyPlot;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,7 +12,7 @@ namespace TSMS_2_.Services
 {
     public class WindowService:IWindowService
     {
-        public void ShowWindow(string windowType, object viewModel,long i)
+        public void ShowWindow(string windowType, object viewModel)
         {
             Window window;
 
@@ -21,100 +22,57 @@ namespace TSMS_2_.Services
                     window = new AdminWindow();
                     window.DataContext = viewModel;
                     break;
-                case "SellerWindow":
-                    window = new SellerWindow(i);
+                case "Noomber":
+                    window = new Noomber();
+                    window.DataContext = viewModel;
                     break;
-                //case "ADDElementSave":
-                //    window = new ADDElementSave();
-                //    break;
-                //case "AddObj":
-                //    window = new AddObjWindow();
-                //    window.DataContext = viewModel;
-                //    break;
-                //case "EditObj":
-                //    window = new EditObjectWindow();
-                //    window.DataContext = viewModel;
-                //    break;
+                case "ADDElementSave":
+                    window = new ADDElementSave();
+                    window.DataContext = viewModel;
+                    break;
+                case "ADDClient":
+                    window = new ADDClient();
+                    window.DataContext = viewModel;
+                    break;
+                case "SellerWindow":
+                    window = new SellerWindow();
+                    window.DataContext = viewModel;
+                    break;
+                case "MainWindow":
+                    window = new MainWindow();
+                    break;
                 default:
                     throw new ArgumentException("Unknown window type");
             }
-
-            //window.DataContext = viewModel;
             window.Show();
         }
-        public void OpenWindow(string windowType, object vM, int mode=0)
+        public void OpenWindow(string windowType, object vM, int mode)
         {
             Window window;
 
             switch (windowType)
             {
                 case "ADDSalesman":
-                    if (mode == 1)
-                    {
-                        window = new ADDSalesmenxamlxaml(1, vM);
-                    }
-                    else
-                    {
-                        window = new ADDSalesmenxamlxaml(2, vM);
-                    }
+                    window = new ADDSalesmenxamlxaml(mode);
                     break;
                 case "AddProduct":
-                    if(mode == 1)
-                    {
-                        window = new ADDProduct(1, vM);
-                    }
-                    else
-                    {
-                        window = new ADDProduct(2, vM);
-                    }
+                    window = new ADDProduct(mode);
                     break;
                 case "AddSupplier":
-                    if (mode == 1)
-                    {
-                        window = new ADDSupplier(1, vM);
-                    }
-                    else
-                    {
-                        window = new ADDSupplier(2, vM);
-                    }
+                    window = new ADDSupplier(mode);
                     break;
                 case "AddSale":
-                    if (mode == 1)
-                    {
-                        window = new ADDSale(1, vM);
-                    }
-                    else
-                    {
-                        window = new ADDSale(2, vM);
-                    }
+                    window = new ADDSale(mode);
                     break;
                 case "ADDLoanAgreement":
-                    if (mode == 1)
-                    {
-                        window = new ADDLoanAgreement(1, vM);
-                    }
-                    else
-                    {
-                        window = new ADDLoanAgreement(2, vM);
-                    }
-                    break;
-                case "Noomber":
-                    window = new Noomber( (SellerVM)vM);
-                    break;
-                case "ADDElementSave":
-                    window = new ADDElementSave((SellerVM)vM);
-                    break;
-                case "ADDClient":
-                    window = new ADDClient((SellerVM)vM);
+                    window = new ADDLoanAgreement(mode);
                     break;
                 default:
                     throw new ArgumentException("Unknown window type");
             }
-
+            window.DataContext = vM;
             window.ShowDialog();
-            //window.ShowDialog();
         }
-
         public void CloseWindow(Window window)
         {
             if (window != null)

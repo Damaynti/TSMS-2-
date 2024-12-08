@@ -17,18 +17,11 @@ using TSMS_2_.ViewModel;
 
 namespace TSMS_2_.View
 {
-    /// <summary>
-    /// Логика взаимодействия для ADDElementSave.xaml
-    /// </summary>
     public partial class ADDElementSave : Window
     {
-       
-        public ADDElementSave(SellerVM sellerViewModel)
+        public ADDElementSave()
         {
             InitializeComponent();
-            this.DataContext = sellerViewModel; // Устанавливаем контекст данных
         }
-
-  
     }
 }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using TSMS_2_.Model;
 using TSMS_2_.Services;
@@ -17,13 +18,10 @@ namespace TSMS_2_.ViewModel
         private IWindowService _windowService;
         private TableModel _tableModel;
         private string _password;
-        private string _selectedRole;
+        private ComboBoxItem _selectedRole;
         private bool _isAuthenticated;
-
         public event PropertyChangedEventHandler PropertyChanged;
-
         public ICommand LoginCommand { get; }
-
         public string Password
         {
             get => _password;
@@ -33,17 +31,18 @@ namespace TSMS_2_.ViewModel
                 OnPropertyChanged(nameof(Password));
             }
         }
-
-        public string SelectedRole
+        public ComboBoxItem SelectedRole
         {
             get => _selectedRole;
             set
             {
-                _selectedRole = value;
-                OnPropertyChanged(nameof(SelectedRole));
+                if (_selectedRole != value)
+                {
+                    _selectedRole = value;
+                    OnPropertyChanged(nameof(SelectedRole));
+                }
             }
         }
-
         public bool IsAuthenticated
         {
             get => _isAuthenticated;
@@ -53,32 +52,24 @@ namespace TSMS_2_.ViewModel
                 OnPropertyChanged(nameof(IsAuthenticated));
             }
         }
-
-        public MainWindowsVM(IWindowService windowService)
+        public MainWindowsVM()
         {
-            _windowService = windowService;
+            _windowService = new WindowService();
             _tableModel = new TableModel();
             LoginCommand = new RelayCommand(Login);
         }
-
         private void Login()
         {
             bool r=true;
-            if (SelectedRole=="Продавец")r=false;
-
+            if ((string)SelectedRole.Content== "Продавец")
+                r=false;
             var us = _tableModel.ValidateUser(r,Password);
             if (us!=null)
             {
                 IsAuthenticated = true;
-
-                // Открытие нового окна в зависимости от роли
-                string nextWindow = SelectedRole == "Продавец" ? "SellerWindow" : "AdminWindow";
-                var nextViewModel = SelectedRole == "Продавец" ? (object)new SellerVM(us.id) : new AdminVM(_windowService);
-
-
-                _windowService.ShowWindow(nextWindow,nextViewModel,us.id);
-
-                // Закрытие текущего окна
+                string nextWindow = (string)SelectedRole.Content == "Продавец" ? "SellerWindow" : "AdminWindow";
+                var nextViewModel = (string)SelectedRole.Content == "Продавец" ? (object)new SellerVM(us.id) : new AdminVM();
+                _windowService.ShowWindow(nextWindow,nextViewModel);
                 var currentWindow = Application.Current.Windows.OfType<MainWindow>().FirstOrDefault();
                 _windowService.CloseWindow(currentWindow);
             }
@@ -88,14 +79,6 @@ namespace TSMS_2_.ViewModel
                 MessageBox.Show("Неверный пароль или роль.");
             }
         }
-
-        private bool ValidateCredentials(string role, string password)
-        {
-            // Здесь должна быть ваша логика проверки учетных данных.
-            // Это может быть вызов к базе данных или другой источник данных.
-            return !string.IsNullOrEmpty(role) && !string.IsNullOrEmpty(password) && password == "your_password"; // Пример проверки
-        }
-
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

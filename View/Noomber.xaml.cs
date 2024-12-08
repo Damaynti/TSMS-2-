@@ -16,37 +16,12 @@ using TSMS_2_.ViewModel;
 
 namespace TSMS_2_.View
 {
-    /// <summary>
-    /// Логика взаимодействия для Noomber.xaml
-    /// </summary>
     public partial class Noomber : Window
     {
         public Noomber()
         {
             InitializeComponent();
-            this.DataContext = new NoomberViewModel();
         }
-        private readonly SellerVM _sellerViewModel;
-
-        public Noomber(SellerVM sellerViewModel)
-        {
-            InitializeComponent();
-            _sellerViewModel = sellerViewModel; // Сохраняем ссылку на SellerVM
-            this.DataContext = new NoomberViewModel(); // Устанавливаем контекст данных
-        }
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            Sname.Text = null;
-        }
-        private void Button_Click1(object sender, RoutedEventArgs e)
-        {
-
-            if (datagrid.SelectedItem is ClientDTO SelectedClient) // Убедитесь, что имя 'dataGrid' совпадает
-            {
-                // Добавляем выбранный продукт в корзину
-                _sellerViewModel.AddToNoom(SelectedClient);
-                this.Close(); // Закрываем окно после выбора продукта
-            }
-        }
+       
     }
 }

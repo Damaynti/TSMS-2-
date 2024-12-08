@@ -16,8 +16,14 @@
         TextOptions.TextRenderingMode="Auto"
         Background="#FF315266"
         FontFamily="{DynamicResource MaterialDesignFont}">
+
     <Grid Margin="10,10,10,10"  >
-        <Button Content="Выйти"   Background="#FF00BAB9" Foreground="White" FontWeight="Bold" Width="181" HorizontalAlignment="Right" Click="Button_Click_End" Margin="941,10,0,402" VerticalAlignment="Top"/>
+
+        <Button x:Name="End" Content="Выйти"  Command="{Binding EndCommand }" Background="#FF00BAB9" Foreground="White" FontWeight="Bold" Width="181" HorizontalAlignment="Right"  Margin="941,10,0,402" VerticalAlignment="Top">
+            <Button.DataContext>
+                <vm:AdminVM/>
+            </Button.DataContext>
+        </Button>
 
         <Grid Margin="0,61,0,0" Background="White">
             <TabControl Margin="0,0,0,193">
@@ -142,10 +148,11 @@
                     </TabItem.DataContext>
                     <Grid Background="#FF315266">
                         <DataGrid Background="#FF315266" 
+                                  ItemsSource="{Binding Suppliers}"
           SelectedItem="{Binding SelectedSupplier, Mode=OneWayToSource}"
           AutoGenerateColumns="False" 
           BorderBrush="White" 
-          Margin="0,64,0,-197"
+          Margin="0,47,0,-197"
           RowHeight="30"
           CanUserAddRows="False">
                             <!-- Убираем пустую строку -->

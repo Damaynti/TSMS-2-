@@ -16,7 +16,7 @@
         FontFamily="{DynamicResource MaterialDesignFont}">
     <Grid Margin="10">
         <StackPanel Margin="0,3,-10,-8">
-            <Button Content="Выйти" Background="#FF00BAB9" Foreground="White" FontWeight="Bold" Width="104" HorizontalAlignment="Right" Click="Button_Click"/>
+            <Button Content="Выйти" Background="#FF00BAB9" Foreground="White" FontWeight="Bold" Width="104" HorizontalAlignment="Right" Command="{Binding EndCommand}"/>
             <Grid>
                 <TextBlock HorizontalAlignment="Left" Margin="10,-4,0,0" TextWrapping="Wrap" Text="{Binding PhoneNumber,StringFormat='Телефон: {0}'}" VerticalAlignment="Top" Foreground="White"/>
             </Grid>

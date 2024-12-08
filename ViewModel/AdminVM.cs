@@ -19,26 +19,19 @@ namespace TSMS_2_.ViewModel
     {
         private readonly TableModel _tableModel = new TableModel();
         private readonly IWindowService _windowService;
+
         public AdminVM()
         {
             _windowService = new WindowService();
             SaveChangesCommand = new RelayCommand(SaveChanges);
             DeleteSalesmanCommand = new RelayCommand(DeleteSelectedSalesman);
-
+            EndCommand= new RelayCommand(End);
         }
         public ICommand AddSalesmanCommand { get; }
         public ICommand SaveChangesCommand { get; }
         public ICommand DeleteSalesmanCommand { get; }
+        public ICommand EndCommand { get; }
 
-        public AdminVM(IWindowService windowService)
-        {
-            _windowService = windowService;
-            //AddSalesmanCommand = new RelayCommand(AddSalesman);
-            SaveChangesCommand = new RelayCommand(SaveChanges);
-            DeleteSalesmanCommand = new RelayCommand(DeleteSelectedSalesman);
-        }
-
-        // ObservableCollection for Salesmen
         private ObservableCollection<salesman> _salesmen;
         public ObservableCollection<salesman> Salesmen
         {
@@ -55,8 +48,9 @@ namespace TSMS_2_.ViewModel
 
         public void End()
         {
-            var mainWindow = new MainWindow();
-            mainWindow.Show();
+            var currentWindow = Application.Current.Windows.OfType<AdminWindow>().FirstOrDefault();
+            _windowService.CloseWindow(currentWindow);
+            _windowService.ShowWindow("MainWindow");            
         }
 
         private salesman _selectedSalesman;

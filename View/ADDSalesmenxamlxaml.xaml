@@ -20,10 +20,10 @@
 
             <TextBlock Text="Email:" Foreground="White" FontWeight="Bold" Margin="10,0,0,0" />
             <TextBox x:Name="EmailTextBox" Text="{Binding  SelectedSalesman.mail, Mode=TwoWay}" Background="White" Width="200" Margin="10,0,0,0" />
-            <Button Content="Сохранить" Width="200"   Background="#FF00BAB9" Name="btn" Margin="10,5,0,0" Click="Button_Click"/>
+            <Button Content="Сохранить" Width="200"   Background="#FF00BAB9" Name="btn" Margin="10,5,0,0" />
 
         </ListBox>
-        <ListBox Background="#FF315266" Margin="67,0,0,0" SelectionChanged="ListBox_SelectionChanged" Grid.Column="1">
+        <ListBox Background="#FF315266" Margin="67,0,0,0" Grid.Column="1">
 
             <TextBlock Text="Пароль:" Foreground="White" FontWeight="Bold" Margin="10,0,0,0" />
             <TextBox x:Name="PasswordBox" Text="{Binding  SelectedSalesman.password, Mode=TwoWay}" Background="White" Width="200" Margin="10,0,0,0" SelectionOpacity="3"/>
@@ -33,7 +33,7 @@
 
             <TextBlock Text="Адресс:" Foreground="White" FontWeight="Bold" Margin="10,0,0,0" />
             <TextBox x:Name="addresbox"  Text="{Binding   SelectedSalesman.address, Mode=TwoWay}" Background="White" Width="200" Margin="10,0,0,0"/>
-            <Button Content="Отмена" RenderTransformOrigin="0.296,0.603" Width="200"  Background="#FF046565" Click="Button_Click" Margin="10,5,0,0"/>
+            <Button Content="Отмена" RenderTransformOrigin="0.296,0.603" Width="200"  Background="#FF046565" Command="{Binding EndCommand}" Margin="10,5,0,0"/>
 
         </ListBox>
 

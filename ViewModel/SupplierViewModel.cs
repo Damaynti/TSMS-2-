@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using TSMS_2_.DTO;
 using TSMS_2_.EF;
 using TSMS_2_.Model;
 using TSMS_2_.Services;
+using TSMS_2_.View;
 
 namespace TSMS_2_.ViewModel
 {
@@ -27,15 +30,7 @@ namespace TSMS_2_.ViewModel
         public ICommand UpdateSupplierCommand { get; }
         public ICommand DeleteSupplierCommand { get; }
         public ICommand RefreshSuppliersCommand { get; }
-
-        // Properties for Supplier details
-        public string FullName { get; set; }
-        public string CompanyName { get; set; }
-        public string Address { get; set; }
-        public string Mail { get; set; }
-        public string Requisites { get; set; }
-        public string Number { get; set; }
-
+        public ICommand EndCommand { get; }
         public SupplierViewModel()
         {
             _suppliers = new List<SupplierDTO>();
@@ -46,9 +41,13 @@ namespace TSMS_2_.ViewModel
             UpdateSupplierCommand = new RelayCommand(OpenUpdateSupplier);
             DeleteSupplierCommand = new RelayCommand(DeleteSelectedSupplier);
             RefreshSuppliersCommand = new RelayCommand(RefreshSuppliers);
+            EndCommand = new RelayCommand(End);
         }
-
-        // List of suppliers
+        public void End()
+        {
+            var currentWindow = Application.Current.Windows.OfType<ADDSupplier>().FirstOrDefault();
+            _windowService.CloseWindow(currentWindow);
+        }
         public List<SupplierDTO> Suppliers
         {
             get
@@ -79,37 +78,24 @@ namespace TSMS_2_.ViewModel
                 OnPropertyChanged(nameof(SelectedSupplier));
             }
         }
-
-        // Load suppliers from the database
-       
-
-        // Open the window to add a new supplier
         public void OpenAddSupplier()
         {
-            SelectedSupplier = new SupplierDTO(); // Сбрасываем выбранного поставщика
+            SelectedSupplier = new SupplierDTO(); 
             _windowService.OpenWindow("AddSupplier", this, 1);
         }
-
-        // Open the window to update an existing supplier
         public void OpenUpdateSupplier()
         {
-            if (SelectedSupplier != null)
+            if (SelectedSupplier != null && SelectedSupplier.id!=0)
             {
-                SelectedSupplier = new SupplierDTO(SelectedSupplier); // Создаем копию для редактирования
+                SelectedSupplier = new SupplierDTO(SelectedSupplier); 
                 _windowService.OpenWindow("AddSupplier", this, 2);
             }
         }
-
-        // Refresh the list of suppliers
         public void RefreshSuppliers()
         {
-            var us = _tableModel.GetSupplierDTO();
-            Suppliers.Clear();
             Suppliers = _tableModel.GetSupplierDTO();
-            OnPropertyChanged("Suppliers");
+            OnPropertyChanged(nameof(Suppliers));
         }
-
-        // Delete the selected supplier
         private void DeleteSelectedSupplier()
         {
             if (SelectedSupplier != null)
@@ -119,25 +105,24 @@ namespace TSMS_2_.ViewModel
                 RefreshSuppliers();
             }
         }
-
-        // Update the selected supplier in the database
         private void UpdateSupplier()
         {
-            if (SelectedSupplier != null)
+            if (SelectedSupplier.mail != null && SelectedSupplier.FullName != null && SelectedSupplier.CompanyName != null && SelectedSupplier.address!=null && SelectedSupplier.number!=null && SelectedSupplier.requisites!=null)
             {
                 _supplierModel.UpdateSupplier(SelectedSupplier);
                 RefreshSuppliers();
+                End();
             }
         }
-
-        // Create a new supplier in the database
         public void CreateSupplier()
         {
-            _supplierModel.CreateSupplier(SelectedSupplier);
-            RefreshSuppliers();
+            if (SelectedSupplier.mail != null && SelectedSupplier.FullName != null && SelectedSupplier.CompanyName != null && SelectedSupplier.address != null && SelectedSupplier.number != null && SelectedSupplier.requisites != null)
+            {
+                _supplierModel.CreateSupplier(SelectedSupplier);
+                RefreshSuppliers();
+                End ();
+            }
         }
-
-        // Property changed event handler
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)

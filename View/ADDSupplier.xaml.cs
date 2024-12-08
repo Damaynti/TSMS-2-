@@ -14,28 +14,19 @@ using System.Windows.Shapes;
 
 namespace TSMS_2_.View
 {
-    /// <summary>
-    /// Логика взаимодействия для ADDSupplier.xaml
-    /// </summary>
     public partial class ADDSupplier : Window
     {
-        public ADDSupplier(int mode, object vM)
+        public ADDSupplier(int mode)
         {
             InitializeComponent();
             if (mode == 1)
             {
-                this.DataContext = vM;
                 btn.SetBinding(Button.CommandProperty, new Binding("AddObjInDBCommand"));
             }
             else
             {
-                this.DataContext = vM;
                 btn.SetBinding(Button.CommandProperty, new Binding("UpdObjInDBCommand"));
             }
-        }
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
         }
     }
 }

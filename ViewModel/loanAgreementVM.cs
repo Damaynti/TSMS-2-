@@ -95,7 +95,7 @@ namespace TSMS_2_.ViewModel
             if (SelectedLoanAgreement != null)
             {
                 SelectedLoanAgreement = new loanAgreementDTO(SelectedLoanAgreement); // Create a copy for editing
-                _windowService.OpenWindow("EDITLoanAgreement", this, 2);
+                _windowService.OpenWindow("ADDLoanAgreement", this, 2);
             }
         }
 

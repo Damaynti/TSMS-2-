@@ -16,24 +16,11 @@ using TSMS_2_.ViewModel;
 
 namespace TSMS_2_.View
 {
-    /// <summary>
-    /// Логика взаимодействия для SellerWindow.xaml
-    /// </summary>
     public partial class SellerWindow : Window
     {
-        
-        public SellerWindow(long i)
+        public SellerWindow()
         {
             InitializeComponent();
-            this.DataContext = new SellerVM(i);
-        }
-
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            var _cont=this.DataContext as SellerVM;
-            _cont.End();
-            this.Close();
         }
     }
 }

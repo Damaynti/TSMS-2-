@@ -17,42 +17,21 @@ using TSMS_2_.ViewModel;
 
 namespace TSMS_2_.View
 {
-    /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
-
         public MainWindow()
         {
             InitializeComponent();
-            var windowService = new WindowService();
-            DataContext = new MainWindowsVM(windowService);
+            this.DataContext = new MainWindowsVM();
         }
-
-
-
-
-        private void LoginButton_Click(object sender, RoutedEventArgs e)
+        private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
         {
-            // Получаем выбранную роль и пароль
-            string selectedRole = RoleComboBox.SelectedItem is ComboBoxItem selectedItem ? selectedItem.Content.ToString() : "";
-            string password = PasswordBox.Password;
-
-            // Проверяем, что роль выбрана и пароль введен
-            if (string.IsNullOrEmpty(selectedRole) || string.IsNullOrEmpty(password))
+            if (PasswordBox != null)
             {
-                MessageBox.Show("Пожалуйста, выберите роль и введите пароль.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
+                var passwordBox = sender as PasswordBox;
+                var viewModel = (MainWindowsVM)this.DataContext;
+                viewModel.Password = passwordBox.Password;
             }
-
-            // Вызов метода входа из ViewModel
-            var viewModel = (MainWindowsVM)DataContext;
-            viewModel.Password = password; // Устанавливаем пароль в ViewModel
-            viewModel.SelectedRole = selectedRole; // Устанавливаем роль в ViewModel
-
-            // Выполняем вход
-            viewModel.LoginCommand.Execute(null);
         }
     }
 }

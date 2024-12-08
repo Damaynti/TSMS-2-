@@ -209,14 +209,11 @@
     <Compile Include="RelayCommand.cs" />
     <Compile Include="Services\IWindowService.cs" />
     <Compile Include="Services\WindowService.cs" />
-    <Compile Include="ViewModel\ADDClientVM.cs" />
-    <Compile Include="ViewModel\AddElementViewModel.cs" />
     <Compile Include="ViewModel\AdminVM.cs" />
     <Compile Include="ViewModel\credVM.cs" />
     <Compile Include="ViewModel\Element_saleViewModel.cs" />
     <Compile Include="ViewModel\loanAgreementVM.cs" />
     <Compile Include="ViewModel\MainWindowsVM.cs" />
-    <Compile Include="ViewModel\NoomberViewModel.cs" />
     <Compile Include="ViewModel\ProductsViewModel.cs" />
     <Compile Include="ViewModel\SalesmanViewModel.cs" />
     <Compile Include="ViewModel\SalesReportViewModel.cs" />

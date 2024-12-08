@@ -16,28 +16,11 @@ using TSMS_2_.ViewModel;
 
 namespace TSMS_2_.View
 {
-    /// <summary>
-    /// Логика взаимодействия для ADDClient.xaml
-    /// </summary>
     public partial class ADDClient : Window
     {
-        private readonly SellerVM _sellerViewModel;
-
-        public ADDClient(SellerVM sellerViewModel)
+        public ADDClient()
         {
             InitializeComponent();
-            _sellerViewModel = sellerViewModel;
-            this.DataContext = sellerViewModel; // Устанавливаем контекст данных
-        }
-
-      
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            
-                //_sellerViewModel.AddToNoom(_sellerViewModel.AddClient());
-                this.Close(); // Закрываем окно после выбора продукта
-            
         }
     }
 }

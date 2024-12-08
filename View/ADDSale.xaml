@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:TSMS_2_.View" xmlns:viewmodel="clr-namespace:TSMS_2_.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:Element_saleViewModel}"
         xmlns:vm="clr-namespace:TSMS_2_.ViewModel"
         mc:Ignorable="d"
-        Title="ADDSale" Height="450" Width="800">
+        Title="ADDSale" Height="306" Width="278">
     <Grid Margin="10">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="177*"/>
@@ -26,12 +26,8 @@
                    SelectedValuePath="id"  Background="White" Width="200" Margin="10,0,0,0"/>
 
 
-            <Button Content="Сохранить" Width="200"   Background="#FF00BAB9" Name="btn" Margin="10,5,0,0" Click="Button_Click"/>
-            <Button Content="Отмена" RenderTransformOrigin="0.296,0.603" Width="200"  Background="#FF046565" Click="Button_Click" Margin="10,0,0,0"/>
-
-
-        
-
+            <Button Content="Сохранить" Width="200"   Background="#FF00BAB9" Name="btn" Margin="10,5,0,0" />
+            <Button Content="Отмена" RenderTransformOrigin="0.296,0.603" Width="200"  Background="#FF046565" Margin="10,0,0,0" Command="{Binding EndCommand}"/>
 
 
         </ListBox>
