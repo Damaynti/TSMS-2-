@@ -15,14 +15,13 @@ namespace TSMS_2_.EF
             client = new HashSet<client>();
         }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public long id { get; set; }
-
         public long? size { get; set; }
 
         public long? start { get; set; }
 
         public long end { get; set; }
+
+        public long id { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<client> client { get; set; }

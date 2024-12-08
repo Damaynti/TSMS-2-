@@ -24,9 +24,13 @@ namespace TSMS_2_.EF
 
         public long id { get; set; }
 
-        public virtual discount discount { get; set; }
+        public bool physical_person { get; set; }
+
+        public string name { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<sale> sale { get; set; }
+
+        public virtual discount discount { get; set; }
     }
 }

@@ -15,11 +15,10 @@ namespace TSMS_2_.EF
             products = new HashSet<products>();
         }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public long id { get; set; }
-
         [Required]
         public string name { get; set; }
+
+        public long id { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<products> products { get; set; }
