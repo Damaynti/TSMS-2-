@@ -16,16 +16,13 @@ Background="#FF315266"
 FontFamily="{DynamicResource MaterialDesignFont}">
     <Grid Margin="10,0,10,-6" Height="453" VerticalAlignment="Bottom" >
         <TextBlock Text="Поиск по артикулу:" Foreground="White" FontWeight="Bold" Margin="12,28,625,405" />
-        <Button Content="🔍" HorizontalAlignment="Left" Margin="197,48,0,0" VerticalAlignment="Top" Height="32" 
- Background="#FF00BAB9" Foreground="White" Width="59" 
- FontWeight="Bold" Command="{Binding FindProductCommand}" RenderTransformOrigin="2.002,-2.622" />
 
         <TextBox x:Name="Sname" Width="200" Margin="316,52,264,373" 
                  
                  Text="{Binding SearchTerm, UpdateSourceTrigger=PropertyChanged}" Background="White"  />
         <TextBlock Text="Поиск по названию:" Foreground="White" FontWeight="Bold" Margin="316,30,333,401" />
         <TextBox x:Name="id" Width="200" Margin="12,48,568,373" 
-                 Text="{Binding IdFilter}" Background="White"  />
+                 Text="{Binding IdFilter, UpdateSourceTrigger=PropertyChanged}" Background="White"  />
 
 
         <Grid Margin="0,100,0,47" Grid.ColumnSpan="2">
@@ -41,7 +38,7 @@ FontFamily="{DynamicResource MaterialDesignFont}">
     BorderBrush="White" 
     Margin="10,0,0,-16"
     RowHeight="30"
-    CanUserAddRows="False" Grid.ColumnSpan="2">
+    CanUserAddRows="False" Grid.ColumnSpan="2" >
                 <!-- Убираем пустую строку -->
 
                 <DataGrid.Resources>
@@ -75,10 +72,10 @@ FontFamily="{DynamicResource MaterialDesignFont}">
             </DataGrid>
 
         </Grid>
-        <Button Content="Добавить в корзину" HorizontalAlignment="Left" Margin="425,387,0,0" VerticalAlignment="Top" Height="30" Background="#FF00BAB9" Foreground="White" Width="235" FontWeight="Bold" Click="Button_Click"   />
+        <Button Content="Добавить в корзину" HorizontalAlignment="Left" Margin="425,387,0,0" VerticalAlignment="Top" Height="30" Background="#FF00BAB9" Foreground="White" Width="235" FontWeight="Bold" Command="{Binding AddToCartCommand}"  />
 
 
 
-        <Button Content="Сбросить фильтры" Command="{Binding RefreshProductsCommand}" Margin="12,374,542,10" Grid.ColumnSpan="2" Background="#FF046565" Click="Button_Click_2" />
+        <Button Content="Сбросить фильтры" Command="{Binding RefreshProductsCommand}" Margin="12,374,542,10" Grid.ColumnSpan="2" Background="#FF046565"/>
     </Grid>
 </Window>

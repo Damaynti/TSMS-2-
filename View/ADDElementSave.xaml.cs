@@ -22,38 +22,13 @@ namespace TSMS_2_.View
     /// </summary>
     public partial class ADDElementSave : Window
     {
-        public ADDElementSave()
-        {
-            InitializeComponent();
-            this.DataContext = new AddElementViewModel();
-        }
-        private readonly SellerVM _sellerViewModel;
-
+       
         public ADDElementSave(SellerVM sellerViewModel)
         {
             InitializeComponent();
-            _sellerViewModel = sellerViewModel; // Сохраняем ссылку на SellerVM
-            this.DataContext = new AddElementViewModel(); // Устанавливаем контекст данных
+            this.DataContext = sellerViewModel; // Устанавливаем контекст данных
         }
 
-   
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
-            if (datagrid.SelectedItem is ProductsDTO selectedProduct) // Убедитесь, что имя 'dataGrid' совпадает
-            {
-                // Добавляем выбранный продукт в корзину
-                _sellerViewModel.AddToCart(selectedProduct);
-                this.Close(); // Закрываем окно после выбора продукта
-            }
-        }
-
-
-        private void Button_Click_2(object sender, RoutedEventArgs e)
-        {
-            id.Text=null;
-            Sname.Text=null;
-        }
+  
     }
 }

@@ -148,8 +148,8 @@ namespace TSMS_2_.ViewModel
 
             if (saveFileDialog.ShowDialog() == true)
             {
-                PdfDocument document = new PdfDocument();
-                PdfPage page = document.AddPage();
+                PdfDocument document = new PdfSharp.Pdf.PdfDocument();
+                PdfSharp.Pdf.PdfPage page = document.AddPage();
                 XGraphics gfx = XGraphics.FromPdfPage(page);
                 XFont font = new XFont("Arial", 12);
 

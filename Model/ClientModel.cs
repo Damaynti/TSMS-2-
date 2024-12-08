@@ -14,7 +14,7 @@ namespace TSMS_2_.Model
         Model1 db = new Model1();
 
 
-        public void CreateClient(string noomber)
+        public long CreateClient(string noomber)
         {
             client newClient = new client
             {
@@ -23,6 +23,8 @@ namespace TSMS_2_.Model
             };
             db.client.Add(newClient);
             db.SaveChanges();
+
+            return newClient.id;
         }
 
         public void UpdateClient(ClientDTO p)

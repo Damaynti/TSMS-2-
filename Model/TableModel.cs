@@ -62,17 +62,13 @@ namespace TSMS_2_.Model
             }
         }
 
-        public ClientDTO GetClientDTOnoom(string noom) {
-            if (string.IsNullOrWhiteSpace(noom))
-                throw new ArgumentException("Номер телефона не может быть пустым.", nameof(noom));
+        public ClientDTO GetClientDTOID(long id) {
 
             var allClients = GetClientDTO();
 
             var client = allClients
-                .FirstOrDefault(p => p.noomber.IndexOf(noom, StringComparison.OrdinalIgnoreCase) >= 0);
+                .FirstOrDefault(p => p.id==id);
 
-            if (client == null)
-                throw new InvalidOperationException($"Клиент с номером '{noom}' не найден.");
 
             return client;
         }

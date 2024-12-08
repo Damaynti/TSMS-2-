@@ -21,29 +21,21 @@ namespace TSMS_2_.View
     /// </summary>
     public partial class ADDClient : Window
     {
-        public ADDClient()
-        {
-            InitializeComponent();
-        }
         private readonly SellerVM _sellerViewModel;
 
         public ADDClient(SellerVM sellerViewModel)
         {
             InitializeComponent();
-            _sellerViewModel = sellerViewModel; // Сохраняем ссылку на SellerVM
-            this.DataContext = new ADDClientVM(); // Устанавливаем контекст данных
+            _sellerViewModel = sellerViewModel;
+            this.DataContext = sellerViewModel; // Устанавливаем контекст данных
         }
 
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
+      
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            var db= this.DataContext as ADDClientVM;
             
-                _sellerViewModel.AddToNoom(db.AddClient());
+                //_sellerViewModel.AddToNoom(_sellerViewModel.AddClient());
                 this.Close(); // Закрываем окно после выбора продукта
             
         }

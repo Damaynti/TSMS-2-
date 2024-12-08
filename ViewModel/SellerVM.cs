@@ -4,6 +4,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using TSMS_2_.DTO; // Убедитесь, что у вас есть этот класс
@@ -23,6 +24,10 @@ namespace TSMS_2_.ViewModel
         private ClientDTO _client;
         private readonly IWindowService _windowService;
 
+        public ICommand FindProductCommand { get; }
+        public ICommand RefreshProductsCommand { get; }
+        public ICommand AddToCartCommand { get; }
+        public ICommand AddNewClientCommand {  get; }
 
         private readonly long idsal;
         private string _phoneNumber = "Номер не указан";
@@ -67,6 +72,39 @@ namespace TSMS_2_.ViewModel
         public decimal TotalSum => CartItems.Sum(item => item.TotalPrice);
 
         // Метод добавления товара в корзину
+        public void AddToCart()
+        {
+            if (SelectedProduct != null)
+            {
+                var existingItem = CartItems.FirstOrDefault(item => item.ProductId == SelectedProduct.id);
+
+                if (existingItem != null)
+                {
+                    // Увеличиваем количество и пересчитываем сумму
+                    existingItem.Quantity++;
+                    //existingItem.TotalPrice = existingItem.ProductPrice * existingItem.Quantity;
+                }
+                else
+                {
+                    // Добавляем новый товар в корзину
+                    CartItems.Add(new Element_saleDto
+                    {
+                        ProductId = SelectedProduct.id,
+                        ProductName = SelectedProduct.name,
+                        ProductPrice = SelectedProduct.price,
+                        Quantity = 1,
+                        //TotalPrice = selectedProduct.price
+                    });
+                }
+
+                // Уведомляем об изменении корзины
+                OnPropertyChanged(nameof(CartItems));  // Обновить CartItems
+                OnPropertyChanged(nameof(TotalSum));   // Обновить TotalSum
+                
+                var currentWindow = Application.Current.Windows.OfType<ADDElementSave>().FirstOrDefault();
+                _windowService.CloseWindow(currentWindow);
+            }
+        }
         public void AddToCart(ProductsDTO selectedProduct)
         {
             if (selectedProduct != null)
@@ -110,8 +148,6 @@ namespace TSMS_2_.ViewModel
                 OnPropertyChanged(nameof(TotalSum));  // Обновляем общую сумму
             }
         }
-
-        public ICommand AddToCartCommand { get; }
         public ICommand CleanCommand {  get; }
         public ICommand AddToNoomCommand { get; }
         public ICommand OpenAddElementSaleCommand { get; } // Команда для открытия окна
@@ -123,7 +159,7 @@ namespace TSMS_2_.ViewModel
         {
             _tableModel = new TableModel();
             //_productsModel = new ProductsModel();
-            AddToCartCommand = new Command<ProductsDTO>(AddToCart); // Инициализация команды добавления в корзину
+            AddToCartCommand = new RelayCommand(AddToCart); // Инициализация команды добавления в корзину
             AddToNoomCommand = new Command<ClientDTO>(AddToNoom);
             OpenADDCientCommand = new RelayCommand(OpenADDClient);
             CleanCommand = new RelayCommand(Clean);
@@ -134,8 +170,15 @@ namespace TSMS_2_.ViewModel
             RemoveItemCommand = new Command<Element_saleDto>(RemoveItem);
             IncreaseQuantityCommand = new Command<Element_saleDto>(IncreaseQuantity);
             DecreaseQuantityCommand = new Command<Element_saleDto>(DecreaseQuantity);
-            LoadProducts(); // Загружаем продукты при инициализации
             this.idsal = idsal;
+
+
+            AddNewClientCommand = new RelayCommand(AddClient);
+            _products = new List<ProductsDTO>();
+            RefreshProductsCommand = new RelayCommand(RefreshProducts);
+            FindProductCommand = new RelayCommand(FindProducts);
+            LoadProducts();
+
         }
         private void IncreaseQuantity(Element_saleDto item)
         {
@@ -203,10 +246,13 @@ namespace TSMS_2_.ViewModel
         }
         private void LoadProducts()
         {
-            Products = _tableModel.GetProductsDTO(); // Получаем список доступных продуктов
+            //Products = _tableModel.GetProductsDTO(); // Получаем список доступных продуктов
+            var productsFromDb = _tableModel.GetProductsDTO();
+            Products = productsFromDb.ToList(); // Загружаем список продуктов из модели
+            OnPropertyChanged(nameof(Products)); // Уведомляем об изменении свойства
         }
-
        
+
         public List<ProductsDTO> Products
         {
             get => _products;
@@ -263,7 +309,99 @@ namespace TSMS_2_.ViewModel
             _windowService.OpenWindow("ADDClient", this);
         }
 
+     
+        public void RefreshProducts()
+        {
+            IdFilter = null;
+            SearchTerm = null;
+            LoadProducts(); // Перезагружаем продукты из базы данных 
+        }
+        private void FindProducts()
+        {
+            var allProducts = _tableModel.GetProductsDTO(); // Получаем все продукты из базы данных
 
+            // Фильтруем по названию, если SearchTerm не пустой
+            if (!string.IsNullOrEmpty(SearchTerm))
+            {
+                allProducts = _tableModel.GetProductsDTOName(SearchTerm, allProducts);
+            }
+
+            // Фильтруем по ID, если IdFilter задан
+            if (IdFilter.HasValue)
+            {
+                allProducts = _tableModel.GetProductsDTOID(IdFilter.Value, allProducts);
+            }
+
+            // Обновляем список продуктов с отфильтрованными результатами
+            Products = allProducts.ToList();
+            OnPropertyChanged(nameof(Products)); // Уведомляем об изменении свойства
+        }
+        public void ResetFilters()
+        {
+            SearchTerm = string.Empty;  // Сбрасываем строку поиска по названию
+            IdFilter = null;  // Сбрасываем фильтр по ID
+            LoadProducts();  // Загружаем все продукты заново
+        }
+        private long? _idFilter;
+        public long? IdFilter
+        {
+            get => _idFilter;
+            set
+            {
+                _idFilter = value;
+                OnPropertyChanged(nameof(IdFilter));
+                FindProducts(); // Автоматически ищем при изменении фильтра ID
+            }
+        }
+        private string _searchTerm;
+        public string SearchTerm
+        {
+            get => _searchTerm;
+            set
+            {
+                _searchTerm = value;
+                OnPropertyChanged(nameof(SearchTerm));
+                FindProducts(); // Автоматически ищем при изменении термина
+            }
+        }
+       
+        private List<ProductsDTO> _cart;
+
+        public List<ProductsDTO> Cart
+        {
+            get => _cart ?? (_cart = new List<ProductsDTO>());
+            set
+            {
+                _cart = value;
+                OnPropertyChanged(nameof(Cart));
+            }
+        }
+
+
+
+        private string _newClientNumber;
+        private readonly ClientModel _clientModel = new ClientModel();
+        public string NewClientNumber
+        {
+            get => _newClientNumber;
+            set
+            {
+                _newClientNumber = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ICommand AddClientCommand { get; }
+
+        public void AddClient()
+        {
+            var id=_clientModel.CreateClient(NewClientNumber);
+            AddToNoom(_tableModel.GetClientDTOID(id));
+        }
+        private bool CanAddClient()
+        {
+            return !string.IsNullOrWhiteSpace(NewClientNumber);
+        }
 
 
         public event PropertyChangedEventHandler PropertyChanged;

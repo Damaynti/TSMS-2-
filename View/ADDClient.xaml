@@ -8,8 +8,8 @@
         Title="ADDClient" Height="149" Width="282">
     <Grid Background="#FF315266" >
         <Label Content="Введите номер телефона нового клиента" HorizontalAlignment="Left" Margin="19,26,0,0" VerticalAlignment="Top" Foreground="#E5FFFFFF" Width="242"/>
-        <TextBox x:Name="noom" Text="{Binding NewClientNumber, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="20,76,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Foreground="White" AutomationProperties.HelpText="Телефон" TextChanged="TextBox_TextChanged"/>
-        <Button Content="Добавить" HorizontalAlignment="Left" Margin="172,101,0,0" VerticalAlignment="Top" Width="110" Click="Button_Click"/>
+        <TextBox x:Name="noom" Text="{Binding NewClientNumber, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="20,76,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Foreground="White" AutomationProperties.HelpText="Телефон"/>
+        <Button Content="Добавить" HorizontalAlignment="Left" Margin="172,101,0,0" VerticalAlignment="Top" Width="110" Click="Button_Click" Command="{Binding AddNewClientCommand}" />
 
     </Grid>
 </Window>
