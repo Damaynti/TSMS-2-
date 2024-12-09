@@ -17,14 +17,18 @@ namespace TSMS_2_.EF
 
         [Required]
         public string noomber { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
 
         public long? purchase_amount { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
 
-        public long discount_id { get; set; }
+        public long? discount_id { get; set; }
 
         public long id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
 
-        public bool physical_person { get; set; }
+        public bool? physical_person { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
 
         public string name { get; set; }
 

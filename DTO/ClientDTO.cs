@@ -22,10 +22,10 @@ namespace TSMS_2_.DTO
 
         public long? purchase_amount { get; set; }
 
-        public long discount_id { get; set; }
+        public long? discount_id { get; set; }
 
         public long? _discount {  get; set; }
-        public bool physical_person { get; set; }
+        public bool? physical_person { get; set; }
 
         public string name { get; set; }
 
