@@ -30,13 +30,17 @@ namespace TSMS_2_.DTO
         public DateTime? start { get; set; }
 
         public TimeSpan? end { get; set; }
+        public virtual status status { get; set; }
 
+        public virtual supplier supplier { get; set; }
         public loanAgreementDTO(loanAgreement m)
         {
             id = m.id;
             supplier_id = m.supplier_id;
             sum = m.sum;
             percent = m.percent;
+            status = m.status;
+            supplier = m.supplier;
             status_id = m.status_id;
             start = m.start;
             end = m.end;
@@ -49,6 +53,8 @@ namespace TSMS_2_.DTO
                 id = m.id;
                 supplier_id = m.supplier_id;
                 sum = m.sum;
+                status = m.status;
+                supplier = m.supplier;
                 percent = m.percent;
                 status_id = m.status_id;
                 start = m.start;

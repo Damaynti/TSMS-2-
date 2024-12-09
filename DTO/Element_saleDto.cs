@@ -32,9 +32,9 @@ namespace TSMS_2_.DTO
             }
         }
 
-        public long SaleId { get; set; }
+        public long sale_id { get; set; }
 
-        public long ProductId { get; set; }
+        public long products_id { get; set; }
 
         public long price { get; set; }
         public string ProductName { get; set; }
@@ -43,14 +43,18 @@ namespace TSMS_2_.DTO
         {
             get => ProductPrice * Quantity;
         }
+        public virtual products products { get; set; }
 
+        public virtual sale sale { get; set; }
         public Element_saleDto(element_sale elementSale)
         {
             Id = elementSale.id;
             Quantity = elementSale.quentity;
             price= elementSale.price;
-            SaleId = elementSale.sale_id;
-            ProductId = elementSale.products_id;
+            sale_id = elementSale.sale_id;
+            products= elementSale.products;
+            sale = elementSale.sale;
+            products_id = elementSale.products_id;
 
             if (elementSale.products != null)
             {
@@ -66,9 +70,11 @@ namespace TSMS_2_.DTO
             {
                 Id = dto.Id;
                 Quantity = dto.Quantity;
-                SaleId = dto.SaleId;
+                sale_id = dto.sale_id;
                 price= dto.price;
-                ProductId = dto.ProductId;
+                products_id = dto.products_id;
+                sale= dto.sale;
+                products = dto.products;
                 ProductName = dto.ProductName;
                 ProductPrice = dto.ProductPrice;
             }

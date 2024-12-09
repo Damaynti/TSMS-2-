@@ -200,7 +200,7 @@ namespace TSMS_2_.ViewModel
         {
             if (SelectedProduct != null)
             {
-                var existingItem = CartItems.FirstOrDefault(item => item.ProductId == SelectedProduct.id);
+                var existingItem = CartItems.FirstOrDefault(item => item.products_id == SelectedProduct.id);
 
                 if (existingItem != null)
                 {
@@ -210,7 +210,7 @@ namespace TSMS_2_.ViewModel
                 {
                     CartItems.Add(new Element_saleDto
                     {
-                        ProductId = SelectedProduct.id,
+                        products_id = SelectedProduct.id,
                         ProductName = SelectedProduct.name,
                         ProductPrice = SelectedProduct.price,
                         Quantity = 1,
@@ -272,8 +272,8 @@ namespace TSMS_2_.ViewModel
             {
                 var selectedElement = new Element_saleDto()
                 {
-                    SaleId = id,
-                    ProductId = item.ProductId,
+                    sale_id = id,
+                    products_id = item.products_id,
                     Quantity = item.Quantity,
                     price = (long)item.ProductPrice,
                 };

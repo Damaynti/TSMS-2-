@@ -34,7 +34,9 @@ namespace TSMS_2_.DTO
         [StringLength(10)]
         public string password { get; set; }
         public long salary { get; set; }
+        public bool admin { get; set; }
 
+        public bool work { get; set; }
         public salesmanDTO(salesman m)
         {
             id = m.id;
@@ -42,6 +44,8 @@ namespace TSMS_2_.DTO
             number = m.number;
             address = m.address;
             mail = m.mail;
+            work = m.work;
+            admin = m.admin;
             password = m.password;
             salary = m.salary;
         }
@@ -54,6 +58,8 @@ namespace TSMS_2_.DTO
                 number = m.number;
                 address = m.address;
                 mail = m.mail;
+                work = m.work;
+                admin = m.admin;
                 password = m.password;
                 salary =  m.salary;
             }

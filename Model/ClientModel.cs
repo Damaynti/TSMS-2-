@@ -19,7 +19,7 @@ namespace TSMS_2_.Model
             client newClient = new client
             {
                 noomber = noomber,
-                discount_id = 5,
+                discount_id = 1,
             };
             db.client.Add(newClient);
             db.SaveChanges();

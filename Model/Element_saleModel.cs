@@ -18,9 +18,9 @@ namespace TSMS_2_.Model
             element_sale newElementSale = new element_sale
             {
                 quentity = elementSaleDto.Quantity,
-                sale_id = elementSaleDto.SaleId,
+                sale_id = elementSaleDto.sale_id,
                 price=elementSaleDto.price,
-                products_id = elementSaleDto.ProductId
+                products_id = elementSaleDto.products_id
             };
 
             db.element_sale.Add(newElementSale);
@@ -34,8 +34,8 @@ namespace TSMS_2_.Model
             if (existingElementSale != null)
             {
                 existingElementSale.quentity = elementSaleDto.Quantity;
-                existingElementSale.sale_id = elementSaleDto.SaleId;
-                existingElementSale.products_id = elementSaleDto.ProductId;
+                existingElementSale.sale_id = elementSaleDto.sale_id;
+                existingElementSale.products_id = elementSaleDto.products_id;
 
                 db.SaveChanges();
             }
