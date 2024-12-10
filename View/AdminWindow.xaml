@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:TSMS_2_.ViewModel"
         xmlns:local="clr-namespace:TSMS_2_.View"
+         xmlns:oxy="http://oxyplot.org/wpf"
         mc:Ignorable="d"
          Title="AdminWindow" Height="658" Width="1152" 
         
@@ -357,38 +358,45 @@
                     <TabItem.DataContext>
                         <vm:SalesReportViewModel/>
                     </TabItem.DataContext>
-                    <Grid>
+                    <Grid Margin="0,0,0,-188">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
 
-                        <DataGrid ItemsSource="{Binding SalesReports}" AutoGenerateColumns="False" HeadersVisibility="Column">
+                        <DataGrid ItemsSource="{Binding SalesReports}" AutoGenerateColumns="False" HeadersVisibility="Column" Grid.Row="0">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Category" Binding="{Binding Category}" Width="*" />
                                 <DataGridTextColumn Header="Total Revenue" Binding="{Binding TotalRevenue}" Width="*" />
                             </DataGrid.Columns>
                         </DataGrid>
 
-                        <!--<DataGrid ItemsSource="{Binding SalesReports}" AutoGenerateColumns="True" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="200"/>-->
+                       
 
-                        <StackPanel VerticalAlignment="Bottom" Margin="10">
-                            <TextBlock Text="Общая сумма продаж:" Grid.Row="0" VerticalAlignment="Center" />
-                            <TextBox Text="{Binding TotalSum, Mode=OneWay, StringFormat=N0}" 
-Grid.Row="1" Margin="0,5,0,0" IsReadOnly="True" />
-                            <Label Content="Категория" VerticalAlignment="Center"/>
-                            <TextBox Text="{Binding CategoryFilter}" Width="200" Margin="0,0,0,10"/>
+                        <StackPanel Grid.Row="2" Margin="10">
+                            <TextBlock Text="Общая сумма продаж:" VerticalAlignment="Center" />
+                            <TextBox Text="{Binding TotalSum, Mode=OneWay, StringFormat=N0}" Margin="0,5,0,10" IsReadOnly="True" />
+                            <TextBlock Text="Средний чек:" VerticalAlignment="Center" />
+                            <TextBox Text="{Binding AverageCheck, Mode=OneWay, StringFormat=N0}" Margin="0,5,0,10" IsReadOnly="True" />
+                            <TextBlock Text="Количество покупателей:" VerticalAlignment="Center" />
+                            <TextBox Text="{Binding ClientCheck, Mode=OneWay, StringFormat=N0}" Margin="0,5,0,10" IsReadOnly="True" />
 
-                            <Label Content="Дата начала" VerticalAlignment="Center"/>
+                            <Label Content="Дата начала" />
                             <DatePicker SelectedDate="{Binding StartDate}" Margin="0,0,0,10"/>
 
-                            <Label Content="Дата окончания" VerticalAlignment="Center"/>
+                            <Label Content="Дата окончания" />
                             <DatePicker SelectedDate="{Binding EndDate}" Margin="0,0,0,10"/>
 
-                            <Label Content="Имя файла" VerticalAlignment="Center"/>
+                            <Label Content="Имя файла" />
                             <TextBox Text="{Binding FileName}" Width="200" Margin="0,0,0,10"/>
 
                             <Button Content="Сгенерировать отчет" Command="{Binding GenerateReportCommand}" Margin="0,0,0,10"/>
-
                             <Button Content="Сохранить как PDF" Command="{Binding SaveReportAsPdfCommand}"/>
                         </StackPanel>
+                        <oxy:PlotView Model="{Binding PieChartModel}" />
                     </Grid>
+
                 </TabItem>
 
 

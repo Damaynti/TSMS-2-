@@ -92,6 +92,8 @@ namespace TSMS_2_.Model
                 return r;
             }
         }
+       
+
         // Допустим, у вас есть метод в TableModel или в ViewModel, который будет преобразовывать ID категории в название
         public string GetCategoryName(long categoryId)
         {
@@ -207,6 +209,38 @@ namespace TSMS_2_.Model
         {
             return db.salesman.FirstOrDefault(u => u.password == password && u.admin == r);
         }
+
+        public Dictionary<string, double> GetCategoryRevenuePercentage(DateTime startDate, DateTime endDate)
+        {
+            var revenueByCategories = GetTotalRevenueByCategories(startDate, endDate);
+
+            // Общая прибыль за указанный период
+            var totalRevenue = revenueByCategories.Values.Sum();
+
+            if (totalRevenue == 0)
+                return new Dictionary<string, double>(); // Если нет прибыли, возвращаем пустой словарь
+
+            // Вычисляем процент прибыли по категориям
+            return revenueByCategories.ToDictionary(
+                kvp => GetCategoryName(kvp.Key), // Имя категории
+                kvp => (double)kvp.Value / totalRevenue * 100 // Процент от общей прибыли
+            );
+        }
+
+     
+        public int GetUniqueClientsCount(DateTime startDate, DateTime endDate)
+        {
+            // Получаем все продажи, которые попадают в указанный диапазон дат
+            var query = db.sale
+                         .Where(s => s.data.HasValue &&
+                                     s.data.Value >= startDate &&
+                                     s.data.Value <= endDate)
+                         .Distinct(); // Убираем дубли по client_id
+
+            return query.Count(); // Возвращаем количество уникальных клиентов
+        }
+
+
         public List<Salesman> GetSalesman()
         {
             return db.salesman.Include(o => o.FullName) // Загружаем владельцев
