@@ -61,13 +61,14 @@
                                             Padding="5,0" />
                                     <TextBlock VerticalAlignment="Center" Text="{Binding Quantity}" Width="40" TextAlignment="Center" />
                                     <Button Content="+" 
-                                            Command="{Binding DataContext.IncreaseQuantityCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-                                            CommandParameter="{Binding}"
-                                            Background="Transparent"
-                                            Foreground="White"
-                                            FontWeight="Bold" 
-                                            BorderThickness="0"
-                                            Padding="5,0" />
+        Command="{Binding DataContext.IncreaseQuantityCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+        CommandParameter="{Binding}"
+        Background="Transparent"
+        Foreground="White"
+        FontWeight="Bold" 
+        BorderThickness="0"
+        Padding="5,0" />
+
                                 </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>

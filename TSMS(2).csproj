@@ -201,7 +201,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Command.cs" />
+    <Compile Include="DTO\categoriesDto.cs" />
     <Compile Include="DTO\ClientDTO.cs" />
+    <Compile Include="DTO\DiscountDTO.cs" />
     <Compile Include="DTO\Element_saleDto.cs" />
     <Compile Include="DTO\loanAgreementDTO.cs" />
     <Compile Include="DTO\ProductsDTO.cs" />
@@ -222,6 +224,7 @@
     <Compile Include="EF\status.cs" />
     <Compile Include="EF\supplier.cs" />
     <Compile Include="EF\supply.cs" />
+    <Compile Include="Model\categoriesModel.cs" />
     <Compile Include="Model\ClientModel.cs" />
     <Compile Include="Model\Element_saleModel.cs" />
     <Compile Include="Model\loanAgreementModel.cs" />
@@ -236,6 +239,8 @@
     <Compile Include="Services\IWindowService.cs" />
     <Compile Include="Services\WindowService.cs" />
     <Compile Include="ViewModel\AdminVM.cs" />
+    <Compile Include="ViewModel\categoriesVM.cs" />
+    <Compile Include="ViewModel\ClientVM.cs" />
     <Compile Include="ViewModel\credVM.cs" />
     <Compile Include="ViewModel\Element_saleViewModel.cs" />
     <Compile Include="ViewModel\loanAgreementVM.cs" />

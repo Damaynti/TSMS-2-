@@ -37,6 +37,9 @@
                             </Style>
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
+                    <DataGridTextColumn Header="имя" Binding="{Binding name, Mode=OneWay}" />
+                    <DataGridTextColumn Header="скидка" Binding="{Binding _discount, Mode=OneWay}" />
+                    <DataGridTextColumn Header="Клиент (Физ./Юр.)" Binding="{Binding tClient, Mode=OneWay}" />
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>

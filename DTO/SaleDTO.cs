@@ -38,7 +38,8 @@ namespace TSMS_2_.DTO
             salesman = s.salesman;
             salesmnName = s.salesman.FullName;
             client = s.client;
-            clientNum = client.noomber;
+            if (client!=null)
+                clientNum = client.noomber;
         }
 
         // Конструктор для преобразования из другого DTO (если нужно)

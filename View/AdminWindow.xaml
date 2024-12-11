@@ -8,7 +8,6 @@
          xmlns:oxy="http://oxyplot.org/wpf"
         mc:Ignorable="d"
          Title="AdminWindow" Height="658" Width="1152" 
-        
          xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
             TextElement.FontWeight="Regular"
@@ -17,25 +16,19 @@
         TextOptions.TextRenderingMode="Auto"
         Background="#FF315266"
         FontFamily="{DynamicResource MaterialDesignFont}">
-
     <Grid Margin="10,10,10,10"  >
-
         <Button x:Name="End" Content="Выйти"  Command="{Binding EndCommand }" Background="#FF00BAB9" Foreground="White" FontWeight="Bold" Width="181" HorizontalAlignment="Right"  Margin="941,10,0,402" VerticalAlignment="Top">
             <Button.DataContext>
                 <vm:AdminVM/>
             </Button.DataContext>
         </Button>
-
         <Grid Margin="0,61,0,0" Background="White">
             <TabControl Margin="0,0,0,193">
                 <TabItem Header="Продавец" Background="White">
                     <TabItem.DataContext>
                         <vm:SalesmanViewModel/>
                     </TabItem.DataContext>
-
                     <Grid Background="#FF315266" Margin="0,0,0,-197">
-
-
                         <DataGrid Background="#FF315266" 
                      ItemsSource="{Binding Salesmen}" 
                         SelectedItem="{Binding SelectedSalesman, Mode=OneWayToSource}"
@@ -44,28 +37,20 @@
           Margin="10,61,10,140"
           RowHeight="30"
           CanUserAddRows="False">
-                            <!-- Убираем пустую строку -->
                             <DataGrid.Resources>
-                                <!-- Определяем стиль для заголовков столбцов -->
                                 <Style TargetType="DataGridColumnHeader">
                                     <Setter Property="Foreground" Value="White"/>
                                     <Setter Property="Background" Value="#FF315266"/>
                                     <Setter Property="FontWeight" Value="Bold"/>
-                                    <!-- Жирный шрифт для заголовков -->
                                     <Setter Property="Padding" Value="10,0,0,0"/>
-                                    <!-- Сдвиг вправо -->
                                     <Setter Property="HorizontalContentAlignment" Value="Left"/>
-                                    <!-- Выравнивание текста -->
                                 </Style>
-
-                                <!-- Определяем стиль для строк -->
                                 <Style TargetType="DataGridRow">
                                     <Setter Property="Height" Value="30"/>
                                     <Setter Property="Background" Value="#FF315266"/>
                                     <Setter Property="Foreground" Value="White"/>
                                 </Style>
                             </DataGrid.Resources>
-
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="ID" Binding="{Binding id}" />
                                 <DataGridTextColumn Header="ФИО" Binding="{Binding FullName}" />
@@ -76,25 +61,16 @@
                                 <DataGridTextColumn Header="Зарплата" Binding="{Binding salary}" />
                             </DataGrid.Columns>
                         </DataGrid>
-
-
-                        <!-- Buttons for Salesman actions -->
                         <Button Content="➕ Добавить" HorizontalAlignment="Left" Margin="178,10,0,0" Width="120" Background="#FF00BAB9" Foreground="White" FontWeight="Bold"  Command="{Binding AddObjCommand}" VerticalAlignment="Top"/>
-
-                        <!--<Button Content="🗑️ Удалить" HorizontalAlignment="Left" Margin="350,10,0,0" VerticalAlignment="Top" Width="120" Height="30" Background="#FF00BAB9" Foreground="White" FontWeight="Bold" Command="{Binding DeleteObjCommand}"/>-->
                         <Button Content="🆙 Обновить" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="134" Height="30" Background="#FF00BAB9" Foreground="White" FontWeight="Bold"  Command="{Binding RefreshObjCommand}"/>
                         <Button Content="✏️ Изменить" HorizontalAlignment="Left" Margin="355,10,0,0" VerticalAlignment="Top" Width="120 " Height="30 " Background="#FF00BAB9 " Foreground="White" FontWeight="Bold" Command="{Binding EditObjCommand}"/>
                     </Grid>
                 </TabItem>
-                <TabItem Header="Товар" Background="White">
+                <!--<TabItem Header="Товар" Background="White">
                     <TabItem.DataContext>
                         <vm:ProductsViewModel />
-                        <!-- Set DataContext directly -->
                     </TabItem.DataContext>
-
                     <Grid Background="#FF315266">
-
-
                         <DataGrid Background="#FF315266" 
           ItemsSource="{Binding Products}" 
           SelectedItem="{Binding SelectedProduct, Mode=OneWayToSource}"
@@ -103,29 +79,20 @@
           Margin="0,62,-10,-194"
           RowHeight="30"
           CanUserAddRows="False">
-                            <!-- Убираем пустую строку -->
-
                             <DataGrid.Resources>
-                                <!-- Определяем стиль для заголовков столбцов -->
                                 <Style TargetType="DataGridColumnHeader">
                                     <Setter Property="Foreground" Value="White"/>
                                     <Setter Property="Background" Value="#FF315266"/>
                                     <Setter Property="FontWeight" Value="Bold"/>
-                                    <!-- Жирный шрифт для заголовков -->
                                     <Setter Property="Padding" Value="10,0,0,0"/>
-                                    <!-- Сдвиг вправо -->
                                     <Setter Property="HorizontalContentAlignment" Value="Left"/>
-                                    <!-- Выравнивание текста -->
                                 </Style>
-
-                                <!-- Определяем стиль для строк -->
                                 <Style TargetType="DataGridRow">
                                     <Setter Property="Height" Value="30"/>
                                     <Setter Property="Background" Value="#FF315266"/>
                                     <Setter Property="Foreground" Value="White"/>
                                 </Style>
                             </DataGrid.Resources>
-
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="ID" Binding="{Binding id}" />
                                 <DataGridTextColumn Header="Название" Binding="{Binding name}" />
@@ -134,18 +101,52 @@
                                 <DataGridTextColumn Header="Количество" Binding="{Binding count}" />
                             </DataGrid.Columns>
                         </DataGrid>
-
-                        <!-- Buttons for Salesman actions -->
                         <Button Content="➕ Добавить" HorizontalAlignment="Left" Margin="184,10,0,0" VerticalAlignment="Top" Width="120" Background="#FF00BAB9" Foreground="White" FontWeight="Bold"  Command="{Binding AddProductCommand}"/>
-                        <!--<Button Content="🗑️ Удалить" HorizontalAlignment="Left" Margin="350,10,0,0" VerticalAlignment="Top" Width="120" Height="30" Background="#FF00BAB9" Foreground="White" FontWeight="Bold" Command="{Binding DeleteProductCommand}"/>-->
                         <Button Content="🆙 Обновить" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="134" Height="30" Background="#FF00BAB9" Foreground="White" FontWeight="Bold" Command="{Binding RefreshProductsCommand}"/>
                         <Button Content="✏️ Изменить" HorizontalAlignment="Left " Margin="350,10,0,0" VerticalAlignment="Top " Width="120 " Height="30 " Background="#FF00BAB9 " Foreground="White" FontWeight="Bold" Command="{Binding UpdateProductCommand}"/>
                     </Grid>
+                </TabItem>-->
+                <TabItem Header="Категория" Background="White">
+                    <TabItem.DataContext>
+                        <vm:CategoriesViewModel />
+                    </TabItem.DataContext>
+                    <Grid Background="#FF315266">
+                        <DataGrid Background="#FF315266" 
+ItemsSource="{Binding Categories}" 
+SelectedItem="{Binding SelectedCategory, Mode=OneWayToSource}"
+AutoGenerateColumns="False" 
+BorderBrush="White" 
+Margin="0,62,-10,-194"
+RowHeight="30"
+CanUserAddRows="False">
+                            <DataGrid.Resources>
+                                <Style TargetType="DataGridColumnHeader">
+                                    <Setter Property="Foreground" Value="White"/>
+                                    <Setter Property="Background" Value="#FF315266"/>
+                                    <Setter Property="FontWeight" Value="Bold"/>
+                                    <Setter Property="Padding" Value="10,0,0,0"/>
+                                    <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                                </Style>
+                                <Style TargetType="DataGridRow">
+                                    <Setter Property="Height" Value="30"/>
+                                    <Setter Property="Background" Value="#FF315266"/>
+                                    <Setter Property="Foreground" Value="White"/>
+                                </Style>
+                            </DataGrid.Resources>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="ID" Binding="{Binding Id}" />
+                                <DataGridTextColumn Header="Название" Binding="{Binding Name}" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <Button Content="➕ Добавить" HorizontalAlignment="Left" Margin="184,10,0,0" VerticalAlignment="Top" Width="120" Background="#FF00BAB9" Foreground="White" FontWeight="Bold" Command="{Binding AddCategoryCommand}"/>
+                        <Button Content="🆙 Обновить" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="134" Height="30" Background="#FF00BAB9" Foreground="White" FontWeight="Bold" Command="{Binding RefreshCategoriesCommand}"/>
+                        <Button Content="✏️ Изменить" HorizontalAlignment="Left " Margin="350,10,0,0" VerticalAlignment="Top " Width="120 " Height="30 " Background="#FF00BAB9 " Foreground="White" FontWeight="Bold" Command="{Binding UpdateCategoryCommand}"/>
+                    </Grid>
                 </TabItem>
+
                 <TabItem Header="поставщик">
                     <TabItem.DataContext>
                         <vm:SupplierViewModel/>
-                        <!-- Set DataContext directly -->
                     </TabItem.DataContext>
                     <Grid Background="#FF315266">
                         <DataGrid Background="#FF315266" 
@@ -156,28 +157,20 @@
           Margin="0,47,0,-197"
           RowHeight="30"
           CanUserAddRows="False">
-                            <!-- Убираем пустую строку -->
                             <DataGrid.Resources>
-                                <!-- Определяем стиль для заголовков столбцов -->
                                 <Style TargetType="DataGridColumnHeader">
                                     <Setter Property="Foreground" Value="White"/>
                                     <Setter Property="Background" Value="#FF315266"/>
                                     <Setter Property="FontWeight" Value="Bold"/>
-                                    <!-- Жирный шрифт для заголовков -->
                                     <Setter Property="Padding" Value="10,0,0,0"/>
-                                    <!-- Сдвиг вправо -->
                                     <Setter Property="HorizontalContentAlignment" Value="Left"/>
-                                    <!-- Выравнивание текста -->
                                 </Style>
-
-                                <!-- Определяем стиль для строк -->
                                 <Style TargetType="DataGridRow">
                                     <Setter Property="Height" Value="30"/>
                                     <Setter Property="Background" Value="#FF315266"/>
                                     <Setter Property="Foreground" Value="White"/>
                                 </Style>
                             </DataGrid.Resources>
-
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="ID" Binding="{Binding id}" />
                                 <DataGridTextColumn Header="ФИО" Binding="{Binding FullName}" />
@@ -188,18 +181,14 @@
                                 <DataGridTextColumn Header="Номер телефона" Binding="{Binding number}" />
                             </DataGrid.Columns>
                         </DataGrid>
-                        <!--<Button Content="🗑️ Удалить" HorizontalAlignment="Left" Margin="350,10,0,0" VerticalAlignment="Top" Width="120" Height="30" Background="#FF00BAB9" Foreground="White" FontWeight="Bold" Command="{Binding DeleteSupplierCommand}"/>-->
-
                         <Button Content="➕ Добавить" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Background="#FF00BAB9" Foreground="White" FontWeight="Bold"  Command="{Binding AddSupplierCommand}" Margin="181,10,0,0" />
                         <Button Content="🆙 Обновить" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="134" Height="30" Background="#FF00BAB9" Foreground="White" FontWeight="Bold" Command="{Binding RefreshSuppliersCommand}"/>
                         <Button Content="✏️ Изменить" HorizontalAlignment="Left " Margin="350,10,0,0" VerticalAlignment="Top " Width="120 " Height="30 " Background="#FF00BAB9 " Foreground="White" FontWeight="Bold" Command="{Binding UpdateSupplierCommand}"/>
-
                     </Grid>
                 </TabItem>
-                <TabItem Header="продажи" Background="#FF00BAB9">
+                <!--<TabItem Header="продажи" Background="#FF00BAB9">
                     <TabItem.DataContext>
                         <vm:SaleViewModel/>
-                        <!-- Set DataContext directly -->
                     </TabItem.DataContext>
                     <Grid Background="#FF315266">
                         <Grid.ColumnDefinitions>
@@ -214,28 +203,20 @@
           Margin="0,62,-10,-196"
           RowHeight="30"
           CanUserAddRows="False" Grid.ColumnSpan="2">
-                            <!-- Убираем пустую строку -->
                             <DataGrid.Resources>
-                                <!-- Определяем стиль для заголовков столбцов -->
                                 <Style TargetType="DataGridColumnHeader">
                                     <Setter Property="Foreground" Value="White"/>
                                     <Setter Property="Background" Value="#FF315266"/>
                                     <Setter Property="FontWeight" Value="Bold"/>
-                                    <!-- Жирный шрифт для заголовков -->
                                     <Setter Property="Padding" Value="10,0,0,0"/>
-                                    <!-- Сдвиг вправо -->
                                     <Setter Property="HorizontalContentAlignment" Value="Left"/>
-                                    <!-- Выравнивание текста -->
                                 </Style>
-
-                                <!-- Определяем стиль для строк -->
                                 <Style TargetType="DataGridRow">
                                     <Setter Property="Height" Value="30"/>
                                     <Setter Property="Background" Value="#FF315266"/>
                                     <Setter Property="Foreground" Value="White"/>
                                 </Style>
                             </DataGrid.Resources>
-
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="ID" Binding="{Binding id}" />
                                 <DataGridTextColumn Header="Время продажи" Binding="{Binding data, StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}" />
@@ -245,16 +226,62 @@
                             </DataGrid.Columns>
                         </DataGrid>
                         <Button Content="➕ Добавить" HorizontalAlignment="Left" Margin="177,10,0,0" VerticalAlignment="Top" Width="120" Background="#FF00BAB9" Foreground="White" FontWeight="Bold"  Command="{Binding AddSaleCommand}"/>
-                        <!--<Button Content="🗑️ Удалить" HorizontalAlignment="Left" Margin="350,10,0,0" VerticalAlignment="Top" Width="120" Height="30" Background="#FF00BAB9" Foreground="White" FontWeight="Bold" Command="{Binding DeleteSaleCommand}"/>-->
                         <Button Content="🆙 Обновить" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="134" Height="30" Background="#FF00BAB9" Foreground="White" FontWeight="Bold" Command="{Binding RefreshSalesCommand}"/>
                         <Button Content="✏️ Изменить" HorizontalAlignment="Left" Margin="350,10,0,0" VerticalAlignment="Top" Width="120 " Height="30 " Background="#FF00BAB9 " Foreground="White" FontWeight="Bold" Command="{Binding UpdateSaleCommand}" Grid.ColumnSpan="2"/>
 
                     </Grid>
+                </TabItem>-->
+                <TabItem Header="Клиенты" Background="#FF00BAB9">
+                    <TabItem.DataContext>
+                        <vm:ClientViewModel/>
+                    </TabItem.DataContext>
+                    <Grid Background="#FF315266">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="105*"/>
+                            <ColumnDefinition Width="178*"/>
+                        </Grid.ColumnDefinitions>
+                        <DataGrid Background="#FF315266" 
+                  ItemsSource="{Binding Clients}" 
+                  SelectedItem="{Binding SelectedClient, Mode=OneWayToSource}"
+                  AutoGenerateColumns="False" 
+                  BorderBrush="White" 
+                  Margin="0,62,-10,-196"
+                  RowHeight="30"
+                  CanUserAddRows="False" 
+                  Grid.ColumnSpan="2">
+                            <DataGrid.Resources>
+                                <Style TargetType="DataGridColumnHeader">
+                                    <Setter Property="Foreground" Value="White"/>
+                                    <Setter Property="Background" Value="#FF315266"/>
+                                    <Setter Property="FontWeight" Value="Bold"/>
+                                    <Setter Property="Padding" Value="10,0,0,0"/>
+                                    <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                                </Style>
+                                <Style TargetType="DataGridRow">
+                                    <Setter Property="Height" Value="30"/>
+                                    <Setter Property="Background" Value="#FF315266"/>
+                                    <Setter Property="Foreground" Value="White"/>
+                                </Style>
+                            </DataGrid.Resources>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="ID" Binding="{Binding id}" />
+                                <DataGridTextColumn Header="Имя клиента" Binding="{Binding name}" />
+                                <DataGridTextColumn Header="Номер клиента" Binding="{Binding noomber}" />
+                                <DataGridTextColumn Header="Сумма покупок" Binding="{Binding purchase_amount}"/>
+                                <DataGridTextColumn Header="Скидка" Binding="{Binding _discount}" />
+                                <DataGridTextColumn Header="Тип клиента" Binding="{Binding tClient}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <Button Content="➕ Добавить" HorizontalAlignment="Left" Margin="177,10,0,0" VerticalAlignment="Top" Width="120" Background="#FF00BAB9" Foreground="White" FontWeight="Bold" Command="{Binding AddClientCommand}"/>
+                        <Button Content="🆙 Обновить" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="134" Height="30" Background="#FF00BAB9" Foreground="White" FontWeight="Bold" Command="{Binding RefreshClientsCommand}"/>
+                        <Button Content="✏️ Изменить" HorizontalAlignment="Left" Margin="350,10,0,0" VerticalAlignment="Top" Width="120" Height="30" Background="#FF00BAB9" Foreground="White" FontWeight="Bold" Command="{Binding UpdateClientCommand}" Grid.ColumnSpan="2"/>
+                        <Button Content="❌ Удалить" HorizontalAlignment="Left" Margin="480,10,0,0" VerticalAlignment="Top" Width="120" Height="30" Background="#FF00BAB9" Foreground="White" FontWeight="Bold" Command="{Binding DeleteClientCommand}" Grid.ColumnSpan="2"/>
+                    </Grid>
                 </TabItem>
+
                 <TabItem Header="поставки" Background="#FF00BAB9">
                     <TabItem.DataContext>
                         <vm:SupplyViewModel/>
-                        <!-- Set DataContext directly -->
                     </TabItem.DataContext>
                     <Grid Background="#FF315266">
                         <DataGrid Background="#FF315266" 
@@ -265,21 +292,14 @@
           Margin="0,62,-10,-193"
           RowHeight="30"
           CanUserAddRows="False">
-                            <!-- Убираем пустую строку -->
                             <DataGrid.Resources>
-                                <!-- Определяем стиль для заголовков столбцов -->
                                 <Style TargetType="DataGridColumnHeader">
                                     <Setter Property="Foreground" Value="White"/>
                                     <Setter Property="Background" Value="#FF315266"/>
                                     <Setter Property="FontWeight" Value="Bold"/>
-                                    <!-- Жирный шрифт для заголовков -->
                                     <Setter Property="Padding" Value="10,0,0,0"/>
-                                    <!-- Сдвиг вправо -->
                                     <Setter Property="HorizontalContentAlignment" Value="Left"/>
-                                    <!-- Выравнивание текста -->
                                 </Style>
-
-                                <!-- Определяем стиль для строк -->
                                 <Style TargetType="DataGridRow">
                                     <Setter Property="Height" Value="30"/>
                                     <Setter Property="Background" Value="#FF315266"/>
@@ -295,17 +315,14 @@
                             </DataGrid.Columns>
                         </DataGrid>
                         <Button Content="➕ Добавить" HorizontalAlignment="Left" Margin="190,10,0,0" VerticalAlignment="Top" Width="120" Background="#FF00BAB9" Foreground="White" FontWeight="Bold" Command="{Binding AddSupplyCommand}" />
-                        <!--<Button Content="🗑️ Удалить" HorizontalAlignment="Left" Margin="350,10,0,0" VerticalAlignment="Top" Width="120" Height="30" Background="#FF00BAB9" Foreground="White" FontWeight="Bold" Command="{Binding DeleteSupplyCommand}"/>-->
                         <Button Content="🆙 Обновить" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="134" Height="30" Background="#FF00BAB9" Foreground="White" FontWeight="Bold" Command="{Binding RefreshSuppliesCommand}"/>
                         <Button Content="✏️ Изменить" HorizontalAlignment="Left " Margin="350,10,0,0" VerticalAlignment="Top " Width="120 " Height="30 " Background="#FF00BAB9 " Foreground="White" FontWeight="Bold" Command="{Binding Up}" Cursor="Hand"/>
-
                     </Grid>
                 </TabItem>
                 <TabItem Header="Кредиты" Background="White">
                     <TabItem.DataContext>
                         <vm:loanAgreementVM/>
                     </TabItem.DataContext>
-
                     <Grid Background="#FF315266">
                         <DataGrid Background="#FF315266" 
                   ItemsSource="{Binding LoanAgreements}" 
@@ -315,28 +332,20 @@
                   Margin="0,62,-10,-199"
                   RowHeight="30"
                   CanUserAddRows="False">
-                            <!-- Убираем пустую строку -->
                             <DataGrid.Resources>
-                                <!-- Определяем стиль для заголовков столбцов -->
                                 <Style TargetType="DataGridColumnHeader">
                                     <Setter Property="Foreground" Value="White"/>
                                     <Setter Property="Background" Value="#FF315266"/>
                                     <Setter Property="FontWeight" Value="Bold"/>
-                                    <!-- Жирный шрифт для заголовков -->
                                     <Setter Property="Padding" Value="10,0,0,0"/>
-                                    <!-- Сдвиг вправо -->
                                     <Setter Property="HorizontalContentAlignment" Value="Left"/>
-                                    <!-- Выравнивание текста -->
                                 </Style>
-
-                                <!-- Определяем стиль для строк -->
                                 <Style TargetType="DataGridRow">
                                     <Setter Property="Height" Value="30"/>
                                     <Setter Property="Background" Value="#FF315266"/>
                                     <Setter Property="Foreground" Value="White"/>
                                 </Style>
                             </DataGrid.Resources>
-
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="ID" Binding="{Binding id}" />
                                 <DataGridTextColumn Header="Поставщик ID" Binding="{Binding supplier_id}" />
@@ -347,8 +356,6 @@
                                 <DataGridTextColumn Header="Конец" Binding="{Binding end}" />
                             </DataGrid.Columns>
                         </DataGrid>
-
-                        <!-- Кнопки для действий с кредитными соглашениями -->
                         <Button Content="➕ Добавить" HorizontalAlignment="Left" Margin="178,10,0,0" VerticalAlignment="Top" Width="120" Background="#FF00BAB9" Foreground="White" FontWeight="Bold"  Command="{Binding AddObjCommand}"/>
                         <Button Content="🆙 Обновить" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="134" Height="30" Background="#FF00BAB9" Foreground="White" FontWeight="Bold"  Command="{Binding RefreshObjCommand}"/>
                         <Button Content="✏️ Изменить" HorizontalAlignment="Left " Margin="350,10,0,0" VerticalAlignment="Top " Width="120 " Height="30 " Background="#FF00BAB9 " Foreground="White" FontWeight="Bold" Command="{Binding EditObjCommand}"/>
@@ -364,16 +371,12 @@
                             <RowDefinition Height="*" />
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
-
                         <DataGrid ItemsSource="{Binding SalesReports}" AutoGenerateColumns="False" HeadersVisibility="Column" Grid.Row="0">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Category" Binding="{Binding Category}" Width="*" />
                                 <DataGridTextColumn Header="Total Revenue" Binding="{Binding TotalRevenue}" Width="*" />
                             </DataGrid.Columns>
                         </DataGrid>
-
-                       
-
                         <StackPanel Grid.Row="2" Margin="10">
                             <TextBlock Text="Общая сумма продаж:" VerticalAlignment="Center" />
                             <TextBox Text="{Binding TotalSum, Mode=OneWay, StringFormat=N0}" Margin="0,5,0,10" IsReadOnly="True" />
@@ -381,27 +384,19 @@
                             <TextBox Text="{Binding AverageCheck, Mode=OneWay, StringFormat=N0}" Margin="0,5,0,10" IsReadOnly="True" />
                             <TextBlock Text="Количество покупателей:" VerticalAlignment="Center" />
                             <TextBox Text="{Binding ClientCheck, Mode=OneWay, StringFormat=N0}" Margin="0,5,0,10" IsReadOnly="True" />
-
                             <Label Content="Дата начала" />
                             <DatePicker SelectedDate="{Binding StartDate}" Margin="0,0,0,10"/>
-
                             <Label Content="Дата окончания" />
                             <DatePicker SelectedDate="{Binding EndDate}" Margin="0,0,0,10"/>
-
                             <Label Content="Имя файла" />
                             <TextBox Text="{Binding FileName}" Width="200" Margin="0,0,0,10"/>
-
                             <Button Content="Сгенерировать отчет" Command="{Binding GenerateReportCommand}" Margin="0,0,0,10"/>
                             <Button Content="Сохранить как PDF" Command="{Binding SaveReportAsPdfCommand}"/>
                         </StackPanel>
                         <oxy:PlotView Model="{Binding PieChartModel}" />
                     </Grid>
-
                 </TabItem>
-
-
             </TabControl>
         </Grid>
-
     </Grid>
 </Window>

@@ -1,12 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using PdfSharp.Drawing;
+using PdfSharp.Pdf;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using TSMS_2_.DTO;
+using TSMS_2_.EF;
 using TSMS_2_.Model;
 using TSMS_2_.Services;
 using TSMS_2_.View;
@@ -38,7 +45,17 @@ namespace TSMS_2_.ViewModel
         public ICommand IncreaseQuantityCommand { get; }
         public ICommand DecreaseQuantityCommand { get; }
         public ICommand EndCommand { get; }
-        public decimal TotalSum => CartItems.Sum(item => item.TotalPrice);
+        public long _discount = 0;
+        public decimal TotalSum
+        {
+            get
+            {
+                var total = CartItems.Sum(item => item.TotalPrice); // Сумма всех товаров
+                var discountFactor = 100 - _discount;         // Коэффициент скидки
+                return total * discountFactor/100;
+            }
+        }
+
         public SellerVM(long idsal)
         {
             _tableModel = new TableModel();
@@ -113,6 +130,16 @@ namespace TSMS_2_.ViewModel
                 OnPropertyChanged();
             }
         }
+        private string _newClientName;
+        public string NewClientName
+        {
+            get => _newClientName;
+            set
+            {
+                _newClientName = value;
+                OnPropertyChanged();
+            }
+        }
         public string SearchNoom
         {
             get => _searchNoom;
@@ -130,6 +157,19 @@ namespace TSMS_2_.ViewModel
             {
                 _selectedClient = value;
                 OnPropertyChanged(nameof(SelectedClient));
+            }
+        }
+        private ComboBoxItem _selectedTClient;
+        public ComboBoxItem SelectedTClient
+        {
+            get => _selectedTClient;
+            set
+            {
+                if (_selectedTClient != value)
+                {
+                    _selectedTClient = value;
+                    OnPropertyChanged(nameof(SelectedTClient));
+                }
             }
         }
         public List<ClientDTO> Clients
@@ -204,7 +244,15 @@ namespace TSMS_2_.ViewModel
 
                 if (existingItem != null)
                 {
-                    existingItem.Quantity++;
+                    if (existingItem.Quantity < SelectedProduct.count)
+                    {
+                        existingItem.Quantity++;
+                        OnPropertyChanged(nameof(TotalSum));
+                    }
+                    else
+                    {
+                        MessageBox.Show("Недостаточно товара на складе.");
+                    }
                 }
                 else
                 {
@@ -236,10 +284,21 @@ namespace TSMS_2_.ViewModel
         {
             if (item != null)
             {
-                item.Quantity++;
-                OnPropertyChanged(nameof(TotalSum));
+                // Найти продукт, соответствующий текущему элементу корзины
+                var product = Products.FirstOrDefault(p => p.id == item.products_id);
+
+                if (product != null && item.Quantity < product.count)
+                {
+                    item.Quantity++;
+                    OnPropertyChanged(nameof(TotalSum));
+                }
+                else
+                {
+                    MessageBox.Show("Невозможно увеличить количество. Товар недоступен в большем количестве.");
+                }
             }
         }
+
         private void DecreaseQuantity(Element_saleDto item)
         {
             if (item != null && item.Quantity > 1)
@@ -252,22 +311,31 @@ namespace TSMS_2_.ViewModel
         {
             if (CartItems.Count == 0)
             {
+                MessageBox.Show("Корзина пуста. Невозможно оформить заказ.");
                 return;
             }
+
+            long? CId = null;
+            if (_client != null) CId = _client.id;
 
             var order = new SaleDTO()
             {
                 cost = 0,
                 salesmn_id = idsal,
-                client_id = _client.id,
+                client_id = CId,
             };
+
+            // Расчет общей стоимости заказа
             foreach (var item in CartItems)
             {
                 order.cost += (long)item.TotalPrice;
             }
+            if (order.client_id != null) order.cost = order.cost * (1 - (long)_client._discount / 100);
+
             var q = new SalyModel();
             var id = q.CreateSale(order);
 
+            // Обновление количества товаров в базе данных
             foreach (var item in CartItems)
             {
                 var selectedElement = new Element_saleDto()
@@ -280,32 +348,141 @@ namespace TSMS_2_.ViewModel
 
                 var elementSaleModel = new Element_saleModel();
                 elementSaleModel.CreateElementSale(selectedElement);
+
+                // Уменьшение количества товара в таблице продуктов
+                var productModel = new ProductsModel();
+                productModel.DecreaseProductQuantity(item.products_id, item.Quantity);
             }
+
+            // Увеличение общей суммы покупок клиента (если клиент есть)
+            if (_client != null)
+            {
+                var clientModel = new ClientModel();
+                clientModel.IncreaseClientTotalAmount(_client.id, order.cost);
+            }
+
+            // Сохранение чека
+            SaveReceiptAsPdf(id);
+
+            // Очистка корзины после оформления заказа
             CartItems.Clear();
-
+            _phoneNumber = "Номер не указан";
+            OnPropertyChanged(nameof(PhoneNumber));
+            OnPropertyChanged(nameof(TotalSum));
             OnPropertyChanged(nameof(CartItems));
-
         }
+
+        public void SaveReceiptAsPdf(long orderId)
+        {
+            // Подтвердить, хочет ли пользователь сохранить чек
+            var result = MessageBox.Show("Хотите ли вы сохранить чек?", "Сохранение чека", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result != MessageBoxResult.Yes)
+            {
+                return;
+            }
+
+            // Выбор пути сохранения
+            var saveFileDialog = new Microsoft.Win32.SaveFileDialog
+            {
+                FileName = $"Чек_{orderId}",
+                DefaultExt = ".pdf",
+                Filter = "PDF файлы (*.pdf)|*.pdf"
+            };
+
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                string filePath = saveFileDialog.FileName;
+
+                try
+                {
+                    // Создание PDF документа
+                    using (var document = new PdfDocument())
+                    {
+                        document.Info.Title = "Чек заказа";
+
+                        // Добавление страницы
+                        var page = document.AddPage();
+                        using (var gfx = XGraphics.FromPdfPage(page))
+                        {
+                            // Настройка шрифта
+                            var font = new XFont("Verdana", 12, XFontStyle.Regular);
+                            var boldFont = new XFont("Verdana", 12, XFontStyle.Bold);
+
+                            double yPoint = 40;
+                            gfx.DrawString("Чек заказа", boldFont, XBrushes.Black, new XRect(0, yPoint, page.Width, page.Height), XStringFormats.TopCenter);
+                            yPoint += 30;
+
+                            // Информация о заказе
+                            gfx.DrawString($"Номер покупки: {orderId}", font, XBrushes.Black, new XRect(40, yPoint, page.Width - 80, page.Height), XStringFormats.TopLeft);
+                            yPoint += 20;
+
+                            // Добавление даты и времени покупки
+                            string purchaseDateTime = DateTime.Now.ToString("dd.MM.yyyy HH:mm");
+                            gfx.DrawString($"Дата и время покупки: {purchaseDateTime}", font, XBrushes.Black, new XRect(40, yPoint, page.Width - 80, page.Height), XStringFormats.TopLeft);
+                            yPoint += 20;
+
+                            gfx.DrawString("Товары:", boldFont, XBrushes.Black, new XRect(40, yPoint, page.Width - 80, page.Height), XStringFormats.TopLeft);
+                            yPoint += 20;
+
+                            // Перебор товаров в заказе
+                            foreach (var item in CartItems)
+                            {
+                                gfx.DrawString($"{item.ProductName} - {item.Quantity} x {item.ProductPrice} = {item.TotalPrice}", font, XBrushes.Black, new XRect(60, yPoint, page.Width - 100, page.Height), XStringFormats.TopLeft);
+                                yPoint += 20;
+                            }
+
+                            // Итоговая информация
+                            yPoint += 20;
+                            gfx.DrawString($"Итоговая сумма: {TotalSum}", boldFont, XBrushes.Black, new XRect(40, yPoint, page.Width - 80, page.Height), XStringFormats.TopLeft);
+
+                            if (_discount > 0)
+                            {
+                                yPoint += 20;
+                                gfx.DrawString($"Применена скидка: {_discount}%", font, XBrushes.Black, new XRect(40, yPoint, page.Width - 80, page.Height), XStringFormats.TopLeft);
+                            }
+                        }
+
+                        // Сохранение PDF
+                        document.Save(filePath);
+                    }
+
+                    MessageBox.Show("Чек успешно сохранён!", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Произошла ошибка при сохранении чека: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+
         private void LoadProducts()
         {
             var productsFromDb = _tableModel.GetProductsDTO();
-            Products = productsFromDb.ToList();
+
+            // Filter out products with quantity 0
+            var availableProducts = productsFromDb.Where(p => p.count > 0).ToList();
+
+            Products = availableProducts;
             OnPropertyChanged(nameof(Products));
 
             var clientsFromDb = _tableModel.GetClientDTO();
-            Clients = clientsFromDb.ToList(); 
+            Clients = clientsFromDb.ToList();
             OnPropertyChanged(nameof(Clients));
         }
+
         public void AddToNoom()
         {
             if (SelectedClient != null)
             {
                 _client = SelectedClient;
                 _phoneNumber = _client.noomber;
+                _discount = (long)_client._discount;
                 OnPropertyChanged("PhoneNumber");
             }
+            OnPropertyChanged(nameof(TotalSum));
             var currentWindow = Application.Current.Windows.OfType<Noomber>().FirstOrDefault();
             _windowService.CloseWindow(currentWindow);
+
         }
         public void Clean()
         {
@@ -345,20 +522,42 @@ namespace TSMS_2_.ViewModel
             {
                 allProducts = _tableModel.GetProductsDTOID(IdFilter.Value, allProducts);
             }
-
-            Products = allProducts.ToList();
+            Products = allProducts.Where(p => p.count > 0).ToList();
             OnPropertyChanged(nameof(Products));
         }
         public void AddClient()
         {
-            var id = _clientModel.CreateClient(NewClientNumber);
-            _client = _tableModel.GetClientDTOID(id);
-            _phoneNumber = _client.noomber;
-            var currentWindow = Application.Current.Windows.OfType<ADDClient>().FirstOrDefault();
-            _windowService.CloseWindow(currentWindow);
-            OnPropertyChanged("PhoneNumber");
-            NewClientNumber=null;
-            LoadProducts();
+            
+            if (NewClientNumber != null)
+            {
+                var newClient = new ClientDTO();
+                if (SelectedTClient!=null&&(string)SelectedTClient.Content!= "Физическое лицо")
+                {
+                    newClient.physical_person = false;
+                }
+                else newClient.physical_person = true;
+                newClient.noomber = NewClientNumber;
+                newClient.name = NewClientName;
+                newClient.purchase_amount = 0;
+                var idD = _tableModel.FindDiscountIdByPurchaseAmount(newClient.purchase_amount);
+                if (idD != null)
+                {
+                    newClient.discount_id = (long)idD;
+                    _discount=(long)idD;
+                }
+                if (newClient.name == null) newClient.name = "неизвестно";
+
+                var id = _clientModel.CreateClient(newClient);
+                _client = _tableModel.GetClientDTOID(id);
+                _phoneNumber = _client.noomber;
+
+                var currentWindow = Application.Current.Windows.OfType<ADDClient>().FirstOrDefault();
+                _windowService.CloseWindow(currentWindow);
+                OnPropertyChanged("PhoneNumber");
+                NewClientNumber = null;
+                NewClientName= null;    
+                LoadProducts();
+            }
         }
         public void RefreshClients()
         {

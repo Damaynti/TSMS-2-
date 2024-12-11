@@ -20,12 +20,13 @@ namespace TSMS_2_.DTO
         [Required]
         public string noomber { get; set; }
 
-        public long? purchase_amount { get; set; }
+        public long purchase_amount { get; set; }
 
-        public long? discount_id { get; set; }
+        public long discount_id { get; set; }
 
         public long? _discount {  get; set; }
-        public bool? physical_person { get; set; }
+        public bool physical_person { get; set; }
+        public string tClient { get; set; }
 
         public string name { get; set; }
 
@@ -43,6 +44,11 @@ namespace TSMS_2_.DTO
             {
                 _discount = client.discount.size;
             }
+            if (client.physical_person)
+            {
+                tClient = "физическое лицо";
+            }
+            else tClient= "юридическое лицо";
         }
 
         public ClientDTO(ClientDTO client)
@@ -55,6 +61,7 @@ namespace TSMS_2_.DTO
             discount = client.discount;
             name = client.name;
             purchase_amount = client.purchase_amount;
+            tClient = client.tClient;
         }
        
     }

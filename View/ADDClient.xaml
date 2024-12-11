@@ -5,11 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TSMS_2_.View"
         mc:Ignorable="d"
-        Title="ADDClient" Height="149" Width="282">
-    <Grid Background="#FF315266" >
-        <Label Content="Введите номер телефона нового клиента" HorizontalAlignment="Left" Margin="19,26,0,0" VerticalAlignment="Top" Foreground="#E5FFFFFF" Width="242"/>
-        <TextBox x:Name="noom" Text="{Binding NewClientNumber, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="20,76,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Foreground="White" AutomationProperties.HelpText="Телефон"/>
-        <Button Content="Добавить" HorizontalAlignment="Left" Margin="172,101,0,0" VerticalAlignment="Top" Width="110" Command="{Binding AddNewClientCommand}" />
-
+        Title="ADDClient" Height="274" Width="306" >
+    <Grid Background="#FF315266" Margin="0,0,0,-98" >
+        <Label Content="Введите номер телефона нового клиента" HorizontalAlignment="Left" Margin="10,29,0,0" VerticalAlignment="Top" Foreground="#E5FFFFFF" Width="242"/>
+        <TextBox x:Name="noom" Text="{Binding NewClientNumber, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="27,58,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Foreground="White" AutomationProperties.HelpText="Телефон"/>
+        <Button Content="Добавить" HorizontalAlignment="Left" Margin="87,305,0,0" VerticalAlignment="Top" Width="110" Command="{Binding AddNewClientCommand}" />
+        <Label Content="Дополнительные сведения: " HorizontalAlignment="Left" Margin="10,97,0,0" VerticalAlignment="Top" Foreground="#E5FFFFFF" />
+        <Label Content="Имя/название компании: " HorizontalAlignment="Left" Margin="39,138,0,0" VerticalAlignment="Top" Foreground="#E5FFFFFF" />
+        <TextBox x:Name="name" Text="{Binding NewClientName, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="42,167,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Foreground="White" AutomationProperties.HelpText="Телефон"/>
+        <Label Content="Клиент (Физ./Юр.): " HorizontalAlignment="Left" Margin="39,219,0,0" VerticalAlignment="Top" Foreground="#E5FFFFFF" />
+        <ComboBox x:Name="RoleComboBox"  SelectedItem="{Binding SelectedTClient, Mode=TwoWay}" Height="30" VerticalContentAlignment="Center" Background="White" Margin="42,254,100,0" VerticalAlignment="Top" >
+            <ComboBoxItem Content="Физическое лицо"/>
+            <ComboBoxItem Content="Юридическое лицо"/>
+        </ComboBox>
     </Grid>
 </Window>

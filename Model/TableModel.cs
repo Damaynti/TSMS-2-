@@ -37,17 +37,34 @@ namespace TSMS_2_.Model
             //return salesmen.Select(i => new salesmanDTO(i)).ToList();
         }
 
+
+        public long? FindDiscountIdByPurchaseAmount(long purchaseAmount)
+        {
+            using (var db = new Model1())
+            {
+                // Убедимся, что данные загружены
+                var discounts = db.discount.ToList();
+
+                // Найдем подходящую запись
+                var discount = discounts.FirstOrDefault(d => purchaseAmount >= d.start && purchaseAmount <= d.end);
+
+                // Вернем ID скидки или null
+                return discount?.id;
+            }
+        }
+
+
         public List<ProductsDTO> GetProductsDTOID(long Id, List<ProductsDTO> allProducts) {
 
             return allProducts
-                    .Where(p => p.id == Id)
+                    .Where(p => p.id == Id &&p.count!=0)
                     .ToList();
         }
 
         public List<ProductsDTO> GetProductsDTOName(string SearchTerm, List<ProductsDTO> allProducts) {
 
             return allProducts
-                    .Where(p => p.name.IndexOf(SearchTerm, StringComparison.OrdinalIgnoreCase) >= 0)
+                    .Where(p => p.name.IndexOf(SearchTerm, StringComparison.OrdinalIgnoreCase) >= 0 && p.count != 0)
                     .ToList();
         }
 
@@ -151,14 +168,32 @@ namespace TSMS_2_.Model
             // Преобразуем их в список DTO
             return Supply.Select(i => new SupplyDTO(i)).ToList();
         }
+        public List<ClientDTO> GetClientsDTO()
+        {
+            using (var context = new Model1())
+            {
+                var clients = context.client.Include("Discount").ToList();
+                return clients.Select(client => new ClientDTO
+                {
+                    id = client.id,
+                    name = client.name,
+                    noomber = client.noomber,
+                    purchase_amount = client.purchase_amount,
+                    discount_id = client.discount_id,
+                    _discount = client.discount?.size,
+                    tClient = client.physical_person ? "Физическое лицо" : "Юридическое лицо",
+                    physical_person = client.physical_person
+                }).ToList();
+            }
+        }
 
         public List<SaleDTO> GetSaleDTO()
         {
-            // Получаем данные из базы данных без использования конструктора
-            var Sale = db.sale.ToList(); // Загружаем данные в память
-
-            // Преобразуем их в список DTO
-            return Sale.Select(i => new SaleDTO(i)).ToList();
+            using (var db = new Model1()) // Предположим, что у вас есть контекст базы данных MyDbContext
+            {
+                db.sale.Load();
+                return db.sale.Local.ToList().Select(i => new SaleDTO(i)).ToList();
+            }
         }
 
         public List<salesman> GetSalesmans()
@@ -240,6 +275,24 @@ namespace TSMS_2_.Model
             return query.Count(); // Возвращаем количество уникальных клиентов
         }
 
+        public List<CategoryDto> GetCategoriesDTO()
+        {
+            using (var context = new Model1())
+            {
+                return context.categories
+                    .Select(c => new CategoryDto
+                    {
+                        Id = c.id,
+                        Name = c.name,
+                        Products = c.products.Select(p => new ProductsDTO
+                        {
+                            id = p.id,
+                            name = p.name,
+                            price = p.price
+                        }).ToList()
+                    }).ToList();
+            }
+        }
 
         public List<Salesman> GetSalesman()
         {

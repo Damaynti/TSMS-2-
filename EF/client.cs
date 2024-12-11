@@ -17,19 +17,16 @@ namespace TSMS_2_.EF
 
         [Required]
         public string noomber { get; set; }
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
 
-        public long? purchase_amount { get; set; }
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public long purchase_amount { get; set; }
 
-        public long? discount_id { get; set; }
+        public long discount_id { get; set; }
 
         public long id { get; set; }
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
 
-        public bool? physical_person { get; set; }
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public bool physical_person { get; set; }
 
+        [Required]
         public string name { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

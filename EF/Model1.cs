@@ -8,7 +8,7 @@ namespace TSMS_2_.EF
     public partial class Model1 : DbContext
     {
         public Model1()
-            : base("name=Model115")
+            : base("name=Model117")
         {
         }
 
@@ -40,8 +40,9 @@ namespace TSMS_2_.EF
 
             modelBuilder.Entity<discount>()
                 .HasMany(e => e.client)
-                .WithOptional(e => e.discount)
-                .HasForeignKey(e => e.discount_id);
+                .WithRequired(e => e.discount)
+                .HasForeignKey(e => e.discount_id)
+                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<products>()
                 .HasMany(e => e.element_sale)

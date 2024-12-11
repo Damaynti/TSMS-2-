@@ -22,13 +22,14 @@ namespace TSMS_2_.DTO
 
         [Required]
         public long price { get; set; }
-
+        public string tex { get; set; }
         public long? count { get; set; }
 
         // Конструктор для преобразования из сущности products
         public ProductsDTO(products p)
         {
             id = p.id;
+            tex = p.tex;
             name = p.name;
             categoris_id = p.categoris_id;
             price = p.price;
@@ -43,6 +44,7 @@ namespace TSMS_2_.DTO
             if (p != null && p.id!=0)
             {
                 id = p.id;
+                tex = p.tex;
                 name = p.name;
                 categoris_id = p.categoris_id;
                 price = p.price;

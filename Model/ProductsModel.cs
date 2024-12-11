@@ -54,7 +54,19 @@ namespace TSMS_2_.Model
 
         // Метод для получения списка всех продуктов (по желанию)
 
+        public void DecreaseProductQuantity(long productId, long quantity)
+        {
+            using (var db = new Model1())  // Предполагается использование контекста базы данных
+            {
+                var product = db.products.FirstOrDefault(p => p.id == productId);
 
+                if (product != null)
+                {
+                    product.count -= quantity; // Уменьшаем количество товара
+                    db.SaveChanges(); // Сохраняем изменения в базе данных
+                }
+            }
+        }
         // Метод для получения продукта по ID (по желанию)
         public ProductsDTO GetProductById(long id)
         {
