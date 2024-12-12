@@ -15,6 +15,7 @@ using TSMS_2_.Services;
 using TSMS_2_.EF;
 using TSMS_2_.View;
 using System.Windows;
+using System.Data.Entity;
 
 namespace TSMS_2_.ViewModel
 {
@@ -44,7 +45,55 @@ namespace TSMS_2_.ViewModel
             DeleteObjCommand = new RelayCommand(DeleteSelectedSalesman);
             RefreshObjCommand = new RelayCommand(RefreshSalesmen);
             EndCommand = new RelayCommand(End);
+            Filters = new List<string> { "Все", "Работают", "Уволены" };
+            SelectedFilter = "Все";
+            LoadSalesmen();
         }
+        private List<salesmanDTO> _allSalesmen;
+        private string _selectedFilter;
+
+    
+
+        public string SelectedFilter
+        {
+            get => _selectedFilter;
+            set
+            {
+                if (_selectedFilter != value)
+                {
+                    _selectedFilter = value;
+                    OnPropertyChanged(SelectedFilter);
+                    ApplyFilter();
+                }
+            }
+        }
+
+        public List<string> Filters { get; }
+
+        private void LoadSalesmen()
+        {
+            using (var db = new Model1())
+            {
+                db.salesman.Load();
+                _allSalesmen = db.salesman
+                                .Where(i => !i.admin) // Exclude admin
+                                .ToList()
+                                .Select(i => new salesmanDTO(i))
+                                .ToList();
+            }
+            ApplyFilter();
+        }
+
+        private void ApplyFilter()
+        {
+            if (SelectedFilter == "Работают")
+                Salesmen = _allSalesmen.Where(s => s._work == "Работает").ToList();
+            else if (SelectedFilter == "Уволены")
+                Salesmen = _allSalesmen.Where(s => s._work == "Уволен").ToList();
+            else
+                Salesmen = _allSalesmen;
+        }
+
         public void End()
         {
             var currentWindow = Application.Current.Windows.OfType<ADDSalesmenxamlxaml>().FirstOrDefault();

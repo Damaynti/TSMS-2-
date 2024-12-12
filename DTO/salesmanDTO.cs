@@ -35,7 +35,7 @@ namespace TSMS_2_.DTO
         public string password { get; set; }
         public long salary { get; set; }
         public bool admin { get; set; }
-
+        public string _work {  get; set; }
         public bool work { get; set; }
         public salesmanDTO(salesman m)
         {
@@ -48,6 +48,8 @@ namespace TSMS_2_.DTO
             admin = m.admin;
             password = m.password;
             salary = m.salary;
+            if (work) _work = "Работает";
+            else _work = "Уволен";
         }
         public salesmanDTO(salesmanDTO m)
         {
@@ -60,6 +62,7 @@ namespace TSMS_2_.DTO
                 mail = m.mail;
                 work = m.work;
                 admin = m.admin;
+                _work =m._work;
                 password = m.password;
                 salary =  m.salary;
             }

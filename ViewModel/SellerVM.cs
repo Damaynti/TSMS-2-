@@ -315,63 +315,55 @@ namespace TSMS_2_.ViewModel
                 return;
             }
 
-            long? CId = null;
-            if (_client != null) CId = _client.id;
+            //long? CId = null;
+            //if (_client != null) CId = _client.id;
 
-            var order = new SaleDTO()
-            {
-                cost = 0,
-                salesmn_id = idsal,
-                client_id = CId,
-            };
+            //var order = new SaleDTO()
+            //{
+            //    cost =(long) TotalSum,
+            //    salesmn_id = idsal,
+            //    client_id = CId,
+            //};
 
-            // Расчет общей стоимости заказа
-            foreach (var item in CartItems)
-            {
-                order.cost += (long)item.TotalPrice;
-            }
-            if (order.client_id != null) order.cost = order.cost * (1 - (long)_client._discount / 100);
+            //var q = new SalyModel();
+            //var id = q.CreateSale(order);
 
+            //foreach (var item in CartItems)
+            //{
+            //    var selectedElement = new Element_saleDto()
+            //    {
+            //        sale_id = id,
+            //        products_id = item.products_id,
+            //        Quantity = item.Quantity,
+            //        price = (long)item.ProductPrice,
+            //    };
+
+            //    var elementSaleModel = new Element_saleModel();
+            //    elementSaleModel.CreateElementSale(selectedElement);
+
+            //    var productModel = new ProductsModel();
+            //    productModel.DecreaseProductQuantity(item.products_id, item.Quantity);
+            //}
+
+            //if (_client != null)
+            //{
+            //    var clientModel = new ClientModel();
+            //    clientModel.IncreaseClientTotalAmount(_client.id, order.cost);
+            //}
             var q = new SalyModel();
-            var id = q.CreateSale(order);
-
-            // Обновление количества товаров в базе данных
-            foreach (var item in CartItems)
-            {
-                var selectedElement = new Element_saleDto()
-                {
-                    sale_id = id,
-                    products_id = item.products_id,
-                    Quantity = item.Quantity,
-                    price = (long)item.ProductPrice,
-                };
-
-                var elementSaleModel = new Element_saleModel();
-                elementSaleModel.CreateElementSale(selectedElement);
-
-                // Уменьшение количества товара в таблице продуктов
-                var productModel = new ProductsModel();
-                productModel.DecreaseProductQuantity(item.products_id, item.Quantity);
-            }
-
-            // Увеличение общей суммы покупок клиента (если клиент есть)
-            if (_client != null)
-            {
-                var clientModel = new ClientModel();
-                clientModel.IncreaseClientTotalAmount(_client.id, order.cost);
-            }
-
-            // Сохранение чека
+            var id = q.CreatOrder(_client, (long)TotalSum, idsal,  CartItems);
             SaveReceiptAsPdf(id);
 
-            // Очистка корзины после оформления заказа
             CartItems.Clear();
             _phoneNumber = "Номер не указан";
+            On();
+        }
+        public void On()
+        {
             OnPropertyChanged(nameof(PhoneNumber));
             OnPropertyChanged(nameof(TotalSum));
             OnPropertyChanged(nameof(CartItems));
         }
-
         public void SaveReceiptAsPdf(long orderId)
         {
             // Подтвердить, хочет ли пользователь сохранить чек

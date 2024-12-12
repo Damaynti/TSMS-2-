@@ -29,6 +29,16 @@
                         <vm:SalesmanViewModel/>
                     </TabItem.DataContext>
                     <Grid Background="#FF315266" Margin="0,0,0,-197">
+                        <ComboBox 
+            HorizontalAlignment="Left" 
+            Margin="10,10,0,0" 
+            VerticalAlignment="Top" 
+            Width="150" 
+            SelectedItem="{Binding SelectedFilter, Mode=TwoWay}" 
+            ItemsSource="{Binding Filters}" 
+            Background="#FF00BAB9" 
+            Foreground="White" 
+            FontWeight="Bold"/>
                         <DataGrid Background="#FF315266" 
                      ItemsSource="{Binding Salesmen}" 
                         SelectedItem="{Binding SelectedSalesman, Mode=OneWayToSource}"
@@ -59,11 +69,11 @@
                                 <DataGridTextColumn Header="Адрес" Binding="{Binding address}" />
                                 <DataGridTextColumn Header="Email" Binding="{Binding mail}" />
                                 <DataGridTextColumn Header="Зарплата" Binding="{Binding salary}" />
+                                <DataGridTextColumn Header="работает/уволен" Binding="{Binding _work}" />
                             </DataGrid.Columns>
                         </DataGrid>
                         <Button Content="➕ Добавить" HorizontalAlignment="Left" Margin="178,10,0,0" Width="120" Background="#FF00BAB9" Foreground="White" FontWeight="Bold"  Command="{Binding AddObjCommand}" VerticalAlignment="Top"/>
-                        <Button Content="🆙 Обновить" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="134" Height="30" Background="#FF00BAB9" Foreground="White" FontWeight="Bold"  Command="{Binding RefreshObjCommand}"/>
-                        <Button Content="✏️ Изменить" HorizontalAlignment="Left" Margin="355,10,0,0" VerticalAlignment="Top" Width="120 " Height="30 " Background="#FF00BAB9 " Foreground="White" FontWeight="Bold" Command="{Binding EditObjCommand}"/>
+                       <Button Content="✏️ Изменить" HorizontalAlignment="Left" Margin="355,10,0,0" VerticalAlignment="Top" Width="120 " Height="30 " Background="#FF00BAB9 " Foreground="White" FontWeight="Bold" Command="{Binding EditObjCommand}"/>
                     </Grid>
                 </TabItem>
                 <!--<TabItem Header="Товар" Background="White">

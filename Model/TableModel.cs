@@ -26,10 +26,14 @@ namespace TSMS_2_.Model
             using (var db = new Model1())
             {
                 db.salesman.Load();
-                List<salesmanDTO> r = db.salesman.ToList().Select(i => new salesmanDTO(i)).ToList();
-
+                List<salesmanDTO> r = db.salesman
+                                         .Where(i => !i.admin) // Exclude admin records
+                                         .ToList()
+                                         .Select(i => new salesmanDTO(i))
+                                         .ToList();
                 return r;
             }
+
             //// Получаем данные из базы данных без использования конструктора
             //var salesmen = db.salesman.ToList(); // Загружаем данные в память
 

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using TSMS_2_.DTO;
@@ -40,6 +42,46 @@ namespace TSMS_2_.Model
 
                 db.SaveChanges();
             }
+        }
+
+        public long CreatOrder(ClientDTO _client,long TotalSum, long idsal, ObservableCollection<Element_saleDto> CartItems)
+        {
+            long? CId = null;
+            if (_client != null) CId = _client.id;
+
+            var order = new SaleDTO()
+            {
+                cost = TotalSum,
+                salesmn_id = idsal,
+                client_id = CId,
+            };
+
+           var id= CreateSale(order);
+
+            foreach (var item in CartItems)
+            {
+                var selectedElement = new Element_saleDto()
+                {
+                    sale_id = id,
+                    products_id = item.products_id,
+                    Quantity = item.Quantity,
+                    price = (long)item.ProductPrice,
+                };
+
+                var elementSaleModel = new Element_saleModel();
+                elementSaleModel.CreateElementSale(selectedElement);
+
+                var productModel = new ProductsModel();
+                productModel.DecreaseProductQuantity(item.products_id, item.Quantity);
+            }
+
+            if (_client != null)
+            {
+                var clientModel = new ClientModel();
+                clientModel.IncreaseClientTotalAmount(_client.id, order.cost);
+            }
+
+            return id;
         }
 
         // Метод для удаления продажи по ID
