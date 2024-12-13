@@ -41,6 +41,13 @@ namespace TSMS_2_.Model
             //return salesmen.Select(i => new salesmanDTO(i)).ToList();
         }
 
+        public bool DoesClientNumberExist(string phoneNumber)
+        {
+            using (var context = new Model1())
+            {
+                return context.client.Any(client => client.noomber == phoneNumber);
+            }
+        }
 
         public long? FindDiscountIdByPurchaseAmount(long purchaseAmount)
         {

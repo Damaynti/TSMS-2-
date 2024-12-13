@@ -58,8 +58,10 @@ namespace TSMS_2_.Model
 
            var id= CreateSale(order);
 
-            foreach (var item in CartItems)
+            for (int i = 0; i < CartItems.Count; i++)
             {
+                var item = CartItems[i];
+
                 var selectedElement = new Element_saleDto()
                 {
                     sale_id = id,

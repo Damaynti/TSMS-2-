@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TSMS_2_.View"
         mc:Ignorable="d"
-        Title="ADDClient" Height="274" Width="306" >
-    <Grid Background="#FF315266" Margin="0,0,0,-98" >
+        Title="ADDClient" Height="374" Width="306" >
+    <Grid Background="#FF315266" Margin="0,0,0,-6" >
         <Label Content="Введите номер телефона нового клиента" HorizontalAlignment="Left" Margin="10,29,0,0" VerticalAlignment="Top" Foreground="#E5FFFFFF" Width="242"/>
         <TextBox x:Name="noom" Text="{Binding NewClientNumber, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="27,58,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Foreground="White" AutomationProperties.HelpText="Телефон"/>
         <Button Content="Добавить" HorizontalAlignment="Left" Margin="87,305,0,0" VerticalAlignment="Top" Width="110" Command="{Binding AddNewClientCommand}" />

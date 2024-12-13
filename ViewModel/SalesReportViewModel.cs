@@ -165,7 +165,7 @@ namespace TSMS_2_.ViewModel
             }
 
             // Построение диаграммы
-            PieChartModel = new PlotModel { Title = "Revenue by Categories" };
+            PieChartModel = new PlotModel { Title = "Отчет по категориям" };
 
             var pieSeries = new PieSeries
             {
