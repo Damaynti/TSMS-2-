@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TSMS_2_.View"
         mc:Ignorable="d"
-        Title="ADDLoanAgreement" Height="357" Width="434" Background="#FF315266">
+        Title="ADDLoanAgreement" Height="219" Width="434" Background="#FF315266">
     <Grid Margin="10,10,10,0" Background="#FF315266">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
@@ -22,11 +22,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!-- Поставщик ID -->
-        <TextBlock Text="Поставщик ID:" Foreground="White" FontWeight="Bold" Grid.Row="0" Grid.Column="0" Margin="10,10,10,5" />
-        <TextBox x:Name="SupplierIdTextBox" Text="{Binding SelectedLoanAgreement.supplier_id, Mode=TwoWay}" Background="White" Grid.Row="0" Grid.Column="1" Margin="10,10,10,5"/>
-
-        <!-- Сумма кредита -->
+       <!-- Сумма кредита -->
         <TextBlock Text="Сумма кредита:" Foreground="White" FontWeight="Bold" Grid.Row="1" Grid.Column="0" Margin="10,5,10,5" />
         <TextBox x:Name="SumTextBox" Text="{Binding SelectedLoanAgreement.sum, Mode=TwoWay}" Background="White" Grid.Row="1" Grid.Column="1" Margin="10,5,10,5"/>
 
@@ -34,27 +30,8 @@
         <TextBlock Text="Процентная ставка:" Foreground="White" FontWeight="Bold" Grid.Row="2" Grid.Column="0" Margin="10,5,10,5"/>
         <TextBox x:Name="PercentTextBox" Text="{Binding SelectedLoanAgreement.percent, Mode=TwoWay}" Background="White" Grid.Row="2" Grid.Column="1" Margin="10,5,10,5"/>
 
-        <!-- Статус ID -->
-        <TextBlock Text="Статус ID:" Foreground="White" FontWeight="Bold" Grid.Row="3" Grid.Column="0" Margin="10,5,10,5"/>
-        <TextBox x:Name="StatusIdTextBox" Text="{Binding SelectedLoanAgreement.status_id, Mode=TwoWay}" Background="White" Grid.Row="3" Grid.Column="1" Margin="10,5,10,5"/>
-
-        <!-- Дата начала -->
-        <TextBlock Text="Дата начала:" Foreground="White" FontWeight="Bold" Grid.Row="4" Grid.Column="0" Margin="10,5,10,5"/>
-        <DatePicker x:Name="StartDatePicker"
-                    SelectedDate="{Binding SelectedLoanAgreement.start, Mode=TwoWay}"
-                    Margin="10,5,10,5"
-                    Grid.Row="4"
-                    Grid.Column="1">
-            <DatePicker.Style>
-                <Style TargetType="{x:Type DatePicker}">
-                    <Setter Property="Background" Value="#FF2A2A2A"/>
-                    <!-- Dark background -->
-                    <Setter Property="Foreground" Value="#FF2A2A2A"/>
-                    <!-- White text -->
-                </Style>
-            </DatePicker.Style>
-        </DatePicker>
-
+        
+        
         <!-- Дата окончания -->
         <TextBlock Text="Дата окончания:" Foreground="White" FontWeight="Bold" Grid.Row="5" Grid.Column="0" Margin="10,5,10,5"/>
         <DatePicker x:Name="EndDatePicker"

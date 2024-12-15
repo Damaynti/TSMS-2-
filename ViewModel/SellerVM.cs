@@ -156,8 +156,11 @@ namespace TSMS_2_.ViewModel
             get => _selectedClient;
             set
             {
-                _selectedClient = value;
-                OnPropertyChanged(nameof(SelectedClient));
+                if (_selectedClient != value)
+                {
+                    _selectedClient = value;
+                    OnPropertyChanged(nameof(SelectedClient));
+                }
             }
         }
         private ComboBoxItem _selectedTClient;
@@ -459,7 +462,8 @@ namespace TSMS_2_.ViewModel
         }
         public void OpenADDClient()
         {
-            _windowService.ShowWindow("ADDClient", this);
+            SelectedClient = new ClientDTO { physical_person = true };
+            _windowService.OpenWindow("ADDClient", this,1);
         }
         public void RefreshProducts()
         {
@@ -483,55 +487,61 @@ namespace TSMS_2_.ViewModel
             Products = allProducts.Where(p => p.count > 0).ToList();
             OnPropertyChanged(nameof(Products));
         }
-        public void AddClient()
+          private void AddClient()
         {
-            if (NewClientNumber != null)
+            if (SelectedClient != null && !string.IsNullOrWhiteSpace(SelectedClient.noomber))
             {
-                // Проверка корректности номера телефона для российских номеров
-                if (!Regex.IsMatch(NewClientNumber, @"^(\+7|8)\d{10}$"))
+                // Проверка корректности номера телефона
+                if (!Regex.IsMatch(SelectedClient.noomber, @"^(\+7|8)\d{10}$"))
                 {
-                    MessageBox.Show("Номер телефона некорректен. Убедитесь, что он содержит только цифры и соответствует российскому формату (например, +79123456789 или 89123456789).", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MessageBox.Show(
+                        "Номер телефона некорректен. Убедитесь, что он содержит только цифры и соответствует российскому формату (например, +79123456789 или 89123456789).",
+                        "Ошибка",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Warning);
                     return;
                 }
 
-                // Проверка, существует ли уже номер в базе данных
-                if (_tableModel.DoesClientNumberExist(NewClientNumber))
+                // Проверка, существует ли номер в базе данных
+                if (_tableModel.DoesClientNumberExist(SelectedClient.noomber))
                 {
-                    MessageBox.Show("Клиент с таким номером телефона уже существует в базе данных.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MessageBox.Show(
+                        "Клиент с таким номером телефона уже существует в базе данных.",
+                        "Ошибка",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Warning);
                     return;
                 }
-
-                var newClient = new ClientDTO();
-                if (SelectedTClient != null && (string)SelectedTClient.Content != "Физическое лицо")
+                if (SelectedClient.tClient != "Физическое лицо")
                 {
-                    newClient.physical_person = false;
+                    SelectedClient.physical_person = false;
                 }
-                else newClient.physical_person = true;
-
-                newClient.noomber = NewClientNumber;
-                newClient.name = NewClientName;
-                newClient.purchase_amount = 0;
-
-                var idD = _tableModel.FindDiscountIdByPurchaseAmount(newClient.purchase_amount);
+                else SelectedClient.physical_person = true;
+                if (SelectedClient.name == null) SelectedClient.name = "неизвестный";
+                var idD = _tableModel.FindDiscountIdByPurchaseAmount(SelectedClient.purchase_amount);
                 if (idD != null)
                 {
-                    newClient.discount_id = (long)idD;
-                    _discount = (long)idD;
+                    SelectedClient.discount_id = (long)idD;
                 }
-
-                if (newClient.name == null) newClient.name = "неизвестно";
-
-                var id = _clientModel.CreateClient(newClient);
-                _client = _tableModel.GetClientDTOID(id);
-                _phoneNumber = _client.noomber;
-
+                // Добавление клиента в базу
+                SelectedClient.id = _clientModel.CreateClient(SelectedClient);
+                PhoneNumber=SelectedClient.noomber;
+                MessageBox.Show(
+                    "Клиент успешно добавлен.",
+                    "Успех",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Information);
+                LoadProducts();
                 var currentWindow = Application.Current.Windows.OfType<ADDClient>().FirstOrDefault();
                 _windowService.CloseWindow(currentWindow);
-                OnPropertyChanged("PhoneNumber");
-
-                NewClientNumber = null;
-                NewClientName = null;
-                LoadProducts();
+            }
+            else
+            {
+                MessageBox.Show(
+                    "Не заполнены обязательные поля (номер телефона).",
+                    "Ошибка",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
             }
         }
 

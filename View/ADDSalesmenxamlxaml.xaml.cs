@@ -22,10 +22,12 @@ namespace TSMS_2_.View
             if (mode == 1)
             {
                 btn.SetBinding(Button.CommandProperty, new Binding("AddObjInDBCommand"));
+                Up.Visibility= Visibility.Collapsed;
             }
             else
             {
                 btn.SetBinding(Button.CommandProperty, new Binding("UpdObjInDBCommand"));
+                Up.Visibility = Visibility.Visible;
             }
         }
 

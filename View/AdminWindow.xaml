@@ -29,24 +29,52 @@
                         <vm:SalesmanViewModel/>
                     </TabItem.DataContext>
                     <Grid Background="#FF315266" Margin="0,0,0,-197">
+                        <!-- Поле для фильтрации статусов -->
                         <ComboBox 
-            HorizontalAlignment="Left" 
-            Margin="10,10,0,0" 
-            VerticalAlignment="Top" 
-            Width="150" 
-            SelectedItem="{Binding SelectedFilter, Mode=TwoWay}" 
-            ItemsSource="{Binding Filters}" 
-            Background="#FF00BAB9" 
-            Foreground="White" 
-            FontWeight="Bold"/>
+        HorizontalAlignment="Left" 
+        Margin="10,10,0,0" 
+        VerticalAlignment="Top" 
+        Width="150" 
+        SelectedItem="{Binding SelectedFilter, Mode=TwoWay}" 
+        ItemsSource="{Binding Filters}" 
+        Background="White"
+        Foreground="Black" 
+        FontWeight="Bold" Height="32"/>
+
+                        <!-- Поле для поиска -->
+                        <TextBox 
+        x:Name="SearchTextBox" 
+        Text="{Binding SearchQuery, UpdateSourceTrigger=PropertyChanged}" 
+        Width="200" Height="32" 
+        HorizontalAlignment="Left" 
+        Margin="180,10,0,0"
+        VerticalAlignment="Top"  
+        Background="White" 
+        Foreground="Black" 
+        FontWeight="Bold"/>
+
+                        <!-- Кнопка для поиска -->
+                        <Button 
+        Content="🔍" 
+        HorizontalAlignment="Left" 
+        Margin="380,10,0,0" 
+        VerticalAlignment="Top" 
+        Width="58" 
+        Height="32" 
+        Background="#FF00BAB9" 
+        Foreground="White" 
+        FontWeight="Bold" 
+        Command="{Binding SearchCommand}"/>
+
+                        <!-- Таблица с данными -->
                         <DataGrid Background="#FF315266" 
-                     ItemsSource="{Binding Salesmen}" 
-                        SelectedItem="{Binding SelectedSalesman, Mode=OneWayToSource}"
-                         AutoGenerateColumns="False" 
-          BorderBrush="White" 
-          Margin="10,61,10,140"
-          RowHeight="30"
-          CanUserAddRows="False">
+              ItemsSource="{Binding Salesmen}" 
+              SelectedItem="{Binding SelectedSalesman, Mode=OneWayToSource}"
+              AutoGenerateColumns="False" 
+              BorderBrush="White" 
+              Margin="10,61,10,140"
+              RowHeight="30"
+              CanUserAddRows="False">
                             <DataGrid.Resources>
                                 <Style TargetType="DataGridColumnHeader">
                                     <Setter Property="Foreground" Value="White"/>
@@ -72,9 +100,29 @@
                                 <DataGridTextColumn Header="работает/уволен" Binding="{Binding _work}" />
                             </DataGrid.Columns>
                         </DataGrid>
-                        <Button Content="➕ Добавить" HorizontalAlignment="Left" Margin="178,10,0,0" Width="120" Background="#FF00BAB9" Foreground="White" FontWeight="Bold"  Command="{Binding AddObjCommand}" VerticalAlignment="Top"/>
-                       <Button Content="✏️ Изменить" HorizontalAlignment="Left" Margin="355,10,0,0" VerticalAlignment="Top" Width="120 " Height="30 " Background="#FF00BAB9 " Foreground="White" FontWeight="Bold" Command="{Binding EditObjCommand}"/>
+
+                        <!-- Кнопки действий -->
+                        <Button Content="➕ Добавить" 
+            HorizontalAlignment="Left" 
+            Margin="486,10,0,0" 
+            Width="120" 
+            Background="#FF00BAB9" 
+            Foreground="White" 
+            FontWeight="Bold"  
+            Command="{Binding AddObjCommand}" 
+            VerticalAlignment="Top"/>
+                        <Button Content="✏️ Изменить" 
+            HorizontalAlignment="Left" 
+            Margin="660,10,0,0" 
+            VerticalAlignment="Top" 
+            Width="120" 
+            Height="30" 
+            Background="#FF00BAB9" 
+            Foreground="White" 
+            FontWeight="Bold" 
+            Command="{Binding EditObjCommand}"/>
                     </Grid>
+
                 </TabItem>
                 <!--<TabItem Header="Товар" Background="White">
                     <TabItem.DataContext>

@@ -30,17 +30,19 @@ namespace TSMS_2_.Services
                     window = new ADDElementSave();
                     window.DataContext = viewModel;
                     break;
-                case "ADDClient":
-                    window = new ADDClient();
-                    window.DataContext = viewModel;
-                    break;
+               
                 case "SellerWindow":
                     window = new SellerWindow();
+                    window.DataContext = viewModel;
+                    break;
+                case "ADDSup":
+                    window = new SupAddSup();
                     window.DataContext = viewModel;
                     break;
                 case "MainWindow":
                     window = new MainWindow();
                     break;
+                
                 default:
                     throw new ArgumentException("Unknown window type");
             }
@@ -64,8 +66,17 @@ namespace TSMS_2_.Services
                 case "AddSale":
                     window = new ADDSale(mode);
                     break;
+                case "ADDClient":
+                    window = new ADDClient(mode);
+                    break;
                 case "ADDLoanAgreement":
                     window = new ADDLoanAgreement(mode);
+                    break;
+                case "ADDSupply":
+                    window = new AddSupply(mode);
+                    break;
+                case "AddCategory":
+                    window = new AddCategory(mode);
                     break;
                 default:
                     throw new ArgumentException("Unknown window type");
@@ -77,6 +88,7 @@ namespace TSMS_2_.Services
         {
             if (window != null)
             {
+                
                 window.Close();
             }
         }

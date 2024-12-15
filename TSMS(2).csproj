@@ -252,6 +252,9 @@
     <Compile Include="ViewModel\SellerVM.cs" />
     <Compile Include="ViewModel\SupplierViewModel.cs" />
     <Compile Include="ViewModel\SupplyViewModel.cs" />
+    <Compile Include="View\AddCategory.xaml.cs">
+      <DependentUpon>AddCategory.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\ADDClient.xaml.cs">
       <DependentUpon>ADDClient.xaml</DependentUpon>
     </Compile>
@@ -273,6 +276,9 @@
     <Compile Include="View\ADDSupplier.xaml.cs">
       <DependentUpon>ADDSupplier.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\AddSupply.xaml.cs">
+      <DependentUpon>AddSupply.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\AdminWindow.xaml.cs">
       <DependentUpon>AdminWindow.xaml</DependentUpon>
     </Compile>
@@ -289,6 +295,13 @@
     <Compile Include="View\SellerWindow.xaml.cs">
       <DependentUpon>SellerWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\SupAddSup.xaml.cs">
+      <DependentUpon>SupAddSup.xaml</DependentUpon>
+    </Compile>
+    <Page Include="View\AddCategory.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\ADDClient.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -317,6 +330,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\AddSupply.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\AdminWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -330,6 +347,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\SellerWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SupAddSup.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

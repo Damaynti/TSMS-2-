@@ -1,0 +1,46 @@
+﻿<Window x:Class="TSMS_2_.View.SupAddSup"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TSMS_2_.View"
+        mc:Ignorable="d"
+        Title="SupAddSup" Height="450" Width="800">
+    <Grid Background="#FF315266">
+        <DataGrid Background="#FF315266" 
+                        ItemsSource="{Binding Sup}"
+SelectedItem="{Binding SelectedSup, Mode=OneWayToSource}"
+AutoGenerateColumns="False" 
+BorderBrush="White" 
+Margin="0,47,0,0"
+RowHeight="30"
+CanUserAddRows="False"
+                  HeadersVisibility="Column">
+            <DataGrid.Resources>
+                <Style TargetType="DataGridColumnHeader">
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="Background" Value="#FF315266"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                    <Setter Property="Padding" Value="10,0,0,0"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                </Style>
+                <Style TargetType="DataGridRow">
+                    <Setter Property="Height" Value="30"/>
+                    <Setter Property="Background" Value="#FF315266"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Style>
+            </DataGrid.Resources>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding id}" />
+                <DataGridTextColumn Header="ФИО" Binding="{Binding FullName}" />
+                <DataGridTextColumn Header="Название компании" Binding="{Binding CompanyName}" />
+                <DataGridTextColumn Header="Адрес" Binding="{Binding address}" />
+                <DataGridTextColumn Header="Email" Binding="{Binding mail}" />
+                <DataGridTextColumn Header="Реквизиты" Binding="{Binding requisites}" />
+                <DataGridTextColumn Header="Номер телефона" Binding="{Binding number}" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button Content="➕ Добавить" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Background="#FF00BAB9" Foreground="White" FontWeight="Bold"  Command="{Binding AddSupplierCommand}" Margin="181,10,0,0" />
+        <Button Content="Выбрать" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="120 " Height="30 " Background="#FF00BAB9 " Foreground="White" FontWeight="Bold" Command="{Binding UpdateSupplierCommand}"/>
+    </Grid>
+</Window>

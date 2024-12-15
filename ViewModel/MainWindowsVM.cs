@@ -66,12 +66,19 @@ namespace TSMS_2_.ViewModel
             var us = _tableModel.ValidateUser(r,Password);
             if (us!=null)
             {
-                IsAuthenticated = true;
-                string nextWindow = (string)SelectedRole.Content == "Продавец" ? "SellerWindow" : "AdminWindow";
-                var nextViewModel = (string)SelectedRole.Content == "Продавец" ? (object)new SellerVM(us.id) : new AdminVM();
-                _windowService.ShowWindow(nextWindow,nextViewModel);
-                var currentWindow = Application.Current.Windows.OfType<MainWindow>().FirstOrDefault();
-                _windowService.CloseWindow(currentWindow);
+                if (us.work)
+                {
+                    IsAuthenticated = true;
+                    string nextWindow = (string)SelectedRole.Content == "Продавец" ? "SellerWindow" : "AdminWindow";
+                    var nextViewModel = (string)SelectedRole.Content == "Продавец" ? (object)new SellerVM(us.id) : new AdminVM();
+                    _windowService.ShowWindow(nextWindow, nextViewModel);
+                    var currentWindow = Application.Current.Windows.OfType<MainWindow>().FirstOrDefault();
+                    _windowService.CloseWindow(currentWindow);
+                }
+                else {
+                    IsAuthenticated = false;
+                    MessageBox.Show("Работник был уволен.");
+                }
             }
             else
             {

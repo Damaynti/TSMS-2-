@@ -25,6 +25,7 @@ namespace TSMS_2_.ViewModel
         private SupplierDTO _selectedSupplier;
 
         public ICommand UpdObjInDBCommand { get; }
+
         public ICommand AddObjInDBCommand { get; }
         public ICommand AddSupplierCommand { get; }
         public ICommand UpdateSupplierCommand { get; }

@@ -1,4 +1,5 @@
 ﻿using PdfSharp.Pdf.Filters;
+using SkiaSharp;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -48,6 +49,15 @@ namespace TSMS_2_.Model
                 return context.client.Any(client => client.noomber == phoneNumber);
             }
         }
+        public bool DoesClientNumberExist(string number, long clientId)
+        {
+            using (var context = new Model1())
+            {
+                // Проверяем, есть ли клиент с таким номером, исключая текущего клиента
+                return context.client.Any(c => c.noomber == number && c.id != clientId);
+            }
+        }
+
 
         public long? FindDiscountIdByPurchaseAmount(long purchaseAmount)
         {

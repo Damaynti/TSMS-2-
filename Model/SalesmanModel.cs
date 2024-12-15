@@ -39,7 +39,7 @@ namespace TSMS_2_.Model
                 ph.salary = p.salary;
                 ph.address = p.address;
                 ph.mail = p.mail;
-
+                ph.work=p.work;
                 db.SaveChanges();
             }
         }

@@ -37,7 +37,8 @@ namespace TSMS_2_.Model
             if (ph != null)
             {
                 ph.noomber = p.noomber;
-                ph.discount = p.discount;
+                ph.physical_person = p.physical_person;
+                ph.name = p.name;
 
                 db.SaveChanges();
             }
@@ -57,6 +58,24 @@ namespace TSMS_2_.Model
                 }
             }
         }
+        public void RemoveClientAssociations(long clientId)
+        {
+            using (var context = new Model1())
+            {
+                // Find all sales associated with the client
+                var salesToUpdate = context.sale.Where(sale => sale.client_id == clientId).ToList();
+
+                // Set client_id to null for these sales
+                foreach (var sale in salesToUpdate)
+                {
+                    sale.client_id = null;
+                }
+
+                // Save changes to the database
+                context.SaveChanges();
+            }
+        }
+
         public void DeleteClient(long id)
         {
             client p = db.client.Find(id);

@@ -25,6 +25,7 @@ namespace TSMS_2_.ViewModel
         public ICommand UpdateCategoryCommand { get; }
         public ICommand DeleteCategoryCommand { get; }
         public ICommand SaveCategoryCommand { get; }
+        public ICommand UpCategoryCommand { get; }
 
         public CategoriesViewModel()
         {
@@ -34,9 +35,19 @@ namespace TSMS_2_.ViewModel
             UpdateCategoryCommand = new RelayCommand(OpenUpdateCategory);
             DeleteCategoryCommand = new RelayCommand(DeleteSelectedCategory);
             SaveCategoryCommand = new RelayCommand(SaveCategory);
+            UpCategoryCommand=new RelayCommand(UpdateCat);
             LoadCategories();
         }
-
+        private void UpdateCat()
+        {
+            if (SelectedCategory.Name != null )
+            {
+                _categoryModel.UpdateCategory(SelectedCategory);
+                LoadCategories();
+            }
+            var currentWindow = Application.Current.Windows.OfType<AddCategory>().FirstOrDefault();
+            _windowService.CloseWindow(currentWindow);
+        }
         private void LoadCategories()
         {
             var categoriesFromDb = _tableModel.GetCategoriesDTO();
@@ -70,7 +81,7 @@ namespace TSMS_2_.ViewModel
         public void OpenAddCategory()
         {
             SelectedCategory = new CategoryDto();
-            _windowService.OpenWindow("AddCategory", this, 1);
+            _windowService.OpenWindow("AddCategory", this,1);
         }
 
         public void OpenUpdateCategory()
@@ -116,11 +127,11 @@ namespace TSMS_2_.ViewModel
 
         private void CloseCurrentWindow()
         {
-            //var currentWindow = Application.Current.Windows.OfType<AddCategory>().FirstOrDefault();
-            //if (currentWindow != null)
-            //{
-            //    _windowService.CloseWindow(currentWindow);
-            //}
+            var currentWindow = Application.Current.Windows.OfType<AddCategory>().FirstOrDefault();
+            if (currentWindow != null)
+            {
+                _windowService.CloseWindow(currentWindow);
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

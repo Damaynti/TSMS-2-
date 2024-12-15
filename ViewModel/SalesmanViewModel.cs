@@ -26,6 +26,10 @@ namespace TSMS_2_.ViewModel
         private List<salesmanDTO> _salesmen;
         private readonly IWindowService _windowService;
         private salesmanDTO _selectedSalesman;
+        private List<salesmanDTO> _allSalesmen;
+        private string _selectedFilter;
+        private string _searchQuery;
+
         public ICommand UpdObjInDBCommand { get; }
         public ICommand AddObjInDBCommand { get; }
         public ICommand AddObjCommand { get; }
@@ -33,7 +37,8 @@ namespace TSMS_2_.ViewModel
         public ICommand RefreshObjCommand { get; }
         public ICommand EditObjCommand { get; }
         public ICommand EndCommand { get; }
-       
+        public ICommand SearchCommand { get; }
+
         public SalesmanViewModel()
         {
             _salesmen = new List<salesmanDTO>();
@@ -45,14 +50,14 @@ namespace TSMS_2_.ViewModel
             DeleteObjCommand = new RelayCommand(DeleteSelectedSalesman);
             RefreshObjCommand = new RelayCommand(RefreshSalesmen);
             EndCommand = new RelayCommand(End);
+            SearchCommand = new RelayCommand(ExecuteSearch);
+
             Filters = new List<string> { "Все", "Работают", "Уволены" };
             SelectedFilter = "Все";
+            SearchQuery = string.Empty;
+
             LoadSalesmen();
         }
-        private List<salesmanDTO> _allSalesmen;
-        private string _selectedFilter;
-
-    
 
         public string SelectedFilter
         {
@@ -62,54 +67,35 @@ namespace TSMS_2_.ViewModel
                 if (_selectedFilter != value)
                 {
                     _selectedFilter = value;
-                    OnPropertyChanged(SelectedFilter);
+                    OnPropertyChanged(nameof(SelectedFilter));
+                    SearchQuery = string.Empty; // Обнуляем строку поиска при изменении фильтра
                     ApplyFilter();
+                }
+            }
+        }
+
+        public string SearchQuery
+        {
+            get => _searchQuery;
+            set
+            {
+                if (_searchQuery != value)
+                {
+                    _searchQuery = value;
+                    OnPropertyChanged(nameof(SearchQuery));
+                    if (!string.IsNullOrWhiteSpace(_searchQuery))
+                    {
+                        SelectedFilter = "Все"; // Сбрасываем фильтр при изменении строки поиска
+                    }
                 }
             }
         }
 
         public List<string> Filters { get; }
 
-        private void LoadSalesmen()
-        {
-            using (var db = new Model1())
-            {
-                db.salesman.Load();
-                _allSalesmen = db.salesman
-                                .Where(i => !i.admin) // Exclude admin
-                                .ToList()
-                                .Select(i => new salesmanDTO(i))
-                                .ToList();
-            }
-            ApplyFilter();
-        }
-
-        private void ApplyFilter()
-        {
-            if (SelectedFilter == "Работают")
-                Salesmen = _allSalesmen.Where(s => s._work == "Работает").ToList();
-            else if (SelectedFilter == "Уволены")
-                Salesmen = _allSalesmen.Where(s => s._work == "Уволен").ToList();
-            else
-                Salesmen = _allSalesmen;
-        }
-
-        public void End()
-        {
-            var currentWindow = Application.Current.Windows.OfType<ADDSalesmenxamlxaml>().FirstOrDefault();
-            _windowService.CloseWindow(currentWindow);
-        }
         public List<salesmanDTO> Salesmen
         {
-            get
-            {
-                if (0 == _salesmen.Count)
-                {
-                    _salesmen = _tableModel.GetSalesmanDTO();
-                    OnPropertyChanged(nameof(Salesmen));
-                }
-                return _salesmen;
-            }
+            get => _salesmen;
             set
             {
                 if (_salesmen != value)
@@ -129,28 +115,81 @@ namespace TSMS_2_.ViewModel
                 OnPropertyChanged(nameof(SelectedSalesman));
             }
         }
+
+        private void LoadSalesmen()
+        {
+            using (var db = new Model1())
+            {
+                db.salesman.Load();
+                _allSalesmen = db.salesman
+                    .Where(i => !i.admin) // Exclude admin
+                    .ToList()
+                    .Select(i => new salesmanDTO(i))
+                    .ToList();
+            }
+            ApplyFilter();
+        }
+
+        private void ApplyFilter()
+        {
+            if (string.IsNullOrWhiteSpace(SearchQuery))
+            {
+                if (SelectedFilter == "Работают")
+                    Salesmen = _allSalesmen.Where(s => s._work == "Работает").ToList();
+                else if (SelectedFilter == "Уволены")
+                    Salesmen = _allSalesmen.Where(s => s._work == "Уволен").ToList();
+                else
+                    Salesmen = _allSalesmen;
+            }
+        }
+
+        private void ExecuteSearch()
+        {
+            if (string.IsNullOrWhiteSpace(SearchQuery))
+            {
+                Salesmen = _allSalesmen; // Показываем всех сотрудников
+            }
+            else
+            {
+                var filteredSalesmen = _allSalesmen
+                    .Where(s => s.FullName.IndexOf(SearchQuery, StringComparison.OrdinalIgnoreCase) >= 0)
+                    .ToList();
+
+                Salesmen = filteredSalesmen.Any() ? filteredSalesmen : new List<salesmanDTO>();
+            }
+        }
+
         public void OpenAddSalesman()
         {
-
+            ResetSearchAndFilter();
             SelectedSalesman = new salesmanDTO();
             _windowService.OpenWindow("ADDSalesman", this, 1);
-
         }
 
         public void OpenUpdSalesman()
         {
-            if (SelectedSalesman!=null&&SelectedSalesman.id!=0)
+            if (SelectedSalesman != null && SelectedSalesman.id != 0)
             {
-                SelectedSalesman = new salesmanDTO(SelectedSalesman); 
+               
+
+                SelectedSalesman = new salesmanDTO(SelectedSalesman);
                 _windowService.OpenWindow("ADDSalesman", this, 2);
             }
         }
+
+        private void ResetSearchAndFilter()
+        {
+            SearchQuery = string.Empty;
+            SelectedFilter = "Все";
+            LoadSalesmen();
+        }
+
         public void RefreshSalesmen()
         {
-            var us = _tableModel.GetSalesmanDTO();
+            var updatedSalesmen = _tableModel.GetSalesmanDTO();
             Salesmen.Clear();
-            Salesmen = _tableModel.GetSalesmanDTO();
-            OnPropertyChanged("Salesmen");
+            Salesmen = updatedSalesmen;
+            OnPropertyChanged(nameof(Salesmen));
         }
 
         private void DeleteSelectedSalesman()
@@ -162,23 +201,42 @@ namespace TSMS_2_.ViewModel
                 RefreshSalesmen();
             }
         }
+
         private void UpdateSalesman()
         {
-            if (SelectedSalesman.FullName != null && SelectedSalesman.mail != null && SelectedSalesman.password != null && SelectedSalesman.number != null && SelectedSalesman.salary != 0 && SelectedSalesman.address != null)
+            if (IsSalesmanValid(SelectedSalesman))
             {
                 _salesmanModel.UpdateSalesman(SelectedSalesman);
                 RefreshSalesmen();
                 End();
             }
+            ResetSearchAndFilter();
         }
-        public void CreateSalesman()
+
+        private void CreateSalesman()
         {
-            if (SelectedSalesman.FullName != null && SelectedSalesman.mail != null && SelectedSalesman.password != null && SelectedSalesman.number != null && SelectedSalesman.salary != 0 && SelectedSalesman.address != null)
+            if (IsSalesmanValid(SelectedSalesman))
             {
                 _salesmanModel.CreateSalesman(SelectedSalesman);
                 RefreshSalesmen();
                 End();
             }
+        }
+
+        private bool IsSalesmanValid(salesmanDTO salesman)
+        {
+            return !string.IsNullOrEmpty(salesman.FullName) &&
+                   !string.IsNullOrEmpty(salesman.mail) &&
+                   !string.IsNullOrEmpty(salesman.password) &&
+                   !string.IsNullOrEmpty(salesman.number) &&
+                   salesman.salary > 0 &&
+                   !string.IsNullOrEmpty(salesman.address);
+        }
+
+        public void End()
+        {
+            var currentWindow = Application.Current.Windows.OfType<ADDSalesmenxamlxaml>().FirstOrDefault();
+            _windowService.CloseWindow(currentWindow);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -187,6 +245,6 @@ namespace TSMS_2_.ViewModel
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
     }
+
 }

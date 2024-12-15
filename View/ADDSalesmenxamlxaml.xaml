@@ -33,7 +33,21 @@
 
             <TextBlock Text="Адресс:" Foreground="White" FontWeight="Bold" Margin="10,0,0,0" />
             <TextBox x:Name="addresbox"  Text="{Binding   SelectedSalesman.address, Mode=TwoWay}" Background="White" Width="200" Margin="10,0,0,0"/>
-            <Button Content="Отмена" RenderTransformOrigin="0.296,0.603" Width="200"  Background="#FF046565" Command="{Binding EndCommand}" Margin="10,5,0,0"/>
+       
+           <StackPanel x:Name="Up" Orientation="Vertical" Margin="10,5,10,0" >
+                <!-- Label for clarity -->
+                <TextBlock Text="Статус продавца:" Foreground="White" FontWeight="Bold" Margin="0,0,0,5"/>
+
+                <!-- CheckBox for work status -->
+                <CheckBox x:Name="WorkCheckBox"
+              IsChecked="{Binding SelectedSalesman.work, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+              Content="Продавец работает"
+              Width="200" Background="White" Foreground="White"/>
+            </StackPanel>
+
+
+
+
 
         </ListBox>
 
