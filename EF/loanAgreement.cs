@@ -21,8 +21,9 @@ namespace TSMS_2_.EF
 
         public DateTime? start { get; set; }
 
-        [Column(TypeName = "time")]
-        public TimeSpan? end { get; set; }
+        public DateTime? end { get; set; }
+
+        public long end_sum { get; set; }
 
         public virtual status status { get; set; }
 

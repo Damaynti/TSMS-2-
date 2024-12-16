@@ -36,7 +36,7 @@ namespace TSMS_2_.ViewModel
         public long Percent { get; set; }
         public long StatusId { get; set; }
         public DateTime? Start { get; set; }
-        public TimeSpan? End { get; set; }
+        public DateTime? End { get; set; }
 
         public loanAgreementVM()
         {

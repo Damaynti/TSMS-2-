@@ -45,6 +45,7 @@ namespace TSMS_2_.ViewModel
         public ICommand DecreaseQuantityCommand { get; }
         public ICommand AddObjInDBCommand { get; }
         public ICommand NullLoanAgreementCommand { get; }   
+        public ICommand CreateCommand { get; }
 
         // Properties for Supply details
         public long SupplierId { get; set; }
@@ -79,6 +80,7 @@ namespace TSMS_2_.ViewModel
             UpdateSupplierCommand = new RelayCommand(AddToSup);
             NullLoanAgreementCommand=new RelayCommand(NullLoanAgreement);
             _products = new List<ProductsDTO>();
+            CreateCommand= new RelayCommand(CreateOrder);
             _sup = new List<SupplierDTO>();
             IncreaseQuantityCommand = new Command<Element_saleDto>(IncreaseQuantity);
             DecreaseQuantityCommand = new Command<Element_saleDto>(DecreaseQuantity);
@@ -88,17 +90,36 @@ namespace TSMS_2_.ViewModel
         private void NullLoanAgreement()
         {
             SelectedLoanAgreement=null;
-            var currentWindow = Application.Current.Windows.OfType<SupAddSup>().FirstOrDefault();
+            var currentWindow = Application.Current.Windows.OfType<ADDLoanAgreement>().FirstOrDefault();
             _windowService.CloseWindow(currentWindow);
         }
+        public void CreateOrder()
+        {
+            if (CartItems.Count == 0)
+            {
+                MessageBox.Show("Корзина пуста. Невозможно оформить поставку.");
+                return;
+            }
+
+            var q = new SupplyModel();
+            //var id = q.CreatOrder(_client, (long)TotalSum, idsal, CartItems);
+            //SaveReceiptAsPdf(id);
+
+            CartItems.Clear();
+            _LoanAg = "Нет";
+            _nameSup = "Поставщик не указан";
+            LoadSupplies() ;    
+        }
+
 
         private void CreateLoanAgreement()
         {
-            if (SelectedLoanAgreement != null && SelectedLoanAgreement.end!=null  )
+            if (SelectedLoanAgreement != null && SelectedLoanAgreement.end!= null && SelectedLoanAgreement.end>DateTime.Now )
             {
                 _LoanAg = "Да";
-                var currentWindow = Application.Current.Windows.OfType<SupAddSup>().FirstOrDefault();
+                var currentWindow = Application.Current.Windows.OfType<ADDLoanAgreement>().FirstOrDefault();
                 _windowService.CloseWindow(currentWindow);
+                LoadSupplies() ;
             }
             
         }
@@ -147,7 +168,9 @@ namespace TSMS_2_.ViewModel
         public void Clean()
         {
             _nameSup = "Поставщик не указан";
+            _LoanAg = "Нет";
             _cartItems = null;
+            LoadSupplies();
             OnPropertyChanged(nameof(CartItems));
         }
         private void IncreaseQuantity(Element_saleDto item)
@@ -326,6 +349,7 @@ namespace TSMS_2_.ViewModel
                 Sup = supList.ToList();
                 OnPropertyChanged(nameof(Sup));
                 var availableProducts = productsFromDb.ToList();
+                OnPropertyChanged(nameof(LoanAg));
 
                 Products = availableProducts;
                 OnPropertyChanged(nameof(Products));

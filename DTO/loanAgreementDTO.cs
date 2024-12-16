@@ -22,6 +22,7 @@ namespace TSMS_2_.DTO
         public long supplier_id { get; set; }
 
         public long sum { get; set; }
+        public long end_sum { get; set; }
 
         public long percent { get; set; }
 
@@ -29,7 +30,7 @@ namespace TSMS_2_.DTO
 
         public DateTime? start { get; set; }
 
-        public TimeSpan? end { get; set; }
+        public DateTime? end { get; set; }
         public virtual status status { get; set; }
 
         public virtual supplier supplier { get; set; }
@@ -38,6 +39,7 @@ namespace TSMS_2_.DTO
             id = m.id;
             supplier_id = m.supplier_id;
             sum = m.sum;
+            end_sum=m.end_sum;
             percent = m.percent;
             status = m.status;
             supplier = m.supplier;
@@ -56,6 +58,7 @@ namespace TSMS_2_.DTO
                 status = m.status;
                 supplier = m.supplier;
                 percent = m.percent;
+                end_sum = m.end_sum;
                 status_id = m.status_id;
                 start = m.start;
                 end = m.end;

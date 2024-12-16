@@ -205,6 +205,7 @@
     <Compile Include="DTO\ClientDTO.cs" />
     <Compile Include="DTO\DiscountDTO.cs" />
     <Compile Include="DTO\Element_saleDto.cs" />
+    <Compile Include="DTO\Element_SupplyDTO.cs" />
     <Compile Include="DTO\loanAgreementDTO.cs" />
     <Compile Include="DTO\ProductsDTO.cs" />
     <Compile Include="DTO\SaleDTO.cs" />
@@ -227,6 +228,7 @@
     <Compile Include="Model\categoriesModel.cs" />
     <Compile Include="Model\ClientModel.cs" />
     <Compile Include="Model\Element_saleModel.cs" />
+    <Compile Include="Model\Element_SupplyModel.cs" />
     <Compile Include="Model\loanAgreementModel.cs" />
     <Compile Include="Model\ProductsModel.cs" />
     <Compile Include="Model\SalesmanModel.cs" />

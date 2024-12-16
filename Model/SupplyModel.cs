@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,7 +14,7 @@ namespace TSMS_2_.Model
         private Model1 db = new Model1();
 
         // Метод для создания новой поставки
-        public void CreateSupply(SupplyDTO s)
+        public long CreateSupply(SupplyDTO s)
         {
             supply newSupply = new supply
             {
@@ -23,6 +24,7 @@ namespace TSMS_2_.Model
             };
             db.supply.Add(newSupply);
             db.SaveChanges();
+            return newSupply.id;
         }
 
         // Метод для обновления существующей поставки
@@ -37,6 +39,51 @@ namespace TSMS_2_.Model
 
                 db.SaveChanges();
             }
+        }
+        public long CreatOrder(loanAgreementDTO _loanAg, DateTime data, long TotalSum, long idsal, ObservableCollection<Element_saleDto> CartItems)
+        {
+            long? CId = null;
+            if (_loanAg != null) CId = _loanAg.id;
+
+            var order = new SupplyDTO()
+            {
+                cost = TotalSum,
+                supplier_id = idsal,
+                data = data,
+            };
+
+            var id = CreateSupply(order);
+
+            if (_loanAg != null)
+            {
+                var loanAgModel = new loanAgreementModel();
+                loanAgModel.CreateLoanAgreement(_loanAg);
+            }
+
+            for (int i = 0; i < CartItems.Count; i++)
+            {
+                var item = CartItems[i];
+
+                var selectedElement = new ElementSupplyDto()
+                {
+                    SupplyId = id,
+                    ProductsId = item.products_id,
+                    Quantity = item.Quantity,
+                    Price = (long)item.ProductPrice,
+                };
+
+                var elementSupplyModel = new ElementSupplyModel();
+                {
+                    elementSupplyModel.CreateElementSupply(selectedElement);
+
+                    var productModel = new ProductsModel();
+                    productModel.DecreaseProductQuantity(item.products_id, item.Quantity);
+                }
+
+                
+            }
+                return id;
+            
         }
 
         // Метод для удаления поставки по ID

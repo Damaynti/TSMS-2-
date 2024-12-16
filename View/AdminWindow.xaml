@@ -408,6 +408,7 @@ CanUserAddRows="False">
                                 <DataGridTextColumn Header="ID" Binding="{Binding id}" />
                                 <DataGridTextColumn Header="Поставщик ID" Binding="{Binding supplier_id}" />
                                 <DataGridTextColumn Header="Сумма" Binding="{Binding sum}" />
+                                <DataGridTextColumn Header="Сумма погашения" Binding="{Binding end_sum}" />
                                 <DataGridTextColumn Header="Процент" Binding="{Binding percent}" />
                                 <DataGridTextColumn Header="Статус ID" Binding="{Binding status_id}" />
                                 <DataGridTextColumn Header="Начало" Binding="{Binding start}" />
