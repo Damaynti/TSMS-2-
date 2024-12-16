@@ -22,10 +22,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-       <!-- Сумма кредита -->
-        <TextBlock Text="Сумма кредита:" Foreground="White" FontWeight="Bold" Grid.Row="1" Grid.Column="0" Margin="10,5,10,5" />
-        <TextBox x:Name="SumTextBox" Text="{Binding SelectedLoanAgreement.sum, Mode=TwoWay}" Background="White" Grid.Row="1" Grid.Column="1" Margin="10,5,10,5"/>
-
+      
         <!-- Процентная ставка -->
         <TextBlock Text="Процентная ставка:" Foreground="White" FontWeight="Bold" Grid.Row="2" Grid.Column="0" Margin="10,5,10,5"/>
         <TextBox x:Name="PercentTextBox" Text="{Binding SelectedLoanAgreement.percent, Mode=TwoWay}" Background="White" Grid.Row="2" Grid.Column="1" Margin="10,5,10,5"/>
@@ -50,7 +47,7 @@
         </DatePicker>
 
         <!-- Кнопки -->
-        <Button Content="Сохранить" Background="#FF00BAB9" Margin="10,15,10,20" Grid.Row="6" Grid.Column="0"/>
-        <Button Content="Отмена" Background="#FF046565" Margin="10,15,10,20" Grid.Row="6" Grid.Column="1"/>
+        <Button Content="Сохранить" Background="#FF00BAB9" Margin="10,15,10,20" Grid.Row="6" Grid.Column="0" Command="{Binding AddObjInDBCommand}"/>
+        <Button Content="Отмена" Background="#FF046565" Margin="10,15,10,20" Grid.Row="6" Grid.Column="1"  Command="{Binding NullLoanAgreementCommand}"/>
     </Grid>
 </Window>

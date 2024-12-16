@@ -11,6 +11,9 @@
         <StackPanel Margin="0,3,-10,-8">
             <Grid>
                 <TextBlock HorizontalAlignment="Left" Margin="10,-4,0,0" TextWrapping="Wrap" Text="{Binding NameSup,StringFormat='Поставщик: {0} '}" VerticalAlignment="Top" Foreground="White"/>
+               </Grid>
+            <Grid>
+                <TextBlock HorizontalAlignment="Left" Margin="10,-4,0,0" TextWrapping="Wrap" Text="{Binding LoanAg,StringFormat='Существует кредит на поставку: {0} '}" VerticalAlignment="Top" Foreground="White"/>
             </Grid>
 
             <DataGrid x:Name="dataGrid"

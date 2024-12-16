@@ -43,8 +43,8 @@ namespace TSMS_2_.ViewModel
         public ICommand RemoveItemCommand { get; }
         public ICommand IncreaseQuantityCommand { get; }
         public ICommand DecreaseQuantityCommand { get; }
-        public ICommand UpdObjInDBCommand { get; }
         public ICommand AddObjInDBCommand { get; }
+        public ICommand NullLoanAgreementCommand { get; }   
 
         // Properties for Supply details
         public long SupplierId { get; set; }
@@ -67,7 +67,6 @@ namespace TSMS_2_.ViewModel
             AddSupplyCommand = new RelayCommand(OpenAddSupply);
             OpenSupCommand=new RelayCommand(OpenAddSup);
             AddObjInDBCommand = new RelayCommand(CreateLoanAgreement);
-            UpdObjInDBCommand = new RelayCommand(UpdateLoanAgreement);
             OpenLoanAgreenentCommand = new RelayCommand(OpenLoanAgreenent);
             UpdateSupplyCommand = new RelayCommand(OpenUpdateSupply, CanExecuteSelectedSupply);
             DeleteSupplyCommand = new RelayCommand(DeleteSelectedSupply, CanExecuteSelectedSupply);
@@ -78,38 +77,32 @@ namespace TSMS_2_.ViewModel
             AddToCartCommand = new RelayCommand(AddToCart);
             CleanCommand = new RelayCommand(Clean);
             UpdateSupplierCommand = new RelayCommand(AddToSup);
+            NullLoanAgreementCommand=new RelayCommand(NullLoanAgreement);
             _products = new List<ProductsDTO>();
             _sup = new List<SupplierDTO>();
             IncreaseQuantityCommand = new Command<Element_saleDto>(IncreaseQuantity);
             DecreaseQuantityCommand = new Command<Element_saleDto>(DecreaseQuantity);
             LoadSupplies();
         }
+
+        private void NullLoanAgreement()
+        {
+            SelectedLoanAgreement=null;
+            var currentWindow = Application.Current.Windows.OfType<SupAddSup>().FirstOrDefault();
+            _windowService.CloseWindow(currentWindow);
+        }
+
         private void CreateLoanAgreement()
         {
             if (SelectedLoanAgreement != null && SelectedLoanAgreement.end!=null  )
             {
-                _loanAgreementModel.CreateLoanAgreement(new loanAgreementDTO
-                {
-                    supplier_id = SupplierId,
-                    sum = (long)TotalSum,
-                    percent = SelectedLoanAgreement.percent,
-                    end = SelectedLoanAgreement.end
-                });
+                _LoanAg = "Да";
+                var currentWindow = Application.Current.Windows.OfType<SupAddSup>().FirstOrDefault();
+                _windowService.CloseWindow(currentWindow);
             }
             
         }
-        private void UpdateLoanAgreement()
-        {
-            if (SelectedLoanAgreement != null )
-            {
-                _loanAgreementModel.UpdateLoanAgreement(new loanAgreementDTO
-                {
-                    id = SelectedLoanAgreement.id,
-                    percent = SelectedLoanAgreement.percent,
-                    end = SelectedLoanAgreement.end
-                });
-            }
-        }
+        
         private string _nameSup = "Поставщик не указан";
         public string NameSup
         {
@@ -118,6 +111,16 @@ namespace TSMS_2_.ViewModel
             {
                 _nameSup = value;
                 OnPropertyChanged(nameof(NameSup));
+            }
+        }
+        private string _LoanAg = "Нет";
+        public string LoanAg
+        {
+            get => _LoanAg;
+            set
+            {
+                _LoanAg = value;
+                OnPropertyChanged(nameof(LoanAg));
             }
         }
         public void AddToSup()
@@ -225,6 +228,7 @@ namespace TSMS_2_.ViewModel
         }
         public void OpenAddElementSale()
         {
+            
             _windowService.ShowWindow("ADDElementSave", this);
         }
         
@@ -383,6 +387,7 @@ namespace TSMS_2_.ViewModel
         {
             if (SelectedLoanAgreement == null)
             {
+                SelectedLoanAgreement = new loanAgreementDTO();
                 _windowService.OpenWindow("ADDLoanAgreement", this, 1);
             }
             else
