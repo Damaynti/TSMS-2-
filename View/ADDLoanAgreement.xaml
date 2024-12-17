@@ -47,7 +47,7 @@
         </DatePicker>
 
         <!-- Кнопки -->
-        <Button Content="Сохранить" Background="#FF00BAB9" Margin="10,15,10,20" Grid.Row="6" Grid.Column="0" Command="{Binding AddObjInDBCommand}"/>
+        <Button x:Name="btn" Content="Сохранить" Background="#FF00BAB9" Margin="10,15,10,20" Grid.Row="6" Grid.Column="0" Command="{Binding AddObjInDBCommand}"/>
         <Button Content="Отмена" Background="#FF046565" Margin="10,15,10,20" Grid.Row="6" Grid.Column="1"  Command="{Binding NullLoanAgreementCommand}"/>
     </Grid>
 </Window>

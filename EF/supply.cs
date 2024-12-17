@@ -13,6 +13,7 @@ namespace TSMS_2_.EF
         public supply()
         {
             element_supply = new HashSet<element_supply>();
+            loanAgreement = new HashSet<loanAgreement>();
         }
 
         public long supplier_id { get; set; }
@@ -25,6 +26,9 @@ namespace TSMS_2_.EF
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<element_supply> element_supply { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<loanAgreement> loanAgreement { get; set; }
 
         public virtual supplier supplier { get; set; }
     }

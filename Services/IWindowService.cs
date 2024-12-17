@@ -13,5 +13,7 @@ namespace TSMS_2_.Services
         void ShowWindow(string windowType, object viewModel = null);
         void OpenWindow(string windowType, object viewModel, int mode);
         void CloseWindow(Window window);
+        void HideWindow(Window window);
+        void SWindow(Window window);
     }
 }

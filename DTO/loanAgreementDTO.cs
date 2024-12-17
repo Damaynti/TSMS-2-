@@ -19,7 +19,7 @@ namespace TSMS_2_.DTO
 
         public long id { get; set; }
 
-        public long supplier_id { get; set; }
+        public long sup_id { get; set; }
 
         public long sum { get; set; }
         public long end_sum { get; set; }
@@ -27,25 +27,28 @@ namespace TSMS_2_.DTO
         public long percent { get; set; }
 
         public long status_id { get; set; }
+        public string _status { get; set; }
+
 
         public DateTime? start { get; set; }
 
         public DateTime? end { get; set; }
         public virtual status status { get; set; }
 
-        public virtual supplier supplier { get; set; }
+        public virtual supply supplier { get; set; }
         public loanAgreementDTO(loanAgreement m)
         {
             id = m.id;
-            supplier_id = m.supplier_id;
+            sup_id = m.sup_id;
             sum = m.sum;
             end_sum=m.end_sum;
             percent = m.percent;
             status = m.status;
-            supplier = m.supplier;
+            supplier = m.supply;
             status_id = m.status_id;
             start = m.start;
             end = m.end;
+            _status=m.status.title;
         }
 
         public loanAgreementDTO(loanAgreementDTO m)
@@ -53,7 +56,7 @@ namespace TSMS_2_.DTO
             if (m != null)
             {
                 id = m.id;
-                supplier_id = m.supplier_id;
+                sup_id = m.sup_id;
                 sum = m.sum;
                 status = m.status;
                 supplier = m.supplier;
@@ -62,6 +65,7 @@ namespace TSMS_2_.DTO
                 status_id = m.status_id;
                 start = m.start;
                 end = m.end;
+                _status = m.status.title;
             }
         }
     }

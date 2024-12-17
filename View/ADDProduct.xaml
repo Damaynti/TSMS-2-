@@ -5,11 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TSMS_2_.View"
         mc:Ignorable="d"
-        Title="ADDProduct" Height="438" Width="277">
+        Title="ADDProduct" Height="332" Width="526">
     <Grid Margin="10">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="177*"/>
-            <ColumnDefinition Width="325*"/>
+            <ColumnDefinition Width="135*"/>
+            <ColumnDefinition Width="136*"/>
         </Grid.ColumnDefinitions>
         <ListBox Background="#FF315266" Margin="5,0,5,0" Grid.ColumnSpan="2">
             <TextBlock Text="Название:" Foreground="White" FontWeight="Bold" Margin="10,0,0,0" />
@@ -24,16 +24,23 @@
             <TextBox x:Name="priceTextBox" Text="{Binding  SelectedProduct.price, Mode=TwoWay}" Background="White" Width="200" Margin="10,0,0,0" />
 
 
+           
+
+            <Button Content="Сохранить" Width="200"   Background="#FF00BAB9" Name="btn" Margin="10,5,0,0"/>
+            
+
+        </ListBox>
+        <ListBox Background="#FF315266" Margin="10,0,5,0" Grid.Column="1">
             <TextBlock Text="Количество:" Foreground="White" FontWeight="Bold" Margin="10,0,0,0" />
             <TextBox x:Name="CountTextBox" Text="{Binding  SelectedProduct.count, Mode=TwoWay}" Background="White" Width="200" Margin="10,0,0,0" SelectionOpacity="3"/>
 
-            
-            <Button Content="Сохранить" Width="200"   Background="#FF00BAB9" Name="btn" Margin="10,5,0,0"/>
-            <Button Content="Отмена" RenderTransformOrigin="0.296,0.603" Width="200"  Background="#FF046565" Margin="10,0,0,0"/>
+            <TextBlock Text="Технические характеристики:" Foreground="White" FontWeight="Bold" Margin="10,0,0,0" />
+            <TextBox Width="179" Background="White" Text="{Binding  SelectedProduct.tex, Mode=TwoWay}"   TextWrapping="Wrap" 
+    AcceptsReturn="True" 
+    VerticalScrollBarVisibility="Auto" 
+    HorizontalScrollBarVisibility="Disabled"  Height="92" Margin="12,0,0,0"></TextBox>
+            <Button Content="Отмена" RenderTransformOrigin="0.296,0.603" Width="200"  Background="#FF046565" Margin="10,10,0,0"/>
 
         </ListBox>
-
-
-
     </Grid>
 </Window>

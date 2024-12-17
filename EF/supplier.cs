@@ -12,7 +12,6 @@ namespace TSMS_2_.EF
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public supplier()
         {
-            loanAgreement = new HashSet<loanAgreement>();
             supply = new HashSet<supply>();
         }
 
@@ -35,9 +34,6 @@ namespace TSMS_2_.EF
         public string number { get; set; }
 
         public long id { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<loanAgreement> loanAgreement { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<supply> supply { get; set; }

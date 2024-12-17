@@ -18,7 +18,7 @@ namespace TSMS_2_.Model
         {
             supply newSupply = new supply
             {
-                supplier_id = s.supplier_id,
+                supplier_id = s.sup_id,
                 data = s.data,
                 cost = s.cost
             };
@@ -33,14 +33,14 @@ namespace TSMS_2_.Model
             supply existingSupply = db.supply.Find(s.id);
             if (existingSupply != null)
             {
-                existingSupply.supplier_id = s.supplier_id;
+                existingSupply.supplier_id = s.sup_id;
                 existingSupply.data = s.data;
                 existingSupply.cost = s.cost;
 
                 db.SaveChanges();
             }
         }
-        public long CreatOrder(loanAgreementDTO _loanAg, DateTime data, long TotalSum, long idsal, ObservableCollection<Element_saleDto> CartItems)
+        public long CreatOrder(loanAgreementDTO _loanAg, long TotalSum, long idsal, ObservableCollection<Element_saleDto> CartItems)
         {
             long? CId = null;
             if (_loanAg != null) CId = _loanAg.id;
@@ -48,14 +48,18 @@ namespace TSMS_2_.Model
             var order = new SupplyDTO()
             {
                 cost = TotalSum,
-                supplier_id = idsal,
-                data = data,
+                sup_id = idsal,
+                data=DateTime.Now,
             };
 
             var id = CreateSupply(order);
 
             if (_loanAg != null)
             {
+                _loanAg.end_sum = _loanAg.sum*(100+_loanAg.percent)/100;
+                _loanAg.sup_id = id;
+                _loanAg.sum = TotalSum;
+                _loanAg.status_id = 2;
                 var loanAgModel = new loanAgreementModel();
                 loanAgModel.CreateLoanAgreement(_loanAg);
             }
@@ -77,7 +81,7 @@ namespace TSMS_2_.Model
                     elementSupplyModel.CreateElementSupply(selectedElement);
 
                     var productModel = new ProductsModel();
-                    productModel.DecreaseProductQuantity(item.products_id, item.Quantity);
+                    productModel.increaseProductQuantity(item.products_id, item.Quantity);
                 }
 
                 

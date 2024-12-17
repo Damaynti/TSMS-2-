@@ -16,23 +16,35 @@ namespace TSMS_2_.Model
         {
             loanAgreement newLoanAgreement = new loanAgreement
             {
-                supplier_id = dto.supplier_id,
+                sup_id = dto.sup_id,
                 sum = dto.sum,
                 percent = dto.percent,
                 status_id = dto.status_id,
-                start = dto.start,
-                end = dto.end
+                start = DateTime.Now,
+                end = dto.end,
+                end_sum = dto.end_sum,
             };
             db.loanAgreement.Add(newLoanAgreement);
             db.SaveChanges();
         }
-
+        public void UpdateLoanAgreementStatus(loanAgreementDTO loanAgreement)
+        {
+            using (var context = new Model1())
+            {
+                var loan = context.loanAgreement.FirstOrDefault(l => l.id == loanAgreement.id);
+                if (loan != null)
+                {
+                    loan.status_id = loanAgreement.status_id;
+                    context.SaveChanges();
+                }
+            }
+        }
         public void UpdateLoanAgreement(loanAgreementDTO dto)
         {
             loanAgreement la = db.loanAgreement.Find(dto.id);
             if (la != null)
             {
-                la.supplier_id = dto.supplier_id;
+                la.sup_id = dto.sup_id;
                 la.sum = dto.sum;
                 la.percent = dto.percent;
                 la.status_id = dto.status_id;

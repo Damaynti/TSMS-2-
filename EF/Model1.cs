@@ -8,7 +8,7 @@ namespace TSMS_2_.EF
     public partial class Model1 : DbContext
     {
         public Model1()
-            : base("name=Model118")
+            : base("name=Model119")
         {
         }
 
@@ -75,12 +75,6 @@ namespace TSMS_2_.EF
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<supplier>()
-                .HasMany(e => e.loanAgreement)
-                .WithRequired(e => e.supplier)
-                .HasForeignKey(e => e.supplier_id)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<supplier>()
                 .HasMany(e => e.supply)
                 .WithRequired(e => e.supplier)
                 .HasForeignKey(e => e.supplier_id)
@@ -90,6 +84,12 @@ namespace TSMS_2_.EF
                 .HasMany(e => e.element_supply)
                 .WithRequired(e => e.supply)
                 .HasForeignKey(e => e.supply_id)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<supply>()
+                .HasMany(e => e.loanAgreement)
+                .WithRequired(e => e.supply)
+                .HasForeignKey(e => e.sup_id)
                 .WillCascadeOnDelete(false);
         }
     }

@@ -63,7 +63,7 @@ namespace TSMS_2_.ViewModel
         public void OpenAddSalesman()
         {
             SelectedElement = new Element_saleDto();
-            _windowService.ShowWindow("ADDElementSave");
+            _windowService.OpenWindow("ADDElementSave",this,1);
         }
         private void LoadSaleElements()
         {

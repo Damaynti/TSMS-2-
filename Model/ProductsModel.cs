@@ -20,7 +20,8 @@ namespace TSMS_2_.Model
                 name = p.name,
                 categoris_id = p.categoris_id,
                 price = p.price,
-                count = p.count
+                count = p.count,
+                tex=p.tex,
             };
             db.products.Add(newProduct);
             db.SaveChanges();
@@ -67,6 +68,22 @@ namespace TSMS_2_.Model
                 }
             }
         }
+
+
+        public void increaseProductQuantity(long productId, long quantity)
+        {
+            using (var db = new Model1())  // Предполагается использование контекста базы данных
+            {
+                var product = db.products.FirstOrDefault(p => p.id == productId);
+
+                if (product != null)
+                {
+                    product.count += quantity; // Уменьшаем количество товара
+                    db.SaveChanges(); // Сохраняем изменения в базе данных
+                }
+            }
+        }
+
         // Метод для получения продукта по ID (по желанию)
         public ProductsDTO GetProductById(long id)
         {

@@ -26,11 +26,6 @@ namespace TSMS_2_.Services
                     window = new Noomber();
                     window.DataContext = viewModel;
                     break;
-                case "ADDElementSave":
-                    window = new ADDElementSave();
-                    window.DataContext = viewModel;
-                    break;
-               
                 case "SellerWindow":
                     window = new SellerWindow();
                     window.DataContext = viewModel;
@@ -63,6 +58,9 @@ namespace TSMS_2_.Services
                 case "AddSupplier":
                     window = new ADDSupplier(mode);
                     break;
+                case "ADDElementSave":
+                    window = new ADDElementSave(mode);
+                    break;
                 case "AddSale":
                     window = new ADDSale(mode);
                     break;
@@ -90,6 +88,23 @@ namespace TSMS_2_.Services
             {
                 
                 window.Close();
+            }
+        }
+        public void HideWindow(Window window)
+        {
+            if (window != null)
+            {
+
+                window.Hide();
+            }
+        }
+
+        public void SWindow(Window window)
+        {
+            if (window != null)
+            {
+
+                window.Show();
             }
         }
     }

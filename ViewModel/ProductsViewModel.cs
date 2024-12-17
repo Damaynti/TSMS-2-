@@ -24,13 +24,13 @@ namespace TSMS_2_.ViewModel
         public ICommand UpdateProductCommand { get; }
         public ICommand DeleteProductCommand { get; }
         public ICommand UpdObjInDBCommand { get; }
-        public ICommand AddObjInDBCommand { get; }
+        public ICommand AddObjCommand { get; }
 
         public ProductsViewModel()
         {
             _products = new List<ProductsDTO>();
             _windowService = new WindowService();
-            AddObjInDBCommand = new RelayCommand(CreateProduct);
+            AddObjCommand = new RelayCommand(CreateProduct);
             UpdObjInDBCommand = new RelayCommand(UpdateProduct);
             AddProductCommand = new RelayCommand(OpenAddProduct);
             UpdateProductCommand = new RelayCommand(OpenUpdateProduct);

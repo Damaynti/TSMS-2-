@@ -78,5 +78,6 @@ FontFamily="{DynamicResource MaterialDesignFont}">
 
 
         <Button Content="Сбросить фильтры" Command="{Binding RefreshProductsCommand}" Margin="12,374,542,10" Grid.ColumnSpan="2" Background="#FF046565"/>
+        <Button x:Name="btn" Content="Добавить новый товар" HorizontalAlignment="Left" Margin="615,53,0,0" VerticalAlignment="Top" Width="197" Command="{Binding ADDProductsCommand}"/>
     </Grid>
 </Window>

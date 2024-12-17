@@ -11,7 +11,7 @@ namespace TSMS_2_.EF
     {
         public long id { get; set; }
 
-        public long supplier_id { get; set; }
+        public long sup_id { get; set; }
 
         public long sum { get; set; }
 
@@ -27,6 +27,6 @@ namespace TSMS_2_.EF
 
         public virtual status status { get; set; }
 
-        public virtual supplier supplier { get; set; }
+        public virtual supply supply { get; set; }
     }
 }

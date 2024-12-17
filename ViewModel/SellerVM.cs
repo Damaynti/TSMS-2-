@@ -458,7 +458,7 @@ namespace TSMS_2_.ViewModel
         }
         public void OpenAddElementSale()
         {
-            _windowService.ShowWindow("ADDElementSave", this);
+            _windowService.OpenWindow("ADDElementSave", this,1);
         }
         public void OpenADDClient()
         {

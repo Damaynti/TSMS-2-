@@ -19,6 +19,14 @@ namespace TSMS_2_.View
         public ADDLoanAgreement(int mode)
         {
             InitializeComponent();
+            if (mode == 1)
+            {
+                btn.SetBinding(Button.CommandProperty, new Binding("AddObjInDBCommand"));
+            }
+            else
+            {
+                btn.SetBinding(Button.CommandProperty, new Binding("UpdObjInDBCommand"));
+            }
         }
     }
 }

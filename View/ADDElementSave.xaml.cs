@@ -19,9 +19,17 @@ namespace TSMS_2_.View
 {
     public partial class ADDElementSave : Window
     {
-        public ADDElementSave()
+        public ADDElementSave(int mode)
         {
             InitializeComponent();
+            if (mode == 1)
+            {
+                btn.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                btn.Visibility = Visibility.Visible;
+            }
         }
     }
 }

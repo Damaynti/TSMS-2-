@@ -48,9 +48,10 @@ namespace TSMS_2_.ViewModel
 
         public void End()
         {
+            
+            _windowService.ShowWindow("MainWindow");
             var currentWindow = Application.Current.Windows.OfType<AdminWindow>().FirstOrDefault();
             _windowService.CloseWindow(currentWindow);
-            _windowService.ShowWindow("MainWindow");            
         }
 
         private salesman _selectedSalesman;

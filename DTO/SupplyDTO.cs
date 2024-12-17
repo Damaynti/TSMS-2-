@@ -15,7 +15,7 @@ namespace TSMS_2_.DTO
         public long id { get; set; }
 
         [Required]
-        public long supplier_id { get; set; } // ID поставщика
+        public long sup_id { get; set; } // ID поставщика
 
         [Required]
         public DateTime? data { get; set; }// Дата поставки
@@ -27,7 +27,7 @@ namespace TSMS_2_.DTO
         public SupplyDTO(supply s)
         {
             id = s.id;
-            supplier_id = s.supplier_id;
+            sup_id = s.supplier_id;
             data = s.data;
             cost = s.cost;
             supplier = s.supplier;
@@ -40,7 +40,7 @@ namespace TSMS_2_.DTO
             if (s != null)
             {
                 id = s.id;
-                supplier_id = s.supplier_id;
+                sup_id = s.sup_id;
                 data = s.data;
                 cost = s.cost;
                 supplier = s.supplier;

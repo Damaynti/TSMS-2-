@@ -25,10 +25,12 @@ namespace TSMS_2_.ViewModel
         private ObservableCollection<SupplyDTO> _supplies;
         private List<ProductsDTO> _products;
         private List<SupplierDTO> _sup;
+        private readonly ProductsModel _productsModel = new ProductsModel();
         private ProductsDTO _selectedProduct;
         private readonly IWindowService _windowService;
         private SupplyDTO _selectedSupply;
         public ICommand UpdateSupplierCommand { get; }
+        public ICommand ADDProductsCommand { get; }
         public ICommand CleanCommand { get; }
         public ICommand OpenLoanAgreenentCommand { get; }
         public ICommand OpenSupCommand { get; }
@@ -46,6 +48,7 @@ namespace TSMS_2_.ViewModel
         public ICommand AddObjInDBCommand { get; }
         public ICommand NullLoanAgreementCommand { get; }   
         public ICommand CreateCommand { get; }
+        public ICommand AddObjCommand { get; }
 
         // Properties for Supply details
         public long SupplierId { get; set; }
@@ -67,6 +70,8 @@ namespace TSMS_2_.ViewModel
             RemoveItemCommand = new Command<Element_saleDto>(RemoveItem);
             AddSupplyCommand = new RelayCommand(OpenAddSupply);
             OpenSupCommand=new RelayCommand(OpenAddSup);
+            ADDProductsCommand = new RelayCommand(OpenAddProduct);
+            AddObjCommand = new RelayCommand(CreateProduct);
             AddObjInDBCommand = new RelayCommand(CreateLoanAgreement);
             OpenLoanAgreenentCommand = new RelayCommand(OpenLoanAgreenent);
             UpdateSupplyCommand = new RelayCommand(OpenUpdateSupply, CanExecuteSelectedSupply);
@@ -86,13 +91,55 @@ namespace TSMS_2_.ViewModel
             DecreaseQuantityCommand = new Command<Element_saleDto>(DecreaseQuantity);
             LoadSupplies();
         }
-
+        public void CreateProduct()
+        {
+            if (SelectedProduct.name != null && SelectedProduct.categoris_id!= null && SelectedProduct.price != 0 && SelectedProduct.count != null)
+            {
+                if (SelectedProduct.tex == null)
+                {
+                    SelectedProduct.tex = "нет данных";
+                }
+                _productsModel.CreateProduct(SelectedProduct);
+                LoadSupplies();
+                var currentWindow = Application.Current.Windows.OfType<ADDProduct>().FirstOrDefault();
+                _windowService.CloseWindow(currentWindow);
+                AddToCart();
+            }
+        }
+        public void OpenAddProduct()
+        {
+            SelectedProduct = new ProductsDTO();
+            _windowService.OpenWindow("AddProduct", this, 1);
+        }
         private void NullLoanAgreement()
         {
             SelectedLoanAgreement=null;
             var currentWindow = Application.Current.Windows.OfType<ADDLoanAgreement>().FirstOrDefault();
             _windowService.CloseWindow(currentWindow);
         }
+        private List<categories> _categories;
+
+        public List<categories> categories
+        {
+            get
+            {
+                if (_categories == null)
+                {
+                    _categories = _tableModel.GetCategories();
+                    OnPropertyChanged(nameof(categories));
+                }
+                return _categories;
+            }
+            set
+            {
+                if (_categories != value)
+                {
+                    _categories = value;
+                    OnPropertyChanged(nameof(categories));
+                }
+            }
+        }
+
         public void CreateOrder()
         {
             if (CartItems.Count == 0)
@@ -100,9 +147,13 @@ namespace TSMS_2_.ViewModel
                 MessageBox.Show("Корзина пуста. Невозможно оформить поставку.");
                 return;
             }
-
+            if (idsal == 0)
+            {
+                MessageBox.Show("Поставщик не выбран. Невозможно оформить поставку.");
+                return;
+            }
             var q = new SupplyModel();
-            //var id = q.CreatOrder(_client, (long)TotalSum, idsal, CartItems);
+            var id = q.CreatOrder(SelectedLoanAgreement, (long)TotalSum, idsal, CartItems);
             //SaveReceiptAsPdf(id);
 
             CartItems.Clear();
@@ -150,6 +201,7 @@ namespace TSMS_2_.ViewModel
             {
                 _selectedSup = SelectedSup;
                 _nameSup = _selectedSup.FullName;
+                idsal = _selectedSup.id;
                 OnPropertyChanged("NameSup");
             }
             OnPropertyChanged(nameof(TotalSum));
@@ -252,7 +304,7 @@ namespace TSMS_2_.ViewModel
         public void OpenAddElementSale()
         {
             
-            _windowService.ShowWindow("ADDElementSave", this);
+            _windowService.OpenWindow("ADDElementSave", this, 2);
         }
         
         public ProductsDTO SelectedProduct
@@ -277,7 +329,7 @@ namespace TSMS_2_.ViewModel
                 }
             }
         }
-        private readonly long idsal;
+        private  long idsal;
         private long? _idFilter;
         public long? IdFilter
         {
@@ -341,6 +393,7 @@ namespace TSMS_2_.ViewModel
         {
             try
             {
+
                 var supplyList = _tableModel.GetSupplyDTO(); // Получаем список поставок из модели
                 Supplies = new ObservableCollection<SupplyDTO>(supplyList);
                 var productsFromDb = _tableModel.GetProductsDTO();
@@ -364,9 +417,17 @@ namespace TSMS_2_.ViewModel
         // Open the window to add a new supply
         public void OpenAddSupply()
         {
+            var currentWindow = Application.Current.Windows.OfType<AdminWindow>().FirstOrDefault();
+            _windowService.HideWindow(currentWindow);
             SelectedSupply = new SupplyDTO(); // Сбрасываем выбранную поставку
             _windowService.OpenWindow("ADDSupply", this, 1);
             LoadSupplies();
+        }
+
+        public void Show()
+        {
+            var currentWindow = Application.Current.Windows.OfType<AdminWindow>().FirstOrDefault();
+            _windowService.SWindow(currentWindow);
         }
         private SupplierDTO _selectedSup;
         public SupplierDTO SelectedSup

@@ -21,7 +21,7 @@ namespace TSMS_2_.View
             InitializeComponent();
             if (mode == 1)
             {
-                btn.SetBinding(Button.CommandProperty, new Binding("AddObjInDBCommand"));
+                btn.SetBinding(Button.CommandProperty, new Binding("AddObjCommand"));
             }
             else
             {

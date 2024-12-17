@@ -175,21 +175,40 @@ namespace TSMS_2_.ViewModel
                 StartAngle = 0
             };
 
-            // Добавляем данные по категориям в диаграмму
+            // Генерация случайных цветов
+            Random random = new Random();
+            HashSet<string> usedColors = new HashSet<string>(); // Храним строки для проверки уникальности
+
             foreach (var categoryRevenue in RevenueByCategories)
             {
-                string categoryName = _tableModel.GetCategoryName(categoryRevenue.Key); // Название категории
+                string categoryName = _tableModel.GetCategoryName(categoryRevenue.Key);
                 double revenue = categoryRevenue.Value;
+
+                OxyColor newColor;
+                string colorKey;
+
+                // Генерация уникального цвета
+                do
+                {
+                    double hue = random.NextDouble(); // Цветовой тон
+                    newColor = OxyColor.FromHsv(hue, 0.8, 0.9);
+                    colorKey = newColor.ToString(); // Получаем строковое представление цвета
+                }
+                while (usedColors.Contains(colorKey));
+
+                usedColors.Add(colorKey); // Добавляем строку цвета в список использованных
 
                 pieSeries.Slices.Add(new PieSlice(categoryName, revenue)
                 {
-                    IsExploded = true, // Опционально: выделение сегмента
-                    Fill = OxyColor.FromHsv(new Random().NextDouble(), 0.8, 0.9) // Генерация случайного цвета
+                    IsExploded = true,
+                    Fill = newColor
                 });
             }
 
-            PieChartModel.Series.Add(pieSeries);
 
+
+            PieChartModel.Series.Add(pieSeries);
+            PieChartModel.InvalidatePlot(true);
             // Уведомляем интерфейс о новом графике
             OnPropertyChanged(nameof(PieChartModel));
             OnPropertyChanged(nameof(AverageCheck));  // Обновляем интерфейс для среднего чека
@@ -209,7 +228,7 @@ namespace TSMS_2_.ViewModel
             var saveFileDialog = new Microsoft.Win32.SaveFileDialog
             {
                 Filter = "PDF Files (*.pdf)|*.pdf",
-                FileName = FileName  // По умолчанию будет предложено имя файла
+                FileName = FileName  // Предложенное имя файла
             };
 
             if (saveFileDialog.ShowDialog() == true)
@@ -218,61 +237,87 @@ namespace TSMS_2_.ViewModel
                 PdfDocument document = new PdfDocument();
                 PdfPage page = document.AddPage();
                 XGraphics gfx = XGraphics.FromPdfPage(page);
-                XFont font = new XFont("Arial", 12);
+                XFont headerFont = new XFont("Arial", 16, XFontStyle.Bold);
+                XFont normalFont = new XFont("Arial", 12);
+                XPen linePen = new XPen(XColors.Black, 1);
 
-                double yPosition = 20;
+                double margin = 20;
+                double yPosition = margin;
 
-                // Сначала выводим общую сумму
-                gfx.DrawString($"Общая сумма продаж: {TotalSum}",
-                    font, XBrushes.Black, new XRect(20, yPosition, page.Width, page.Height), XStringFormats.TopLeft);
+                // Заголовок отчета (по центру страницы)
+                double titleWidth = gfx.MeasureString("Отчет по продажам", headerFont).Width;
+                gfx.DrawString("Отчет по продажам", headerFont, XBrushes.Black, new XRect((page.Width - titleWidth) / 2, yPosition, page.Width, page.Height), XStringFormats.TopLeft);
+                yPosition += 30; // Отступ после заголовка
+
+                // Промежуток времени отчета
+                string dateRange = $"Период: {StartDate.ToString("dd MMM yyyy")} - {EndDate.ToString("dd MMM yyyy")}";
+                double dateRangeWidth = gfx.MeasureString(dateRange, normalFont).Width;
+                gfx.DrawString(dateRange, normalFont, XBrushes.Black, new XRect((page.Width - dateRangeWidth) / 2, yPosition, page.Width, page.Height), XStringFormats.TopLeft);
+                yPosition += 30; // Отступ после промежутка времени
+
+                // Раздел: Общие данные
+                gfx.DrawString($"Общая сумма продаж: {TotalSum:N0}", normalFont, XBrushes.Black, margin, yPosition);
                 yPosition += 20;
-
-                // Добавляем средний чек
-                gfx.DrawString($"Средний чек: {AverageCheck:C}",
-                    font, XBrushes.Black, new XRect(20, yPosition, page.Width, page.Height), XStringFormats.TopLeft);
+                gfx.DrawString($"Средний чек: {AverageCheck:N0}", normalFont, XBrushes.Black, margin, yPosition);
                 yPosition += 20;
+                gfx.DrawString($"Количество клиентов: {ClientCheck}", normalFont, XBrushes.Black, margin, yPosition);
+                yPosition += 40; // Отступ перед таблицей
 
-                gfx.DrawString($"Количество клиентов: {ClientCheck:C}",
-                   font, XBrushes.Black, new XRect(20, yPosition, page.Width, page.Height), XStringFormats.TopLeft);
-                yPosition += 20;
+                // Раздел: Таблица с продажами по категориям
+                double tableStartY = yPosition;
+                double column1Width = 250; // Ширина колонки с категориями
+                double column2Width = 100; // Ширина колонки с суммой
 
-                // Далее выводим данные по категориям
+                // Заголовки таблицы (по центру)
+                double tableWidth = column1Width + column2Width;
+                gfx.DrawRectangle(XBrushes.LightGray, (page.Width - tableWidth) / 2, tableStartY, column1Width, 20);
+                gfx.DrawString("Категория", normalFont, XBrushes.Black, new XRect((page.Width - tableWidth) / 2, tableStartY, column1Width, 20), XStringFormats.Center);
+                gfx.DrawRectangle(XBrushes.LightGray, (page.Width - tableWidth) / 2 + column1Width, tableStartY, column2Width, 20);
+                gfx.DrawString("Сумма", normalFont, XBrushes.Black, new XRect((page.Width - tableWidth) / 2 + column1Width, tableStartY, column2Width, 20), XStringFormats.Center);
+                yPosition = tableStartY + 20;
+
+                // Данные таблицы
                 foreach (var report in SalesReports)
                 {
-                    gfx.DrawString($"{report.Category} | {report.TotalRevenue}",
-                        font, XBrushes.Black, new XRect(20, yPosition, page.Width, page.Height), XStringFormats.TopLeft);
+                    gfx.DrawRectangle(XBrushes.White, (page.Width - tableWidth) / 2, yPosition, column1Width, 20);
+                    gfx.DrawString(report.Category, normalFont, XBrushes.Black, new XRect((page.Width - tableWidth) / 2, yPosition, column1Width, 20), XStringFormats.Center);
+
+                    gfx.DrawRectangle(XBrushes.White, (page.Width - tableWidth) / 2 + column1Width, yPosition, column2Width, 20);
+                    gfx.DrawString(report.TotalRevenue.ToString("N0"), normalFont, XBrushes.Black, new XRect((page.Width - tableWidth) / 2 + column1Width, yPosition, column2Width, 20), XStringFormats.Center);
+
+                    gfx.DrawLine(linePen, (page.Width - tableWidth) / 2, yPosition + 20, (page.Width - tableWidth) / 2 + column1Width + column2Width, yPosition + 20);
                     yPosition += 20;
                 }
 
-                // Добавляем диаграмму
+                yPosition += 20;
+
+                // Вставка диаграммы (по центру)
                 if (PieChartModel != null)
                 {
                     var exporter = new OxyPlot.SkiaSharp.PdfExporter
                     {
-                        Width = (int)page.Width,  // Ширина страницы PDF
-                        Height = 300  // Высота диаграммы
+                        Width = 400,
+                        Height = 300
                     };
 
                     using (var stream = new MemoryStream())
                     {
-                        // Экспорт диаграммы в поток
                         exporter.Export(PieChartModel, stream);
                         stream.Seek(0, SeekOrigin.Begin);
 
-                        // Загружаем изображение из потока
-                        XImage image = XImage.FromStream(stream);  // Передаем поток напрямую
+                        XImage image = XImage.FromStream(stream);
 
-                        // Рисуем изображение на странице PDF
-                        gfx.DrawImage(image, 20, yPosition, page.Width - 40, 300);
+                        // Позиционируем диаграмму по центру
+                        gfx.DrawImage(image, (page.Width - 400) / 2, yPosition, 400, 300);
                     }
-
                 }
 
-                // Сохраняем PDF-документ
+                // Сохраняем документ
                 document.Save(saveFileDialog.FileName);
                 MessageBox.Show("Report saved successfully.");
             }
         }
+
 
         // Командный класс для реализации ICommand
         public class RelayCommand : ICommand
