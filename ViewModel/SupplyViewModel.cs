@@ -59,7 +59,7 @@ namespace TSMS_2_.ViewModel
             get
             {
                 var total = CartItems.Sum(item => item.TotalPrice); 
-                return (decimal)( (double)total * 0.7);
+                return total;
             }
         }
 
@@ -283,7 +283,7 @@ namespace TSMS_2_.ViewModel
                     {
                         products_id = SelectedProduct.id,
                         ProductName = SelectedProduct.name,
-                        ProductPrice = SelectedProduct.price,
+                        ProductPrice = SelectedProduct.purchase,
                         Quantity = 1,
                     });
                 }

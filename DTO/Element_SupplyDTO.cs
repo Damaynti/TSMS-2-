@@ -66,7 +66,7 @@ namespace TSMS_2_.DTO
             if (elementSupply.products != null)
             {
                 ProductName = elementSupply.products.name;
-                ProductPrice = elementSupply.products.price;
+                ProductPrice = elementSupply.products.purchase;
             }
         }
 

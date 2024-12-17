@@ -22,5 +22,10 @@ namespace TSMS_2_.View
         {
             InitializeComponent();
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

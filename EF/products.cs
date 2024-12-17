@@ -30,6 +30,8 @@ namespace TSMS_2_.EF
         [Required]
         public string tex { get; set; }
 
+        public long purchase { get; set; }
+
         public virtual categories categories { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

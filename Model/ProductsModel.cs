@@ -19,8 +19,9 @@ namespace TSMS_2_.Model
             {
                 name = p.name,
                 categoris_id = p.categoris_id,
-                price = p.price,
+                price = (long)(p.purchase*1.7),
                 count = p.count,
+                purchase = p.purchase,
                 tex=p.tex,
             };
             db.products.Add(newProduct);

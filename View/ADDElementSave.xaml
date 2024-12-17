@@ -67,7 +67,7 @@ FontFamily="{DynamicResource MaterialDesignFont}">
                     <DataGridTextColumn Header="Категория" Binding="{Binding categorisName, Mode=OneWay}" />
                     <DataGridTextColumn Header="Название" Binding="{Binding name, Mode=OneWay}" />
                     <DataGridTextColumn Header="технические характеристики" Binding="{Binding tex, Mode=OneWay}" />
-                    <DataGridTextColumn Header="Цена" Binding="{Binding price, Mode=OneWay}" />
+                    <DataGridTextColumn x:Name="p" Header="Цена" Binding="{Binding price, Mode=OneWay}" />
                     <DataGridTextColumn Header="Количество" Binding="{Binding count, Mode=OneWay}" />
                 </DataGrid.Columns>
             </DataGrid>

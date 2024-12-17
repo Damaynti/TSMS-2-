@@ -24,7 +24,7 @@ namespace TSMS_2_.DTO
         public long price { get; set; }
         public string tex { get; set; }
         public long? count { get; set; }
-
+        public long purchase { get; set; }
         // Конструктор для преобразования из сущности products
         public ProductsDTO(products p)
         {
@@ -36,6 +36,7 @@ namespace TSMS_2_.DTO
             count = p.count;
             categories = p.categories;
             categorisName = p.categories.name;
+            purchase=p.purchase;
         }
 
         // Конструктор для преобразования из другого DTO (если нужно)
@@ -51,6 +52,7 @@ namespace TSMS_2_.DTO
                 count = p.count;
                 categories = p.categories;
                 categorisName = p.categories.name;
+                purchase=p.purchase;
             }
         }
         public string categorisName { get; set; }

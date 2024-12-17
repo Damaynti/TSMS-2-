@@ -25,10 +25,14 @@ namespace TSMS_2_.View
             if (mode == 1)
             {
                 btn.Visibility = Visibility.Collapsed;
+                p.Header = "Цена";
+                p.Binding =new Binding("price") {Mode=BindingMode.OneWay};
             }
             else
             {
                 btn.Visibility = Visibility.Visible;
+                p.Header = "Закупка";
+                p.Binding = new Binding("purchase") { Mode = BindingMode.OneWay };
             }
         }
     }
