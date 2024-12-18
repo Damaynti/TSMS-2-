@@ -23,6 +23,7 @@ namespace TSMS_2_.Model
                 cost = s.cost,
                 salesmn_id = s.salesmn_id,
                 client_id = s.client_id,
+                discount = s.discount,
             };
             db.sale.Add(newSale);
             db.SaveChanges();
@@ -47,13 +48,19 @@ namespace TSMS_2_.Model
         public long CreatOrder(ClientDTO _client,long TotalSum, long idsal, ObservableCollection<Element_saleDto> CartItems)
         {
             long? CId = null;
-            if (_client != null) CId = _client.id;
+            long D = 0;
+            if (_client != null)
+            {
+                CId = _client.id;
+                D=(long)_client._discount;
+            }
 
             var order = new SaleDTO()
             {
                 cost = TotalSum,
                 salesmn_id = idsal,
                 client_id = CId,
+                discount=D,
             };
 
            var id= CreateSale(order);

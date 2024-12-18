@@ -15,7 +15,8 @@ ResizeMode="NoResize"
      TextOptions.TextFormattingMode="Ideal"
      TextOptions.TextRenderingMode="Auto"
      Background="{DynamicResource MaterialDesignPaper}"
-     FontFamily="{DynamicResource MaterialDesignFont}">
+     FontFamily="{DynamicResource MaterialDesignFont}"
+        >
     <Grid  Background="#FF315266" Height="301" VerticalAlignment="Top">
 
         <StackPanel Margin="5,20,16,74" Grid.Row="0">

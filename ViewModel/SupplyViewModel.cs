@@ -155,11 +155,15 @@ namespace TSMS_2_.ViewModel
             var q = new SupplyModel();
             var id = q.CreatOrder(SelectedLoanAgreement, (long)TotalSum, idsal, CartItems);
             //SaveReceiptAsPdf(id);
+            var currentWindow = Application.Current.Windows.OfType<AdminWindow>().FirstOrDefault();
+            _windowService.SWindow(currentWindow);
+            var current = Application.Current.Windows.OfType<AddSupply>().FirstOrDefault();
+            _windowService.CloseWindow(current);
+            //CartItems.Clear();
 
-            CartItems.Clear();
-            _LoanAg = "Нет";
-            _nameSup = "Поставщик не указан";
-            LoadSupplies() ;    
+            //_LoanAg = "Нет";
+            //_nameSup = "Поставщик не указан";
+            //LoadSupplies() ;    
         }
 
 

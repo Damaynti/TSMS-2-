@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:TSMS_2_.View"
          xmlns:oxy="http://oxyplot.org/wpf"
         mc:Ignorable="d"
-         Title="AdminWindow" Height="656" Width="1152" 
+         Title="AdminWindow" Height="656" Width="1325" 
          xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
             TextElement.FontWeight="Regular"
@@ -22,9 +22,9 @@
                 <vm:AdminVM/>
             </Button.DataContext>
         </Button>
-        <Grid Margin="0,61,0,0" Background="White" RenderTransformOrigin="0.498,0.524">
+        <Grid Margin="0,61,0,10" Background="White" RenderTransformOrigin="0.498,0.524">
             <TabControl Margin="0,0,0,193">
-                <TabItem Header="Продавец" Background="White">
+                <TabItem Header="Продавец" Background="White" Width="103">
                     <TabItem.DataContext>
                         <vm:SalesmanViewModel/>
                     </TabItem.DataContext>
@@ -164,7 +164,7 @@
                         <Button Content="✏️ Изменить" HorizontalAlignment="Left " Margin="350,10,0,0" VerticalAlignment="Top " Width="120 " Height="30 " Background="#FF00BAB9 " Foreground="White" FontWeight="Bold" Command="{Binding UpdateProductCommand}"/>
                     </Grid>
                 </TabItem>-->
-                <TabItem Header="Категория" Background="White">
+                <TabItem Header="Категория" Background="White" Width="46">
                     <TabItem.DataContext>
                         <vm:CategoriesViewModel />
                     </TabItem.DataContext>
@@ -244,7 +244,7 @@ CanUserAddRows="False">
                         <Button Content="✏️ Изменить" HorizontalAlignment="Left" Margin="151,10,0,0" VerticalAlignment="Top" Width="120 " Height="30 " Background="#FF00BAB9 " Foreground="White" FontWeight="Bold" Command="{Binding UpdateSupplierCommand}"/>
                     </Grid>
                 </TabItem>
-                <!--<TabItem Header="продажи" Background="#FF00BAB9">
+                <TabItem Header="продажи" Background="#FF00BAB9" Width="124">
                     <TabItem.DataContext>
                         <vm:SaleViewModel/>
                     </TabItem.DataContext>
@@ -258,7 +258,7 @@ CanUserAddRows="False">
           SelectedItem="{Binding SelectedSale, Mode=OneWayToSource}"
           AutoGenerateColumns="False" 
           BorderBrush="White" 
-          Margin="0,62,-10,-196"
+          Margin="0,24,-10,-203"
           RowHeight="30"
           CanUserAddRows="False" Grid.ColumnSpan="2">
                             <DataGrid.Resources>
@@ -281,15 +281,13 @@ CanUserAddRows="False">
                                 <DataGridTextColumn Header="Стоимость" Binding="{Binding cost}" />
                                 <DataGridTextColumn Header="Продавца" Binding="{Binding salesmnName}" />
                                 <DataGridTextColumn Header="Клиента" Binding="{Binding clientNum}" />
+                                <DataGridTextColumn Header="Скидка" Binding="{Binding discount}" />
                             </DataGrid.Columns>
                         </DataGrid>
-                        <Button Content="➕ Добавить" HorizontalAlignment="Left" Margin="177,10,0,0" VerticalAlignment="Top" Width="120" Background="#FF00BAB9" Foreground="White" FontWeight="Bold"  Command="{Binding AddSaleCommand}"/>
-                        <Button Content="🆙 Обновить" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="134" Height="30" Background="#FF00BAB9" Foreground="White" FontWeight="Bold" Command="{Binding RefreshSalesCommand}"/>
-                        <Button Content="✏️ Изменить" HorizontalAlignment="Left" Margin="350,10,0,0" VerticalAlignment="Top" Width="120 " Height="30 " Background="#FF00BAB9 " Foreground="White" FontWeight="Bold" Command="{Binding UpdateSaleCommand}" Grid.ColumnSpan="2"/>
-
+                      
                     </Grid>
-                </TabItem>-->
-                <TabItem Header="Клиенты" Background="#FF00BAB9">
+                </TabItem>
+                <TabItem Header="Клиенты" Background="#FF00BAB9" Width="118">
                     <TabItem.DataContext>
                         <vm:ClientViewModel/>
                     </TabItem.DataContext>
@@ -337,7 +335,7 @@ CanUserAddRows="False">
                     </Grid>
                 </TabItem>
 
-                <TabItem Header="поставки" Background="#FF00BAB9">
+                <TabItem Header="поставки" Background="#FF00BAB9" Width="108">
                     <TabItem.DataContext>
                         <vm:SupplyViewModel/>
                     </TabItem.DataContext>
@@ -370,6 +368,7 @@ CanUserAddRows="False">
                                 <DataGridTextColumn Header="Поставщика" Binding="{Binding supplierName}" />
                                 <DataGridTextColumn Header="Дата поставки" Binding="{Binding data,StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}" />
                                 <DataGridTextColumn Header="Стоимость" Binding="{Binding cost}" />
+                                
                             </DataGrid.Columns>
                         </DataGrid>
                         <Button Content="➕ Добавить" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="120" Background="#FF00BAB9" Foreground="White" FontWeight="Bold" Command="{Binding AddSupplyCommand}" RenderTransformOrigin="0.143,0.53" />
@@ -378,7 +377,7 @@ CanUserAddRows="False">
 
                     </Grid>
                 </TabItem>
-                <TabItem Header="Кредиты" Background="White">
+                <TabItem Header="Кредиты" Background="White" Width="134">
                     <TabItem.DataContext>
                         <vm:loanAgreementVM/>
                     </TabItem.DataContext>

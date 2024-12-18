@@ -23,6 +23,7 @@ namespace TSMS_2_.DTO
 
         [Required]
         public long salesmn_id { get; set; } // ID продавца
+        public long discount { get; set; }
 
         [Required]
         public long? client_id { get; set; } // ID клиента
@@ -38,6 +39,7 @@ namespace TSMS_2_.DTO
             salesman = s.salesman;
             salesmnName = s.salesman.FullName;
             client = s.client;
+            discount = s.discount;
             if (client!=null)
                 clientNum = client.noomber;
         }
@@ -53,6 +55,7 @@ namespace TSMS_2_.DTO
                 salesmn_id = s.salesmn_id;
                 client_id = s.client_id;
                 salesman = s.salesman;
+                discount= s.discount;
                 salesmnName = s.salesman.FullName;
                 client = s.client;
                 clientNum = s.clientNum;
