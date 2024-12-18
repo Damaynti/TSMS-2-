@@ -93,23 +93,23 @@ namespace TSMS_2_.Model
             using (var db = new Model1())
             {
                 db.products.Load();
-                List<ProductsDTO> r = db.products.ToList().Select(i => new ProductsDTO(i)).ToList();
-                for (int i = 0; i < r.Count; i++)
+                List<ProductsDTO> product = db.products.ToList().Select(i => new ProductsDTO(i)).ToList();
+                for (int i = 0; i < product.Count; i++)
                 {
-                    r[i].categorisName = db.categories.Find(r[i].categoris_id).name;
+                    product[i].categorisName = db.categories.Find(product[i].categoris_id).name;
                 }
                 if (Id!=null)
                 {
-                    r = r.Where(p => p.id == Id && p.count != 0)
+                    product = product.Where(p => p.id == Id && p.count != 0)
                     .ToList();
                 }
 
                 if (SearchTerm!=null && SearchTerm!="")
                 {
-                    r = r.Where(p => p.name.IndexOf(SearchTerm, StringComparison.OrdinalIgnoreCase) >= 0 && p.count != 0)
+                    product = product.Where(p => p.name.IndexOf(SearchTerm, StringComparison.OrdinalIgnoreCase) >= 0 && p.count != 0)
                     .ToList();
                 }
-                return r;
+                return product;
             }
         }
 
