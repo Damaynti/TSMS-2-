@@ -358,17 +358,7 @@ namespace TSMS_2_.ViewModel
         }
         private void FindProducts()
         {
-            var allProducts = _tableModel.GetProductsDTO();
-
-            if (!string.IsNullOrEmpty(SearchTerm))
-            {
-                allProducts = _tableModel.GetProductsDTOName(SearchTerm, allProducts);
-            }
-
-            if (IdFilter.HasValue)
-            {
-                allProducts = _tableModel.GetProductsDTOID(IdFilter.Value, allProducts);
-            }
+            var allProducts = _tableModel.GetProductsDTO(IdFilter, SearchTerm);
             Products = allProducts.Where(p => p.count > 0).ToList();
             OnPropertyChanged(nameof(Products));
         }

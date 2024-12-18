@@ -22,7 +22,8 @@ FontFamily="{DynamicResource MaterialDesignFont}">
                  Text="{Binding SearchTerm, UpdateSourceTrigger=PropertyChanged}" Background="White"  />
         <TextBlock Text="Поиск по названию:" Foreground="White" FontWeight="Bold" Margin="316,30,333,401" />
         <TextBox x:Name="id" Width="200" Margin="12,53,638,368" 
-                 Text="{Binding IdFilter, UpdateSourceTrigger=PropertyChanged}" Background="White"  />
+                Text="{Binding IdFilter, UpdateSourceTrigger=PropertyChanged, TargetNullValue='', FallbackValue=''}" 
+         Background="White"  />
 
 
         <Grid Margin="0,100,0,47" Grid.ColumnSpan="2">

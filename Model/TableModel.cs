@@ -75,18 +75,42 @@ namespace TSMS_2_.Model
         }
 
 
-        public List<ProductsDTO> GetProductsDTOID(long Id, List<ProductsDTO> allProducts) {
+        //public List<ProductsDTO> GetProductsDTOID(long Id, List<ProductsDTO> allProducts) {
 
-            return allProducts
-                    .Where(p => p.id == Id &&p.count!=0)
+        //    return allProducts
+        //            .Where(p => p.id == Id &&p.count!=0)
+        //            .ToList();
+        //}
+
+        //public List<ProductsDTO> GetProductsDTOName(string SearchTerm, List<ProductsDTO> allProducts) {
+
+        //    return allProducts
+        //            .Where(p => p.name.IndexOf(SearchTerm, StringComparison.OrdinalIgnoreCase) >= 0 && p.count != 0)
+        //            .ToList();
+        //}
+        public List<ProductsDTO> GetProductsDTO(long? Id, string SearchTerm="")
+        {
+            using (var db = new Model1())
+            {
+                db.products.Load();
+                List<ProductsDTO> r = db.products.ToList().Select(i => new ProductsDTO(i)).ToList();
+                for (int i = 0; i < r.Count; i++)
+                {
+                    r[i].categorisName = db.categories.Find(r[i].categoris_id).name;
+                }
+                if (Id!=null)
+                {
+                    r = r.Where(p => p.id == Id && p.count != 0)
                     .ToList();
-        }
+                }
 
-        public List<ProductsDTO> GetProductsDTOName(string SearchTerm, List<ProductsDTO> allProducts) {
-
-            return allProducts
-                    .Where(p => p.name.IndexOf(SearchTerm, StringComparison.OrdinalIgnoreCase) >= 0 && p.count != 0)
+                if (SearchTerm!=null && SearchTerm!="")
+                {
+                    r = r.Where(p => p.name.IndexOf(SearchTerm, StringComparison.OrdinalIgnoreCase) >= 0 && p.count != 0)
                     .ToList();
+                }
+                return r;
+            }
         }
 
         public List<ClientDTO> GetClientDTO()
@@ -247,6 +271,9 @@ namespace TSMS_2_.Model
             }
             
         }
+
+      
+
 
         public List<Element_saleDto> GetElementsBySaleId(long saleId)
         {
