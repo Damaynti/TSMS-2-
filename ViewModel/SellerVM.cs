@@ -51,8 +51,8 @@ namespace TSMS_2_.ViewModel
         {
             get
             {
-                var total = CartItems.Sum(item => item.TotalPrice); // Сумма всех товаров
-                var discountFactor = 100 - _discount;         // Коэффициент скидки
+                var total = CartItems.Sum(item => item.TotalPrice); 
+                var discountFactor = 100 - _discount;         
                 return total * discountFactor/100;
             }
         }
@@ -288,7 +288,6 @@ namespace TSMS_2_.ViewModel
         {
             if (item != null)
             {
-                // Найти продукт, соответствующий текущему элементу корзины
                 var product = Products.FirstOrDefault(p => p.id == item.products_id);
 
                 if (product != null && item.Quantity < product.count)
@@ -335,14 +334,12 @@ namespace TSMS_2_.ViewModel
         }
         public void SaveReceiptAsPdf(long orderId)
         {
-            // Подтвердить, хочет ли пользователь сохранить чек
             var result = MessageBox.Show("Хотите ли вы сохранить чек?", "Сохранение чека", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result != MessageBoxResult.Yes)
             {
                 return;
             }
 
-            // Выбор пути сохранения
             var saveFileDialog = new Microsoft.Win32.SaveFileDialog
             {
                 FileName = $"Чек_{orderId}",
@@ -356,16 +353,13 @@ namespace TSMS_2_.ViewModel
 
                 try
                 {
-                    // Создание PDF документа
                     using (var document = new PdfDocument())
                     {
                         document.Info.Title = "Чек заказа";
 
-                        // Добавление страницы
                         var page = document.AddPage();
                         using (var gfx = XGraphics.FromPdfPage(page))
                         {
-                            // Настройка шрифта
                             var font = new XFont("Verdana", 12, XFontStyle.Regular);
                             var boldFont = new XFont("Verdana", 12, XFontStyle.Bold);
 
@@ -373,11 +367,9 @@ namespace TSMS_2_.ViewModel
                             gfx.DrawString("Чек заказа", boldFont, XBrushes.Black, new XRect(0, yPoint, page.Width, page.Height), XStringFormats.TopCenter);
                             yPoint += 30;
 
-                            // Информация о заказе
                             gfx.DrawString($"Номер покупки: {orderId}", font, XBrushes.Black, new XRect(40, yPoint, page.Width - 80, page.Height), XStringFormats.TopLeft);
                             yPoint += 20;
 
-                            // Добавление даты и времени покупки
                             string purchaseDateTime = DateTime.Now.ToString("dd.MM.yyyy HH:mm");
                             gfx.DrawString($"Дата и время покупки: {purchaseDateTime}", font, XBrushes.Black, new XRect(40, yPoint, page.Width - 80, page.Height), XStringFormats.TopLeft);
                             yPoint += 20;
@@ -385,14 +377,12 @@ namespace TSMS_2_.ViewModel
                             gfx.DrawString("Товары:", boldFont, XBrushes.Black, new XRect(40, yPoint, page.Width - 80, page.Height), XStringFormats.TopLeft);
                             yPoint += 20;
 
-                            // Перебор товаров в заказе
                             foreach (var item in CartItems)
                             {
                                 gfx.DrawString($"{item.ProductName} - {item.Quantity} x {item.ProductPrice} = {item.TotalPrice}", font, XBrushes.Black, new XRect(60, yPoint, page.Width - 100, page.Height), XStringFormats.TopLeft);
                                 yPoint += 20;
                             }
 
-                            // Итоговая информация
                             yPoint += 20;
                             gfx.DrawString($"Итоговая сумма: {TotalSum}", boldFont, XBrushes.Black, new XRect(40, yPoint, page.Width - 80, page.Height), XStringFormats.TopLeft);
 
@@ -403,7 +393,6 @@ namespace TSMS_2_.ViewModel
                             }
                         }
 
-                        // Сохранение PDF
                         document.Save(filePath);
                     }
 
@@ -420,7 +409,6 @@ namespace TSMS_2_.ViewModel
         {
             var productsFromDb = _tableModel.GetProductsDTO();
 
-            // Filter out products with quantity 0
             var availableProducts = productsFromDb.Where(p => p.count > 0).ToList();
 
             Products = availableProducts;
@@ -485,7 +473,6 @@ namespace TSMS_2_.ViewModel
         {
             if (SelectedClient != null && !string.IsNullOrWhiteSpace(SelectedClient.noomber))
             {
-                // Проверка корректности номера телефона
                 if (!Regex.IsMatch(SelectedClient.noomber, @"^(\+7|8)\d{10}$"))
                 {
                     MessageBox.Show(
@@ -496,7 +483,6 @@ namespace TSMS_2_.ViewModel
                     return;
                 }
 
-                // Проверка, существует ли номер в базе данных
                 if (_tableModel.DoesClientNumberExist(SelectedClient.noomber))
                 {
                     MessageBox.Show(
@@ -517,7 +503,6 @@ namespace TSMS_2_.ViewModel
                 {
                     SelectedClient.discount_id = (long)idD;
                 }
-                // Добавление клиента в базу
                 SelectedClient.id = _clientModel.CreateClient(SelectedClient);
                 PhoneNumber=SelectedClient.noomber;
                 MessageBox.Show(

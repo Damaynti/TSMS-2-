@@ -10,7 +10,6 @@ namespace TSMS_2_.Model
     {
         private Model1 db = new Model1();
 
-        // Метод для создания нового элемента поставки
         public void CreateElementSupply(ElementSupplyDto elementSupplyDto)
         {
             element_supply newElementSupply = new element_supply
@@ -25,7 +24,6 @@ namespace TSMS_2_.Model
             db.SaveChanges();
         }
 
-        // Метод для обновления существующего элемента поставки
         public void UpdateElementSupply(ElementSupplyDto elementSupplyDto)
         {
             element_supply existingElementSupply = db.element_supply.Find(elementSupplyDto.Id);
@@ -40,7 +38,6 @@ namespace TSMS_2_.Model
             }
         }
 
-        // Метод для удаления элемента поставки по ID
         public void DeleteElementSupply(long id)
         {
             element_supply elementToDelete = db.element_supply.Find(id);
@@ -51,7 +48,6 @@ namespace TSMS_2_.Model
             }
         }
 
-        // Метод для получения всех элементов поставок
         public List<ElementSupplyDto> GetAllElementSupplies()
         {
             return db.element_supply
@@ -59,7 +55,6 @@ namespace TSMS_2_.Model
                      .ToList();
         }
 
-        // Метод для получения элемента поставки по ID
         public ElementSupplyDto GetElementSupplyById(long id)
         {
             var elementSupply = db.element_supply.Find(id);

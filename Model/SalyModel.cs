@@ -14,7 +14,6 @@ namespace TSMS_2_.Model
     {
         private Model1 db = new Model1();
 
-        // Метод для создания новой продажи
         public long CreateSale(SaleDTO s)
         {
             sale newSale = new sale
@@ -30,7 +29,6 @@ namespace TSMS_2_.Model
             return newSale.id;
         }
 
-        // Метод для обновления существующей продажи
         public void UpdateSale(SaleDTO s)
         {
             sale existingSale = db.sale.Find(s.id);
@@ -93,7 +91,6 @@ namespace TSMS_2_.Model
             return id;
         }
 
-        // Метод для удаления продажи по ID
         public void DeleteSale(long id)
         {
             sale saleToDelete = db.sale.Find(id);
@@ -103,11 +100,7 @@ namespace TSMS_2_.Model
                 db.SaveChanges();
             }
         }
-
-        // Метод для получения списка всех продаж
        
-
-        // Метод для получения продажи по ID
         public SaleDTO GetSaleById(long id)
         {
             sale sale = db.sale.Find(id);

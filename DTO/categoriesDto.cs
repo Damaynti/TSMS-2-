@@ -12,12 +12,11 @@ namespace TSMS_2_.DTO
         public long Id { get; set; }
 
         [Required]
-        [StringLength(100)] // Set length restriction if necessary
+        [StringLength(100)] 
         public string Name { get; set; }
 
         public List<ProductsDTO> Products { get; set; }
 
-        // Constructor to map from category entity
         public CategoryDto(categories category)
         {
             Id = category.id;

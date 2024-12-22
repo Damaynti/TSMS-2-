@@ -12,7 +12,6 @@ namespace TSMS_2_.Model
     {
         private Model1 db = new Model1();
 
-        // Метод для создания нового элемента продажи
         public void CreateElementSale(Element_saleDto elementSaleDto)
         {
             element_sale newElementSale = new element_sale
@@ -27,7 +26,6 @@ namespace TSMS_2_.Model
             db.SaveChanges();
         }
 
-        // Метод для обновления существующего элемента продажи
         public void UpdateElementSale(Element_saleDto elementSaleDto)
         {
             element_sale existingElementSale = db.element_sale.Find(elementSaleDto.Id);
@@ -41,7 +39,6 @@ namespace TSMS_2_.Model
             }
         }
 
-        // Метод для удаления элемента продажи по ID
         public void DeleteElementSale(long id)
         {
             element_sale elementToDelete = db.element_sale.Find(id);

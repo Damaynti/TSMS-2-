@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic; // Используем List
+using System.Collections.Generic; 
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -17,7 +17,7 @@ namespace TSMS_2_.ViewModel
     {
         private readonly TableModel _tableModel = new TableModel();
         private readonly loanAgreementModel _loanAgreementModel = new loanAgreementModel();
-        private List<loanAgreementDTO> _loanAgreements; // Изменено на List
+        private List<loanAgreementDTO> _loanAgreements; 
         private readonly IWindowService _windowService;
         private loanAgreementDTO _selectedLoanAgreement;
 
@@ -28,7 +28,6 @@ namespace TSMS_2_.ViewModel
         public ICommand RefreshObjCommand { get; }
         public ICommand EditObjCommand { get; }
 
-        // Properties for Loan Agreement details
         public long Id { get; set; }
         public long SupplierId { get; set; }
         public long Sum { get; set; }
@@ -56,7 +55,6 @@ namespace TSMS_2_.ViewModel
             LoanAgreements = loanAgreements.ToList();
             OnPropertyChanged(nameof(LoanAgreements));
         }
-        // List of loan agreements
         public List<loanAgreementDTO> LoanAgreements
         {
             get => _loanAgreements;
@@ -80,14 +78,12 @@ namespace TSMS_2_.ViewModel
             }
         }
 
-        // Open the window to add a new loan agreement
         public void OpenAddLoanAgreement()
         {
-            SelectedLoanAgreement = new loanAgreementDTO(); // Reset the selected loan agreement
+            SelectedLoanAgreement = new loanAgreementDTO(); 
             _windowService.OpenWindow("ADDLoanAgreement", this, 1);
         }
 
-        // Open the window to edit an existing loan agreement
         public void OpenEditLoanAgreement()
         {
             if (SelectedLoanAgreement != null)
@@ -97,12 +93,10 @@ namespace TSMS_2_.ViewModel
             }
         }
 
-        // Refresh the list of loan agreements
         public void RefreshLoanAgreements()
         {
             var loanAgreements = _tableModel.GetLoanAgreementDTOs();
 
-            // Update statuses for expired loan agreements
             foreach (var loan in loanAgreements)
             {
                 if (loan.end.HasValue && loan.end.Value < DateTime.Now && loan.status_id!=1)
@@ -117,12 +111,10 @@ namespace TSMS_2_.ViewModel
                 }
             }
 
-            // Assign new data to the list and manually notify the UI
             LoanAgreements = loanAgreements.ToList();
             OnPropertyChanged(nameof(LoanAgreements));
         }
 
-        // Delete the selected loan agreement
         private void DeleteSelectedLoanAgreement()
         {
             if (SelectedLoanAgreement != null)
@@ -132,7 +124,6 @@ namespace TSMS_2_.ViewModel
             }
         }
 
-        // Create a new loan agreement in the database
         private void CreateLoanAgreement()
         {
             if (SelectedLoanAgreement != null && ValidateLoanAgreement())
@@ -150,7 +141,6 @@ namespace TSMS_2_.ViewModel
             }
         }
 
-        // Update an existing loan agreement in the database
         private void UpdateLoanAgreement()
         {
             if (SelectedLoanAgreement != null)
@@ -172,7 +162,6 @@ namespace TSMS_2_.ViewModel
             }
         }
 
-        // Validation method for loan agreement data
         private bool ValidateLoanAgreement()
         {
             if (Sum <= 0)

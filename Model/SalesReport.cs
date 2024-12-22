@@ -8,11 +8,11 @@ namespace TSMS_2_.Model
 {
     public class SalesReport
     {
-        public string Category { get; set; }  // Текстовое название категории
+        public string Category { get; set; }  
         public DateTime Date { get; set; }
-        public decimal Amount { get; set; }  // Возможно, Amount - это и есть стоимость
+        public decimal Amount { get; set; } 
         public int Quantity { get; set; }
-        public long TotalRevenue { get; set; }  // Добавьте это свойство для хранения суммы
+        public long TotalRevenue { get; set; }  
     }
 
 }

@@ -19,11 +19,11 @@ FontFamily="{DynamicResource MaterialDesignFont}">
 
         <TextBox x:Name="Sname" Width="200" Margin="316,55,334,370" 
                  
-                 Text="{Binding SearchTerm, UpdateSourceTrigger=PropertyChanged}" Background="White"  />
+                 Text="{Binding SearchTerm, UpdateSourceTrigger=PropertyChanged}" Background="White" HorizontalAlignment="Left" VerticalAlignment="Top"  />
         <TextBlock Text="Поиск по названию:" Foreground="White" FontWeight="Bold" Margin="316,30,333,401" />
         <TextBox x:Name="id" Width="200" Margin="12,53,638,368" 
                 Text="{Binding IdFilter, UpdateSourceTrigger=PropertyChanged, TargetNullValue='', FallbackValue=''}" 
-         Background="White"  />
+         Background="White" HorizontalAlignment="Left" VerticalAlignment="Top"  />
 
 
         <Grid Margin="0,100,0,47" Grid.ColumnSpan="2">
@@ -37,9 +37,9 @@ FontFamily="{DynamicResource MaterialDesignFont}">
     SelectedItem="{Binding SelectedProduct, Mode=OneWayToSource}"
     AutoGenerateColumns="False" 
     BorderBrush="White" 
-    Margin="10,0,0,-16"
+    Margin="10,0,0,40"
     RowHeight="30"
-    CanUserAddRows="False" Grid.ColumnSpan="2" >
+    CanUserAddRows="False" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Top" >
                 <!-- Убираем пустую строку -->
 
                 <DataGrid.Resources>
@@ -78,7 +78,7 @@ FontFamily="{DynamicResource MaterialDesignFont}">
 
 
 
-        <Button Content="Сбросить фильтры" Command="{Binding RefreshProductsCommand}" Margin="12,374,542,10" Grid.ColumnSpan="2" Background="#FF046565"/>
+        <Button Content="Сбросить фильтры" Command="{Binding RefreshProductsCommand}" Margin="12,387,0,0" Background="#FF046565" HorizontalAlignment="Left" VerticalAlignment="Top" Width="176"/>
         <Button x:Name="btn" Content="Добавить новый товар" HorizontalAlignment="Left" Margin="615,53,0,0" VerticalAlignment="Top" Width="197" Command="{Binding ADDProductsCommand}"/>
     </Grid>
 </Window>

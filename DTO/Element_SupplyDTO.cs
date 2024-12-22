@@ -28,8 +28,8 @@ namespace TSMS_2_.DTO
                 if (_quantity != value)
                 {
                     _quantity = value;
-                    OnPropertyChanged(nameof(Quantity)); // Оповещаем об изменении Quantity
-                    OnPropertyChanged(nameof(TotalPrice)); // Обновляем TotalPrice, когда меняется Quantity
+                    OnPropertyChanged(nameof(Quantity)); 
+                    OnPropertyChanged(nameof(TotalPrice)); 
                 }
             }
         }

@@ -15,30 +15,29 @@ namespace TSMS_2_.DTO
         public long id { get; set; }
 
         [Required]
-        [StringLength(200)] // Увеличиваем длину для полного имени
+        [StringLength(200)] 
         public string FullName { get; set; }
 
         [Required]
-        [StringLength(200)] // Увеличиваем длину для названия компании
+        [StringLength(200)]
         public string CompanyName { get; set; }
 
         [Required]
-        [StringLength(300)] // Увеличиваем длину для адреса
+        [StringLength(300)] 
         public string address { get; set; }
 
         [Required]
-        [EmailAddress] // Добавляем валидацию для email
+        [EmailAddress] 
         public string mail { get; set; }
 
         [Required]
-        [StringLength(500)] // Увеличиваем длину для реквизитов
+        [StringLength(500)]
         public string requisites { get; set; }
 
         [Required]
-        [StringLength(20)] // Увеличиваем длину для номера
+        [StringLength(20)] 
         public string number { get; set; }
 
-        // Конструктор для преобразования из сущности supplier
         public SupplierDTO(supplier s)
         {
             id = s.id;
@@ -50,7 +49,6 @@ namespace TSMS_2_.DTO
             number = s.number;
         }
 
-        // Конструктор для преобразования из другого DTO (если нужно)
         public SupplierDTO(SupplierDTO s)
         {
             if (s != null)

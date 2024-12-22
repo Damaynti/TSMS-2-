@@ -13,7 +13,6 @@ namespace TSMS_2_.Model
     {
         private Model1 db = new Model1();
 
-        // Метод для создания новой поставки
         public long CreateSupply(SupplyDTO s)
         {
             supply newSupply = new supply
@@ -27,7 +26,6 @@ namespace TSMS_2_.Model
             return newSupply.id;
         }
 
-        // Метод для обновления существующей поставки
         public void UpdateSupply(SupplyDTO s)
         {
             supply existingSupply = db.supply.Find(s.id);
@@ -90,7 +88,6 @@ namespace TSMS_2_.Model
             
         }
 
-        // Метод для удаления поставки по ID
         public void DeleteSupply(long id)
         {
             supply supplyToDelete = db.supply.Find(id);
@@ -100,11 +97,7 @@ namespace TSMS_2_.Model
                 db.SaveChanges();
             }
         }
-
-        // Метод для получения списка всех поставок
        
-
-        // Метод для получения поставки по ID
         public SupplyDTO GetSupplyById(long id)
         {
             supply supply = db.supply.Find(id);

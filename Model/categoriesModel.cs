@@ -12,7 +12,6 @@ namespace TSMS_2_.Model
     {
         private Model1 db = new Model1();
 
-        // Метод для создания новой категории
         public void CreateCategory(CategoryDto categoryDto)
         {
             categories newCategory = new categories
@@ -23,7 +22,6 @@ namespace TSMS_2_.Model
             db.SaveChanges();
         }
 
-        // Метод для обновления существующей категории
         public void UpdateCategory(CategoryDto categoryDto)
         {
             categories existingCategory = db.categories.Find(categoryDto.Id);
@@ -34,7 +32,6 @@ namespace TSMS_2_.Model
             }
         }
 
-        // Метод для удаления категории по ID
         public void DeleteCategory(long id)
         {
             categories categoryToDelete = db.categories.Find(id);
@@ -45,7 +42,6 @@ namespace TSMS_2_.Model
             }
         }
 
-        // Метод для получения списка всех категорий
         public List<CategoryDto> GetAllCategories()
         {
             return db.categories
@@ -53,7 +49,6 @@ namespace TSMS_2_.Model
                 .ToList();
         }
 
-        // Метод для получения категории по ID
         public CategoryDto GetCategoryById(long id)
         {
             categories category = db.categories.Find(id);

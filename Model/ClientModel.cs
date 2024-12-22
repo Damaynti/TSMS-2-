@@ -45,16 +45,16 @@ namespace TSMS_2_.Model
         }
         public void IncreaseClientTotalAmount(long clientId, long amount)
         {
-            using (var db = new Model1())  // Предполагается использование контекста базы данных
+            using (var db = new Model1())  
             {
                 var client = db.client.FirstOrDefault(c => c.id == clientId);
                 var _tableModel = new TableModel();
                 if (client != null)
                 {
-                    client.purchase_amount += amount;  // Увеличиваем общую сумму покупок клиента
+                    client.purchase_amount += amount;  
                     var idD = _tableModel.FindDiscountIdByPurchaseAmount(client.purchase_amount);
                     if (idD != null) client.discount_id=(long)idD;
-                    db.SaveChanges(); // Сохраняем изменения в базе данных
+                    db.SaveChanges(); 
                 }
             }
         }
@@ -62,16 +62,13 @@ namespace TSMS_2_.Model
         {
             using (var context = new Model1())
             {
-                // Find all sales associated with the client
                 var salesToUpdate = context.sale.Where(sale => sale.client_id == clientId).ToList();
 
-                // Set client_id to null for these sales
                 foreach (var sale in salesToUpdate)
                 {
                     sale.client_id = null;
                 }
 
-                // Save changes to the database
                 context.SaveChanges();
             }
         }

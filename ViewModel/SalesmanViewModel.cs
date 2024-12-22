@@ -85,7 +85,7 @@ namespace TSMS_2_.ViewModel
                     OnPropertyChanged(nameof(SearchQuery));
                     if (!string.IsNullOrWhiteSpace(_searchQuery))
                     {
-                        SelectedFilter = "Все"; // Сбрасываем фильтр при изменении строки поиска
+                        SelectedFilter = "Все"; 
                     }
                 }
             }
@@ -122,7 +122,7 @@ namespace TSMS_2_.ViewModel
             {
                 db.salesman.Load();
                 _allSalesmen = db.salesman
-                    .Where(i => !i.admin) // Exclude admin
+                    .Where(i => !i.admin) 
                     .ToList()
                     .Select(i => new salesmanDTO(i))
                     .ToList();
@@ -147,7 +147,7 @@ namespace TSMS_2_.ViewModel
         {
             if (string.IsNullOrWhiteSpace(SearchQuery))
             {
-                Salesmen = _allSalesmen; // Показываем всех сотрудников
+                Salesmen = _allSalesmen;
             }
             else
             {

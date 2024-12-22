@@ -16,11 +16,7 @@ namespace TSMS_2_.Model
     public class TableModel
     {
         Model1 db = new Model1();
-        //public List<salesmanDTO> GetSalesmanDTO()
-        //{
-        //    db.salesman.Load();
-        //    return db.salesman.Select(i => new salesmanDTO(i)).ToList();
-        //}
+       
         public List<salesmanDTO> GetSalesmanDTO()
         {
 
@@ -28,18 +24,13 @@ namespace TSMS_2_.Model
             {
                 db.salesman.Load();
                 List<salesmanDTO> r = db.salesman
-                                         .Where(i => !i.admin) // Exclude admin records
+                                         .Where(i => !i.admin) 
                                          .ToList()
                                          .Select(i => new salesmanDTO(i))
                                          .ToList();
                 return r;
             }
 
-            //// Получаем данные из базы данных без использования конструктора
-            //var salesmen = db.salesman.ToList(); // Загружаем данные в память
-
-            //// Преобразуем их в список DTO
-            //return salesmen.Select(i => new salesmanDTO(i)).ToList();
         }
 
         public bool DoesClientNumberExist(string phoneNumber)
@@ -53,7 +44,6 @@ namespace TSMS_2_.Model
         {
             using (var context = new Model1())
             {
-                // Проверяем, есть ли клиент с таким номером, исключая текущего клиента
                 return context.client.Any(c => c.noomber == number && c.id != clientId);
             }
         }
@@ -63,31 +53,15 @@ namespace TSMS_2_.Model
         {
             using (var db = new Model1())
             {
-                // Убедимся, что данные загружены
                 var discounts = db.discount.ToList();
 
-                // Найдем подходящую запись
                 var discount = discounts.FirstOrDefault(d => purchaseAmount >= d.start && purchaseAmount <= d.end);
 
-                // Вернем ID скидки или null
                 return discount?.id;
             }
         }
 
 
-        //public List<ProductsDTO> GetProductsDTOID(long Id, List<ProductsDTO> allProducts) {
-
-        //    return allProducts
-        //            .Where(p => p.id == Id &&p.count!=0)
-        //            .ToList();
-        //}
-
-        //public List<ProductsDTO> GetProductsDTOName(string SearchTerm, List<ProductsDTO> allProducts) {
-
-        //    return allProducts
-        //            .Where(p => p.name.IndexOf(SearchTerm, StringComparison.OrdinalIgnoreCase) >= 0 && p.count != 0)
-        //            .ToList();
-        //}
         public List<ProductsDTO> GetProductsDTO(long? Id, string SearchTerm="")
         {
             using (var db = new Model1())
@@ -145,7 +119,6 @@ namespace TSMS_2_.Model
         }
         public List<SupplierDTO> GetSupplierDTO()
         {
-            // Получаем данные из базы данных без использования конструктора
             using (var db = new Model1())
             {
                 db.supplier.Load();
@@ -156,31 +129,29 @@ namespace TSMS_2_.Model
         }
        
 
-        // Допустим, у вас есть метод в TableModel или в ViewModel, который будет преобразовывать ID категории в название
         public string GetCategoryName(long categoryId)
         {
-            // Здесь предполагается, что у вас есть доступ к данным категорий
             var category = db.categories.FirstOrDefault(c => c.id == categoryId);
-            return category?.name ?? "Unknown"; // Возвращаем имя категории или "Unknown" если не найдено
+            return category?.name ?? "Unknown"; 
         }
 
         public long GetTotalRevenue(DateTime startDate, DateTime endDate)
         {
             var totalRevenue = db.sale
-                .Where(s => s.data.HasValue && // Проверяем, что дата не пустая
-                            s.data.Value >= startDate && // Фильтруем по начальной дате
-                            s.data.Value <= endDate) // Фильтруем по конечной дате
-                .Select(s => (long?)s.cost) // Преобразуем в long? для предотвращения ошибок с пустыми коллекциями
-                .DefaultIfEmpty(0) // Если коллекция пуста, возвращаем 0
-                .Sum(); // Суммируем поле cost
+                .Where(s => s.data.HasValue && 
+                            s.data.Value >= startDate && 
+                            s.data.Value <= endDate) 
+                .Select(s => (long?)s.cost) 
+                .DefaultIfEmpty(0) 
+                .Sum(); 
 
-            return totalRevenue ?? 0; // Возвращаем сумму или 0, если результат null
+            return totalRevenue ?? 0; 
         }
 
         public Dictionary<long, long> GetTotalRevenueByCategories(DateTime startDate, DateTime endDate)
         {
             var revenueByCategories = db.element_sale
-    .Include(es => es.products) // Загружаем связанные данные
+    .Include(es => es.products) 
     .Where(es => es.sale.data.HasValue &&
                  es.sale.data.Value >= startDate &&
                  es.sale.data.Value <= endDate)
@@ -198,7 +169,7 @@ namespace TSMS_2_.Model
 
         public List<loanAgreementDTO> GetLoanAgreementDTOs()
         {
-            using (var db = new Model1()) // Предположим, что у вас есть контекст базы данных MyDbContext
+            using (var db = new Model1()) 
             {
                 db.loanAgreement.Load();
                 return db.loanAgreement.Local.ToList().Select(la => new loanAgreementDTO(la)).ToList();
@@ -207,10 +178,9 @@ namespace TSMS_2_.Model
 
         public List<SupplyDTO> GetSupplyDTO()
         {
-            // Получаем данные из базы данных без использования конструктора
-            var Supply = db.supply.ToList(); // Загружаем данные в память
+          
+            var Supply = db.supply.ToList();
 
-            // Преобразуем их в список DTO
             return Supply.Select(i => new SupplyDTO(i)).ToList();
         }
         public List<ClientDTO> GetClientsDTO()
@@ -234,7 +204,7 @@ namespace TSMS_2_.Model
 
         public List<SaleDTO> GetSaleDTO()
         {
-            using (var db = new Model1()) // Предположим, что у вас есть контекст базы данных MyDbContext
+            using (var db = new Model1()) 
             {
                 db.sale.Load();
                 return db.sale.Local.ToList().Select(i => new SaleDTO(i)).ToList();
@@ -278,7 +248,7 @@ namespace TSMS_2_.Model
         public List<Element_saleDto> GetElementsBySaleId(long saleId)
         {
             return db.element_sale
-                             .Where(es => es.sale_id == saleId) // Фильтр по идентификатору продажи
+                             .Where(es => es.sale_id == saleId) 
                              .Select(es => new Element_saleDto
                              {
                                  Id = es.id,
@@ -297,30 +267,27 @@ namespace TSMS_2_.Model
         {
             var revenueByCategories = GetTotalRevenueByCategories(startDate, endDate);
 
-            // Общая прибыль за указанный период
             var totalRevenue = revenueByCategories.Values.Sum();
 
             if (totalRevenue == 0)
-                return new Dictionary<string, double>(); // Если нет прибыли, возвращаем пустой словарь
+                return new Dictionary<string, double>(); 
 
-            // Вычисляем процент прибыли по категориям
             return revenueByCategories.ToDictionary(
-                kvp => GetCategoryName(kvp.Key), // Имя категории
-                kvp => (double)kvp.Value / totalRevenue * 100 // Процент от общей прибыли
+                kvp => GetCategoryName(kvp.Key), 
+                kvp => (double)kvp.Value / totalRevenue * 100 
             );
         }
 
      
         public int GetUniqueClientsCount(DateTime startDate, DateTime endDate)
         {
-            // Получаем все продажи, которые попадают в указанный диапазон дат
             var query = db.sale
                          .Where(s => s.data.HasValue &&
                                      s.data.Value >= startDate &&
                                      s.data.Value <= endDate)
-                         .Distinct(); // Убираем дубли по client_id
+                         .Distinct(); 
 
-            return query.Count(); // Возвращаем количество уникальных клиентов
+            return query.Count(); 
         }
 
         public List<CategoryDto> GetCategoriesDTO()
@@ -344,7 +311,7 @@ namespace TSMS_2_.Model
 
         public List<Salesman> GetSalesman()
         {
-            return db.salesman.Include(o => o.FullName) // Загружаем владельцев
+            return db.salesman.Include(o => o.FullName)
                             .Include(o => o.mail)
                             .Include(o => o.salary)
                             .Include(o => o.password)

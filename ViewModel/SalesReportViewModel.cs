@@ -28,12 +28,10 @@ namespace TSMS_2_.ViewModel
         private string _categoryFilter;
         private string _fileName;
 
-        // Команды
         public ICommand GenerateReportCommand { get; }
         public ICommand TotalSumCommand { get; }
         public ICommand SaveReportAsPdfCommand { get; }
 
-        // Событие для изменения свойств
         public event PropertyChangedEventHandler PropertyChanged;
         public SalesReportViewModel()
         {
@@ -41,7 +39,6 @@ namespace TSMS_2_.ViewModel
             _startDate = DateTime.Now.AddMonths(-1);
             _endDate = DateTime.Now;
             _categoryFilter = string.Empty;
-            // Инициализация команд
             GenerateReportCommand = new RelayCommand(GenerateReport);
             SaveReportAsPdfCommand = new RelayCommand(SaveReportAsPdf);
         }
@@ -67,7 +64,6 @@ namespace TSMS_2_.ViewModel
             return true;
         }
 
-        // Свойства
         public ObservableCollection<SalesReport> SalesReports
         {
             get { return _salesReports; }
@@ -108,7 +104,6 @@ namespace TSMS_2_.ViewModel
                 OnPropertyChanged(nameof(RevenueByCategories));
             }
         }
-        // Генерация отчета
         private PlotModel _pieChartModel;
         public PlotModel PieChartModel
         {
@@ -116,7 +111,7 @@ namespace TSMS_2_.ViewModel
             set
             {
                 _pieChartModel = value;
-                OnPropertyChanged(); // Для обновления интерфейса
+                OnPropertyChanged(); 
             }
         }
         private decimal _averageCheck;
@@ -139,32 +134,29 @@ namespace TSMS_2_.ViewModel
             TotalSum = _tableModel.GetTotalRevenue(StartDate, EndDate);
             RevenueByCategories = _tableModel.GetTotalRevenueByCategories(StartDate, EndDate);
 
-            // Получаем количество продаж
             ClientCheck=_tableModel.GetUniqueClientsCount(StartDate, EndDate);
-            // Рассчитываем средний чек
+            
             if (ClientCheck > 0)
             {
                 AverageCheck = TotalSum / ClientCheck;
             }
             else
             {
-                AverageCheck = 0; // Если нет продаж, средний чек = 0
+                AverageCheck = 0; 
             }
 
-            SalesReports.Clear();  // Очищаем старые данные
+            SalesReports.Clear();  
 
-            // Добавляем данные по категориям
             foreach (var categoryRevenue in RevenueByCategories)
             {
-                string categoryName = _tableModel.GetCategoryName(categoryRevenue.Key);  // Получаем название категории по ее ID
+                string categoryName = _tableModel.GetCategoryName(categoryRevenue.Key); 
                 SalesReports.Add(new SalesReport
                 {
-                    Category = categoryName,  // Название категории
-                    TotalRevenue = categoryRevenue.Value  // Сумма для этой категории
+                    Category = categoryName,  
+                    TotalRevenue = categoryRevenue.Value  
                 });
             }
 
-            // Построение диаграммы
             PieChartModel = new PlotModel { Title = "Отчет по категориям" };
 
             var pieSeries = new PieSeries
@@ -175,9 +167,8 @@ namespace TSMS_2_.ViewModel
                 StartAngle = 0
             };
 
-            // Генерация случайных цветов
             Random random = new Random();
-            HashSet<string> usedColors = new HashSet<string>(); // Храним строки для проверки уникальности
+            HashSet<string> usedColors = new HashSet<string>(); 
 
             foreach (var categoryRevenue in RevenueByCategories)
             {
@@ -187,16 +178,15 @@ namespace TSMS_2_.ViewModel
                 OxyColor newColor;
                 string colorKey;
 
-                // Генерация уникального цвета
                 do
                 {
-                    double hue = random.NextDouble(); // Цветовой тон
+                    double hue = random.NextDouble(); 
                     newColor = OxyColor.FromHsv(hue, 0.8, 0.9);
-                    colorKey = newColor.ToString(); // Получаем строковое представление цвета
+                    colorKey = newColor.ToString(); 
                 }
                 while (usedColors.Contains(colorKey));
 
-                usedColors.Add(colorKey); // Добавляем строку цвета в список использованных
+                usedColors.Add(colorKey); 
 
                 pieSeries.Slices.Add(new PieSlice(categoryName, revenue)
                 {
@@ -209,14 +199,12 @@ namespace TSMS_2_.ViewModel
 
             PieChartModel.Series.Add(pieSeries);
             PieChartModel.InvalidatePlot(true);
-            // Уведомляем интерфейс о новом графике
             OnPropertyChanged(nameof(PieChartModel));
-            OnPropertyChanged(nameof(AverageCheck));  // Обновляем интерфейс для среднего чека
+            OnPropertyChanged(nameof(AverageCheck));  
         }
 
 
 
-        // Сохранение отчета в PDF
         public void SaveReportAsPdf()
         {
             if (string.IsNullOrEmpty(FileName))
@@ -228,12 +216,11 @@ namespace TSMS_2_.ViewModel
             var saveFileDialog = new Microsoft.Win32.SaveFileDialog
             {
                 Filter = "PDF Files (*.pdf)|*.pdf",
-                FileName = FileName  // Предложенное имя файла
+                FileName = FileName  
             };
 
             if (saveFileDialog.ShowDialog() == true)
             {
-                // Создаем PDF-документ
                 PdfDocument document = new PdfDocument();
                 PdfPage page = document.AddPage();
                 XGraphics gfx = XGraphics.FromPdfPage(page);
@@ -244,31 +231,26 @@ namespace TSMS_2_.ViewModel
                 double margin = 20;
                 double yPosition = margin;
 
-                // Заголовок отчета (по центру страницы)
                 double titleWidth = gfx.MeasureString("Отчет по продажам", headerFont).Width;
                 gfx.DrawString("Отчет по продажам", headerFont, XBrushes.Black, new XRect((page.Width - titleWidth) / 2, yPosition, page.Width, page.Height), XStringFormats.TopLeft);
-                yPosition += 30; // Отступ после заголовка
+                yPosition += 30; 
 
-                // Промежуток времени отчета
                 string dateRange = $"Период: {StartDate.ToString("dd MMM yyyy")} - {EndDate.ToString("dd MMM yyyy")}";
                 double dateRangeWidth = gfx.MeasureString(dateRange, normalFont).Width;
                 gfx.DrawString(dateRange, normalFont, XBrushes.Black, new XRect((page.Width - dateRangeWidth) / 2, yPosition, page.Width, page.Height), XStringFormats.TopLeft);
-                yPosition += 30; // Отступ после промежутка времени
+                yPosition += 30; 
 
-                // Раздел: Общие данные
                 gfx.DrawString($"Общая сумма продаж: {TotalSum:N0}", normalFont, XBrushes.Black, margin, yPosition);
                 yPosition += 20;
                 gfx.DrawString($"Средний чек: {AverageCheck:N0}", normalFont, XBrushes.Black, margin, yPosition);
                 yPosition += 20;
                 gfx.DrawString($"Количество клиентов: {ClientCheck}", normalFont, XBrushes.Black, margin, yPosition);
-                yPosition += 40; // Отступ перед таблицей
+                yPosition += 40; 
 
-                // Раздел: Таблица с продажами по категориям
                 double tableStartY = yPosition;
-                double column1Width = 250; // Ширина колонки с категориями
-                double column2Width = 100; // Ширина колонки с суммой
+                double column1Width = 250; 
+                double column2Width = 100;
 
-                // Заголовки таблицы (по центру)
                 double tableWidth = column1Width + column2Width;
                 gfx.DrawRectangle(XBrushes.LightGray, (page.Width - tableWidth) / 2, tableStartY, column1Width, 20);
                 gfx.DrawString("Категория", normalFont, XBrushes.Black, new XRect((page.Width - tableWidth) / 2, tableStartY, column1Width, 20), XStringFormats.Center);
@@ -276,7 +258,6 @@ namespace TSMS_2_.ViewModel
                 gfx.DrawString("Сумма", normalFont, XBrushes.Black, new XRect((page.Width - tableWidth) / 2 + column1Width, tableStartY, column2Width, 20), XStringFormats.Center);
                 yPosition = tableStartY + 20;
 
-                // Данные таблицы
                 foreach (var report in SalesReports)
                 {
                     gfx.DrawRectangle(XBrushes.White, (page.Width - tableWidth) / 2, yPosition, column1Width, 20);
@@ -291,7 +272,6 @@ namespace TSMS_2_.ViewModel
 
                 yPosition += 20;
 
-                // Вставка диаграммы (по центру)
                 if (PieChartModel != null)
                 {
                     var exporter = new OxyPlot.SkiaSharp.PdfExporter
@@ -307,19 +287,16 @@ namespace TSMS_2_.ViewModel
 
                         XImage image = XImage.FromStream(stream);
 
-                        // Позиционируем диаграмму по центру
                         gfx.DrawImage(image, (page.Width - 400) / 2, yPosition, 400, 300);
                     }
                 }
 
-                // Сохраняем документ
                 document.Save(saveFileDialog.FileName);
                 MessageBox.Show("Report saved successfully.");
             }
         }
 
 
-        // Командный класс для реализации ICommand
         public class RelayCommand : ICommand
         {
             private readonly Action _execute;

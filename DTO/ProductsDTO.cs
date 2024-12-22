@@ -15,17 +15,16 @@ namespace TSMS_2_.DTO
         public long id { get; set; }
 
         [Required]
-        [StringLength(100)] // Увеличиваем длину для имени продукта
+        [StringLength(100)] 
         public string name { get; set; }
 
-        public long categoris_id { get; set; } // Убедитесь, что это свойство нужно в DTO
+        public long categoris_id { get; set; }
 
         [Required]
         public long price { get; set; }
         public string tex { get; set; }
         public long? count { get; set; }
         public long purchase { get; set; }
-        // Конструктор для преобразования из сущности products
         public ProductsDTO(products p)
         {
             id = p.id;
@@ -39,7 +38,6 @@ namespace TSMS_2_.DTO
             purchase=p.purchase;
         }
 
-        // Конструктор для преобразования из другого DTO (если нужно)
         public ProductsDTO(ProductsDTO p)
         {
             if (p != null && p.id!=0)

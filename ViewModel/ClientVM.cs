@@ -49,7 +49,6 @@ namespace TSMS_2_.ViewModel
         {
             if (SelectedClient != null)
             {
-                // Проверка корректности номера телефона
                 if (!Regex.IsMatch(SelectedClient.noomber, @"^(\+7|8)\d{10}$"))
                 {
                     MessageBox.Show(
@@ -60,7 +59,6 @@ namespace TSMS_2_.ViewModel
                     return;
                 }
 
-                // Проверка, существует ли номер в базе данных у другого клиента
                 if (_tableModel.DoesClientNumberExist(SelectedClient.noomber, SelectedClient.id))
                 {
                     MessageBox.Show(
@@ -76,7 +74,6 @@ namespace TSMS_2_.ViewModel
                 }
                 else SelectedClient.physical_person = true;
                 
-                // Обновление клиента в базе
                 _clientModel.UpdateClient(SelectedClient);
 
                 MessageBox.Show(
@@ -102,7 +99,6 @@ namespace TSMS_2_.ViewModel
         {
             if (SelectedClient != null && !string.IsNullOrWhiteSpace(SelectedClient.noomber))
             {
-                // Проверка корректности номера телефона
                 if (!Regex.IsMatch(SelectedClient.noomber, @"^(\+7|8)\d{10}$"))
                 {
                     MessageBox.Show(
@@ -113,7 +109,6 @@ namespace TSMS_2_.ViewModel
                     return;
                 }
 
-                // Проверка, существует ли номер в базе данных
                 if (_tableModel.DoesClientNumberExist(SelectedClient.noomber))
                 {
                     MessageBox.Show(
@@ -134,7 +129,6 @@ namespace TSMS_2_.ViewModel
                 {
                     SelectedClient.discount_id = (long)idD;
                 }
-                // Добавление клиента в базу
                 SelectedClient.id = _clientModel.CreateClient(SelectedClient);
 
                 MessageBox.Show(
@@ -190,7 +184,7 @@ namespace TSMS_2_.ViewModel
 
         private void OpenAddClient()
         {
-            SelectedClient = new ClientDTO { physical_person = true }; // Устанавливаем физическое лицо по умолчанию
+            SelectedClient = new ClientDTO { physical_person = true }; 
             _windowService.OpenWindow("ADDClient", this, 1);
         }
 

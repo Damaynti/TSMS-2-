@@ -1,5 +1,4 @@
-﻿using PdfSharp.Pdf.Content.Objects;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -13,7 +12,6 @@ using TSMS_2_.EF;
 using TSMS_2_.Model;
 using TSMS_2_.Services;
 using TSMS_2_.View;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace TSMS_2_.ViewModel
 {
@@ -46,11 +44,10 @@ namespace TSMS_2_.ViewModel
         public ICommand IncreaseQuantityCommand { get; }
         public ICommand DecreaseQuantityCommand { get; }
         public ICommand AddObjInDBCommand { get; }
-        public ICommand NullLoanAgreementCommand { get; }   
+        public ICommand NullLoanAgreementCommand { get; }
         public ICommand CreateCommand { get; }
         public ICommand AddObjCommand { get; }
 
-        // Properties for Supply details
         public long SupplierId { get; set; }
         public DateTime Data { get; set; }
         public long Cost { get; set; }
@@ -58,7 +55,7 @@ namespace TSMS_2_.ViewModel
         {
             get
             {
-                var total = CartItems.Sum(item => item.TotalPrice); 
+                var total = CartItems.Sum(item => item.TotalPrice);
                 return total;
             }
         }
@@ -69,7 +66,7 @@ namespace TSMS_2_.ViewModel
             _windowService = new WindowService();
             RemoveItemCommand = new Command<Element_saleDto>(RemoveItem);
             AddSupplyCommand = new RelayCommand(OpenAddSupply);
-            OpenSupCommand=new RelayCommand(OpenAddSup);
+            OpenSupCommand = new RelayCommand(OpenAddSup);
             ADDProductsCommand = new RelayCommand(OpenAddProduct);
             AddObjCommand = new RelayCommand(CreateProduct);
             AddObjInDBCommand = new RelayCommand(CreateLoanAgreement);
@@ -83,9 +80,9 @@ namespace TSMS_2_.ViewModel
             AddToCartCommand = new RelayCommand(AddToCart);
             CleanCommand = new RelayCommand(Clean);
             UpdateSupplierCommand = new RelayCommand(AddToSup);
-            NullLoanAgreementCommand=new RelayCommand(NullLoanAgreement);
+            NullLoanAgreementCommand = new RelayCommand(NullLoanAgreement);
             _products = new List<ProductsDTO>();
-            CreateCommand= new RelayCommand(CreateOrder);
+            CreateCommand = new RelayCommand(CreateOrder);
             _sup = new List<SupplierDTO>();
             IncreaseQuantityCommand = new Command<Element_saleDto>(IncreaseQuantity);
             DecreaseQuantityCommand = new Command<Element_saleDto>(DecreaseQuantity);
@@ -93,7 +90,7 @@ namespace TSMS_2_.ViewModel
         }
         public void CreateProduct()
         {
-            if (SelectedProduct.name != null && SelectedProduct.categoris_id!= null && SelectedProduct.price != 0 && SelectedProduct.count != null)
+            if (SelectedProduct.name != null && SelectedProduct.categoris_id != null && SelectedProduct.price != 0 && SelectedProduct.count != null)
             {
                 if (SelectedProduct.tex == null)
                 {
@@ -113,7 +110,7 @@ namespace TSMS_2_.ViewModel
         }
         private void NullLoanAgreement()
         {
-            SelectedLoanAgreement=null;
+            SelectedLoanAgreement = null;
             var currentWindow = Application.Current.Windows.OfType<ADDLoanAgreement>().FirstOrDefault();
             _windowService.CloseWindow(currentWindow);
         }
@@ -154,31 +151,26 @@ namespace TSMS_2_.ViewModel
             }
             var q = new SupplyModel();
             var id = q.CreatOrder(SelectedLoanAgreement, (long)TotalSum, idsal, CartItems);
-            //SaveReceiptAsPdf(id);
             var currentWindow = Application.Current.Windows.OfType<AdminWindow>().FirstOrDefault();
             _windowService.SWindow(currentWindow);
             var current = Application.Current.Windows.OfType<AddSupply>().FirstOrDefault();
             _windowService.CloseWindow(current);
-            //CartItems.Clear();
 
-            //_LoanAg = "Нет";
-            //_nameSup = "Поставщик не указан";
-            //LoadSupplies() ;    
         }
 
 
         private void CreateLoanAgreement()
         {
-            if (SelectedLoanAgreement != null && SelectedLoanAgreement.end!= null && SelectedLoanAgreement.end>DateTime.Now )
+            if (SelectedLoanAgreement != null && SelectedLoanAgreement.end != null && SelectedLoanAgreement.end > DateTime.Now)
             {
                 _LoanAg = "Да";
                 var currentWindow = Application.Current.Windows.OfType<ADDLoanAgreement>().FirstOrDefault();
                 _windowService.CloseWindow(currentWindow);
-                LoadSupplies() ;
+                LoadSupplies();
             }
-            
+
         }
-        
+
         private string _nameSup = "Поставщик не указан";
         public string NameSup
         {
@@ -307,10 +299,10 @@ namespace TSMS_2_.ViewModel
         }
         public void OpenAddElementSale()
         {
-            
+
             _windowService.OpenWindow("ADDElementSave", this, 2);
         }
-        
+
         public ProductsDTO SelectedProduct
         {
             get => _selectedProduct;
@@ -320,7 +312,6 @@ namespace TSMS_2_.ViewModel
                 OnPropertyChanged(nameof(SelectedProduct));
             }
         }
-        // List of supplies
         public ObservableCollection<SupplyDTO> Supplies
         {
             get => _supplies;
@@ -333,7 +324,7 @@ namespace TSMS_2_.ViewModel
                 }
             }
         }
-        private  long idsal;
+        private long idsal;
         private long? _idFilter;
         public long? IdFilter
         {
@@ -381,14 +372,12 @@ namespace TSMS_2_.ViewModel
                 UpdateCommandStates();
             }
         }
-
-        // Load supplies from the database
         private void LoadSupplies()
         {
             try
             {
 
-                var supplyList = _tableModel.GetSupplyDTO(); // Получаем список поставок из модели
+                var supplyList = _tableModel.GetSupplyDTO();
                 Supplies = new ObservableCollection<SupplyDTO>(supplyList);
                 var productsFromDb = _tableModel.GetProductsDTO();
                 var clientsFromDb = _tableModel.GetClientDTO();
@@ -403,17 +392,15 @@ namespace TSMS_2_.ViewModel
             }
             catch (Exception ex)
             {
-                // Обработка ошибок загрузки
                 Console.WriteLine($"Error loading supplies: {ex.Message}");
             }
         }
-        
-        // Open the window to add a new supply
+
         public void OpenAddSupply()
         {
             var currentWindow = Application.Current.Windows.OfType<AdminWindow>().FirstOrDefault();
             _windowService.HideWindow(currentWindow);
-            SelectedSupply = new SupplyDTO(); // Сбрасываем выбранную поставку
+            SelectedSupply = new SupplyDTO();
             _windowService.OpenWindow("ADDSupply", this, 1);
             LoadSupplies();
         }
@@ -471,29 +458,25 @@ namespace TSMS_2_.ViewModel
             }
             else
             {
-                SelectedLoanAgreement = new loanAgreementDTO(SelectedLoanAgreement); // Create a copy for editing
+                SelectedLoanAgreement = new loanAgreementDTO(SelectedLoanAgreement);
                 _windowService.OpenWindow("ADDLoanAgreement", this, 2);
             }
         }
         public void OpenAddSup()
         {
-            SelectedSup = new SupplierDTO(); // Сбрасываем выбранную поставку
+            SelectedSup = new SupplierDTO();
             _windowService.ShowWindow("ADDSup", this);
         }
-        // Open the window to update an existing supply
         public void OpenUpdateSupply()
         {
             if (SelectedSupply != null)
             {
-                var supplyToUpdate = new SupplyDTO(SelectedSupply); // Создаем копию для редактирования
+                var supplyToUpdate = new SupplyDTO(SelectedSupply);
                 _windowService.OpenWindow("ADDSupply", supplyToUpdate, 2);
                 LoadSupplies();
             }
         }
 
-        // Refresh the list of supplies
-      
-        // Delete the selected supply
         private void DeleteSelectedSupply()
         {
             if (SelectedSupply != null)
@@ -506,13 +489,11 @@ namespace TSMS_2_.ViewModel
                 }
                 catch (Exception ex)
                 {
-                    // Обработка ошибок удаления
                     Console.WriteLine($"Error deleting supply: {ex.Message}");
                 }
             }
         }
 
-        // Update the selected supply in the database
         private void UpdateSelectedSupply()
         {
             if (SelectedSupply != null)
@@ -524,26 +505,22 @@ namespace TSMS_2_.ViewModel
                 }
                 catch (Exception ex)
                 {
-                    // Обработка ошибок обновления
                     Console.WriteLine($"Error updating supply: {ex.Message}");
                 }
             }
         }
 
-        // Update the state of commands that depend on SelectedSupply
         private void UpdateCommandStates()
         {
             (UpdateSupplyCommand as RelayCommand)?.RaiseCanExecuteChanged();
             (DeleteSupplyCommand as RelayCommand)?.RaiseCanExecuteChanged();
         }
 
-        // Check if a supply is selected
         private bool CanExecuteSelectedSupply()
         {
             return SelectedSupply != null;
         }
 
-        // Property changed event handler
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -552,7 +529,6 @@ namespace TSMS_2_.ViewModel
         }
     }
 
-    // RelayCommand implementation
     public class RelayCommand : ICommand
     {
         private readonly Action _execute;

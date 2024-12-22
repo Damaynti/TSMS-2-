@@ -16,19 +16,18 @@ namespace TSMS_2_.DTO
 
         public long id { get; set; }
 
-        public DateTime? data { get; set; }// Время продажи
+        public DateTime? data { get; set; }
 
         [Required]
-        public long cost { get; set; } // Стоимость продажи
+        public long cost { get; set; } 
 
         [Required]
-        public long salesmn_id { get; set; } // ID продавца
+        public long salesmn_id { get; set; } 
         public long discount { get; set; }
 
         [Required]
-        public long? client_id { get; set; } // ID клиента
+        public long? client_id { get; set; } 
 
-        // Конструктор для преобразования из сущности sale
         public SaleDTO(sale s)
         {
             id = s.id;
@@ -44,7 +43,6 @@ namespace TSMS_2_.DTO
                 clientNum = client.noomber;
         }
 
-        // Конструктор для преобразования из другого DTO (если нужно)
         public SaleDTO(SaleDTO s)
         {
             if (s != null)

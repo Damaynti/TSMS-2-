@@ -12,7 +12,6 @@ namespace TSMS_2_.Model
     {
         private Model1 db = new Model1();
 
-        // Метод для создания нового поставщика
         public void CreateSupplier(SupplierDTO s)
         {
             supplier newSupplier = new supplier
@@ -27,8 +26,6 @@ namespace TSMS_2_.Model
             db.supplier.Add(newSupplier);
             db.SaveChanges();
         }
-
-        // Метод для обновления существующего поставщика
         public void UpdateSupplier(SupplierDTO s)
         {
             supplier existingSupplier = db.supplier.Find(s.id);
@@ -45,7 +42,6 @@ namespace TSMS_2_.Model
             }
         }
 
-        // Метод для удаления поставщика по ID
         public void DeleteSupplier(long id)
         {
             supplier supplierToDelete = db.supplier.Find(id);
@@ -56,7 +52,6 @@ namespace TSMS_2_.Model
             }
         }
 
-        // Метод для получения списка всех поставщиков
        
     }
 }

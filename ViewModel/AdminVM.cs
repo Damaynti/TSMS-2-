@@ -65,36 +65,21 @@ namespace TSMS_2_.ViewModel
             }
         }
 
-        // Method to add a new salesman
-        //public void AddSalesman()
-        //{
-        //    var newSalesman = new salesman { FullName = "Новый Продавец", Position = "Продавец" };
-        //    Salesmen.Add(newSalesman);
-        //    SelectedSalesman = newSalesman; // Optionally select the newly added salesman
-        //    _windowService.ShowWindow("AddSalesman"); // Show the add salesman window if needed
-        //}
-
-        // Method to save changes made to the selected salesman
         public void SaveChanges()
         {
             if (SelectedSalesman != null)
             {
-                // Logic to save changes to the selected salesman
-                // This could involve updating the database or another data source.
                 MessageBox.Show($"Сохранены изменения для: {SelectedSalesman.FullName}");
-                // Implement actual saving logic here
             }
         }
 
-        // Method to delete the selected salesman
         private void DeleteSelectedSalesman()
         {
             if (SelectedSalesman != null)
             {
                 Salesmen.Remove(SelectedSalesman);
-                // Logic to delete from database or data source can be added here.
                 MessageBox.Show($"Удален продавец: {SelectedSalesman.FullName}");
-                SelectedSalesman = null; // Clear selection after deletion
+                SelectedSalesman = null; 
             }
         }
 

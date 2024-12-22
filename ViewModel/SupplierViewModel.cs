@@ -55,7 +55,7 @@ namespace TSMS_2_.ViewModel
             {
                 if (_suppliers == null || _suppliers.Count == 0)
                 {
-                    Suppliers = _tableModel.GetSupplierDTO(); // Получаем список поставщиков из модели
+                    Suppliers = _tableModel.GetSupplierDTO(); 
                     OnPropertyChanged(nameof(Suppliers));
                 }
                 return _suppliers;

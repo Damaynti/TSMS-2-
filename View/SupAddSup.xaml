@@ -13,7 +13,7 @@ SelectedItem="{Binding SelectedSup, Mode=OneWayToSource}"
 AutoGenerateColumns="False" 
 BorderBrush="White" 
 Margin="0,47,0,0"
-RowHeight="30"
+RowHeight="40"
 CanUserAddRows="False"
                   HeadersVisibility="Column">
             <DataGrid.Resources>
@@ -25,7 +25,7 @@ CanUserAddRows="False"
                     <Setter Property="HorizontalContentAlignment" Value="Left"/>
                 </Style>
                 <Style TargetType="DataGridRow">
-                    <Setter Property="Height" Value="30"/>
+                    <Setter Property="Height" Value="40"/>
                     <Setter Property="Background" Value="#FF315266"/>
                     <Setter Property="Foreground" Value="White"/>
                 </Style>

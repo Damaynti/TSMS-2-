@@ -9,12 +9,11 @@ namespace TSMS_2_.DTO
 {
     public class DiscountDTO
     {
-        public long Id { get; set; } // Идентификатор скидки
-        public long? Size { get; set; } // Размер скидки
-        public long? Start { get; set; } // Начало диапазона суммы покупок
-        public long End { get; set; } // Конец диапазона суммы покупок
+        public long Id { get; set; }
+        public long? Size { get; set; } 
+        public long? Start { get; set; } 
+        public long End { get; set; } 
 
-        // Конструктор для инициализации на основе сущности discount
         public DiscountDTO(discount discountEntity)
         {
             if (discountEntity == null)

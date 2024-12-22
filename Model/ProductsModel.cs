@@ -12,7 +12,6 @@ namespace TSMS_2_.Model
     {
         private Model1 db = new Model1();
 
-        // Метод для создания нового продукта
         public void CreateProduct(ProductsDTO p)
         {
             products newProduct = new products
@@ -27,8 +26,6 @@ namespace TSMS_2_.Model
             db.products.Add(newProduct);
             db.SaveChanges();
         }
-
-        // Метод для обновления существующего продукта
         public void UpdateProduct(ProductsDTO p)
         {
             products existingProduct = db.products.Find(p.id);
@@ -43,7 +40,6 @@ namespace TSMS_2_.Model
             }
         }
 
-        // Метод для удаления продукта по ID
         public void DeleteProduct(long id)
         {
             products productToDelete = db.products.Find(id);
@@ -54,18 +50,17 @@ namespace TSMS_2_.Model
             }
         }
 
-        // Метод для получения списка всех продуктов (по желанию)
 
         public void DecreaseProductQuantity(long productId, long quantity)
         {
-            using (var db = new Model1())  // Предполагается использование контекста базы данных
+            using (var db = new Model1())  
             {
                 var product = db.products.FirstOrDefault(p => p.id == productId);
 
                 if (product != null)
                 {
-                    product.count -= quantity; // Уменьшаем количество товара
-                    db.SaveChanges(); // Сохраняем изменения в базе данных
+                    product.count -= quantity; 
+                    db.SaveChanges(); 
                 }
             }
         }
@@ -73,19 +68,18 @@ namespace TSMS_2_.Model
 
         public void increaseProductQuantity(long productId, long quantity)
         {
-            using (var db = new Model1())  // Предполагается использование контекста базы данных
+            using (var db = new Model1())  
             {
                 var product = db.products.FirstOrDefault(p => p.id == productId);
 
                 if (product != null)
                 {
-                    product.count += quantity; // Уменьшаем количество товара
-                    db.SaveChanges(); // Сохраняем изменения в базе данных
+                    product.count += quantity; 
+                    db.SaveChanges(); 
                 }
             }
         }
 
-        // Метод для получения продукта по ID (по желанию)
         public ProductsDTO GetProductById(long id)
         {
             products product = db.products.Find(id);

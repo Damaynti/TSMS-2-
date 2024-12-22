@@ -164,7 +164,7 @@
                         <Button Content="✏️ Изменить" HorizontalAlignment="Left " Margin="350,10,0,0" VerticalAlignment="Top " Width="120 " Height="30 " Background="#FF00BAB9 " Foreground="White" FontWeight="Bold" Command="{Binding UpdateProductCommand}"/>
                     </Grid>
                 </TabItem>-->
-                <TabItem Header="Категория" Background="White" Width="46">
+                <TabItem Header="Категория" Background="White" Width="121">
                     <TabItem.DataContext>
                         <vm:CategoriesViewModel />
                     </TabItem.DataContext>
@@ -328,7 +328,7 @@ CanUserAddRows="False">
                                 <DataGridTextColumn Header="Тип клиента" Binding="{Binding tClient}"/>
                             </DataGrid.Columns>
                         </DataGrid>
-                        <Button Content="➕ Добавить" Margin="168,10,132,0" VerticalAlignment="Top" Background="#FF00BAB9" Foreground="White" FontWeight="Bold" Command="{Binding AddClientCommand}"/>
+                        <Button Content="➕ Добавить" Margin="162,11,189,0" VerticalAlignment="Top" Background="#FF00BAB9" Foreground="White" FontWeight="Bold" Command="{Binding AddClientCommand}"/>
                         <!--<Button Content="🆙 Обновить" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="134" Height="30" Background="#FF00BAB9" Foreground="White" FontWeight="Bold" Command="{Binding RefreshClientsCommand}"/>-->
                         <Button Content="✏️ Изменить" HorizontalAlignment="Left" Margin="334,11,0,0" VerticalAlignment="Top" Width="120" Height="32" Background="#FF00BAB9" Foreground="White" FontWeight="Bold" Command="{Binding UpdateClientCommand}" Grid.ColumnSpan="2"/>
                         <Button Content="❌ Удалить" HorizontalAlignment="Left" Margin="10,11,0,0" VerticalAlignment="Top" Width="120" Height="30" Background="#FF00BAB9" Foreground="White" FontWeight="Bold" Command="{Binding DeleteClientCommand}"/>

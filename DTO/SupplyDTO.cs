@@ -15,15 +15,14 @@ namespace TSMS_2_.DTO
         public long id { get; set; }
 
         [Required]
-        public long sup_id { get; set; } // ID поставщика
+        public long sup_id { get; set; } 
 
         [Required]
-        public DateTime? data { get; set; }// Дата поставки
+        public DateTime? data { get; set; }
 
         [Required]
-        public long cost { get; set; } // Стоимость поставки
+        public long cost { get; set; } 
 
-        // Конструктор для преобразования из сущности supply
         public SupplyDTO(supply s)
         {
             id = s.id;
@@ -34,7 +33,6 @@ namespace TSMS_2_.DTO
             supplierName = s.supplier.FullName;
         }
 
-        // Конструктор для преобразования из другого DTO (если нужно)
         public SupplyDTO(SupplyDTO s)
         {
             if (s != null)

@@ -8,7 +8,7 @@ namespace TSMS_2_.EF
     public partial class Model1 : DbContext
     {
         public Model1()
-            : base("name=Model121")
+            : base("name=Model122")
         {
         }
 
