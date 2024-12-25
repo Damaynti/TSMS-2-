@@ -24,6 +24,17 @@ namespace TSMS_2_.View
         {
             InitializeComponent();
         }
+        private void TabItem_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (sender is TabItem tabItem && tabItem.DataContext is loanAgreementVM vm)
+            {
+                if (vm.LoadDataCommand.CanExecute(null))
+                {
+                    vm.LoadDataCommand.Execute(null);
+                }
+            }
+        }
+
 
     }
 }

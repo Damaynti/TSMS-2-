@@ -61,7 +61,7 @@ namespace TSMS_2_.ViewModel
         private void Login()
         {
             bool r=true;
-            if ((string)SelectedRole.Content== "Продавец")
+            if (SelectedRole!=null && (string)SelectedRole.Content== "Продавец")
                 r=false;
             var us = _tableModel.ValidateUser(r,Password);
             if (us!=null)

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TSMS_2_.View"
         mc:Ignorable="d"
-        Title="AddSupply" Height="507" Width="800" 
+        Title="AddSupply" Height="517" Width="800" 
         Background="#FF315266"
          Closed="Window_Closed">
     <Grid Margin="10">

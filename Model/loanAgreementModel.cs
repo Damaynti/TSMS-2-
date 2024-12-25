@@ -25,8 +25,10 @@ namespace TSMS_2_.Model
                 end_sum = dto.end_sum,
             };
             db.loanAgreement.Add(newLoanAgreement);
+            
             db.SaveChanges();
         }
+
         public void UpdateLoanAgreementStatus(loanAgreementDTO loanAgreement)
         {
             using (var context = new Model1())

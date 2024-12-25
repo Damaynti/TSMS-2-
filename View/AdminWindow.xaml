@@ -29,7 +29,6 @@
                         <vm:SalesmanViewModel/>
                     </TabItem.DataContext>
                     <Grid Background="#FF315266" Margin="0,0,0,-197">
-                        <!-- Поле для фильтрации статусов -->
                         <ComboBox 
         HorizontalAlignment="Left" 
         Margin="10,10,0,0" 
@@ -41,7 +40,6 @@
         Foreground="Black" 
         FontWeight="Bold" Height="32"/>
 
-                        <!-- Поле для поиска -->
                         <TextBox 
         x:Name="SearchTextBox" 
         Text="{Binding SearchQuery, UpdateSourceTrigger=PropertyChanged}" 
@@ -53,7 +51,6 @@
         Foreground="Black" 
         FontWeight="Bold"/>
 
-                        <!-- Кнопка для поиска -->
                         <Button 
         Content="🔍" 
         HorizontalAlignment="Left" 
@@ -66,7 +63,6 @@
         FontWeight="Bold" 
         Command="{Binding SearchCommand}"/>
 
-                        <!-- Таблица с данными -->
                         <DataGrid Background="#FF315266" 
               ItemsSource="{Binding Salesmen}" 
               SelectedItem="{Binding SelectedSalesman, Mode=OneWayToSource}"
@@ -90,7 +86,7 @@
                                 </Style>
                             </DataGrid.Resources>
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="ID" Binding="{Binding id}" />
+                                <!--<DataGridTextColumn Header="ID" Binding="{Binding id}" />-->
                                 <DataGridTextColumn Header="ФИО" Binding="{Binding FullName}" />
                                 <DataGridTextColumn Header="пароль" Binding="{Binding password}" />
                                 <DataGridTextColumn Header="Номер" Binding="{Binding number}" />
@@ -101,7 +97,6 @@
                             </DataGrid.Columns>
                         </DataGrid>
 
-                        <!-- Кнопки действий -->
                         <Button Content="➕ Добавить" 
             HorizontalAlignment="Left" 
             Margin="486,10,0,0" 
@@ -197,7 +192,6 @@ CanUserAddRows="False">
                             </DataGrid.Columns>
                         </DataGrid>
                         <Button Content="➕ Добавить" HorizontalAlignment="Left" Margin="10,9,0,0" VerticalAlignment="Top" Width="120" Background="#FF00BAB9" Foreground="White" FontWeight="Bold" Command="{Binding AddCategoryCommand}"/>
-                        <!--<Button Content="🆙 Обновить" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="134" Height="30" Background="#FF00BAB9" Foreground="White" FontWeight="Bold" Command="{Binding RefreshCategoriesCommand}"/>-->
                         <Button Content="✏️ Изменить" HorizontalAlignment="Left" Margin="150,11,0,0" VerticalAlignment="Top" Width="120 " Height="30 " Background="#FF00BAB9 " Foreground="White" FontWeight="Bold" Command="{Binding UpdateCategoryCommand}"/>
                     </Grid>
                 </TabItem>
@@ -230,7 +224,7 @@ CanUserAddRows="False">
                                 </Style>
                             </DataGrid.Resources>
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="ID" Binding="{Binding id}" />
+                                <!--<DataGridTextColumn Header="ID" Binding="{Binding id}" />-->
                                 <DataGridTextColumn Header="ФИО" Binding="{Binding FullName}" />
                                 <DataGridTextColumn Header="Название компании" Binding="{Binding CompanyName}" />
                                 <DataGridTextColumn Header="Адрес" Binding="{Binding address}" />
@@ -240,8 +234,7 @@ CanUserAddRows="False">
                             </DataGrid.Columns>
                         </DataGrid>
                         <Button Content="➕ Добавить" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Background="#FF00BAB9" Foreground="White" FontWeight="Bold"  Command="{Binding AddSupplierCommand}" Margin="10,10,0,0" />
-                        <!--<Button Content="🆙 Обновить" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="134" Height="30" Background="#FF00BAB9" Foreground="White" FontWeight="Bold" Command="{Binding RefreshSuppliersCommand}"/>-->
-                        <Button Content="✏️ Изменить" HorizontalAlignment="Left" Margin="151,10,0,0" VerticalAlignment="Top" Width="120 " Height="30 " Background="#FF00BAB9 " Foreground="White" FontWeight="Bold" Command="{Binding UpdateSupplierCommand}"/>
+                       <Button Content="✏️ Изменить" HorizontalAlignment="Left" Margin="151,10,0,0" VerticalAlignment="Top" Width="120 " Height="30 " Background="#FF00BAB9 " Foreground="White" FontWeight="Bold" Command="{Binding UpdateSupplierCommand}"/>
                     </Grid>
                 </TabItem>
                 <TabItem Header="продажи" Background="#FF00BAB9" Width="124">
@@ -276,7 +269,7 @@ CanUserAddRows="False">
                                 </Style>
                             </DataGrid.Resources>
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="ID" Binding="{Binding id}" />
+                                <DataGridTextColumn Header="№" Binding="{Binding id}" />
                                 <DataGridTextColumn Header="Время продажи" Binding="{Binding data, StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}" />
                                 <DataGridTextColumn Header="Стоимость" Binding="{Binding cost}" />
                                 <DataGridTextColumn Header="Продавца" Binding="{Binding salesmnName}" />
@@ -320,7 +313,7 @@ CanUserAddRows="False">
                                 </Style>
                             </DataGrid.Resources>
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="ID" Binding="{Binding id}" />
+                                <!--<DataGridTextColumn Header="ID" Binding="{Binding id}" />-->
                                 <DataGridTextColumn Header="Имя клиента" Binding="{Binding name}" />
                                 <DataGridTextColumn Header="Номер клиента" Binding="{Binding noomber}" />
                                 <DataGridTextColumn Header="Сумма покупок" Binding="{Binding purchase_amount}"/>
@@ -328,9 +321,8 @@ CanUserAddRows="False">
                                 <DataGridTextColumn Header="Тип клиента" Binding="{Binding tClient}"/>
                             </DataGrid.Columns>
                         </DataGrid>
-                        <Button Content="➕ Добавить" Margin="162,11,189,0" VerticalAlignment="Top" Background="#FF00BAB9" Foreground="White" FontWeight="Bold" Command="{Binding AddClientCommand}"/>
-                        <!--<Button Content="🆙 Обновить" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="134" Height="30" Background="#FF00BAB9" Foreground="White" FontWeight="Bold" Command="{Binding RefreshClientsCommand}"/>-->
-                        <Button Content="✏️ Изменить" HorizontalAlignment="Left" Margin="334,11,0,0" VerticalAlignment="Top" Width="120" Height="32" Background="#FF00BAB9" Foreground="White" FontWeight="Bold" Command="{Binding UpdateClientCommand}" Grid.ColumnSpan="2"/>
+                        <Button Content="➕ Добавить" Margin="162,11,189,0" VerticalAlignment="Top" Background="#FF00BAB9" Foreground="White" FontWeight="Bold" Command="{Binding AddClientCommand}" HorizontalAlignment="Left"/>
+                       <Button Content="✏️ Изменить" HorizontalAlignment="Left" Margin="334,11,0,0" VerticalAlignment="Top" Width="120" Height="32" Background="#FF00BAB9" Foreground="White" FontWeight="Bold" Command="{Binding UpdateClientCommand}" Grid.ColumnSpan="2"/>
                         <Button Content="❌ Удалить" HorizontalAlignment="Left" Margin="10,11,0,0" VerticalAlignment="Top" Width="120" Height="30" Background="#FF00BAB9" Foreground="White" FontWeight="Bold" Command="{Binding DeleteClientCommand}"/>
                     </Grid>
                 </TabItem>
@@ -364,7 +356,7 @@ CanUserAddRows="False">
                             </DataGrid.Resources>
 
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="ID" Binding="{Binding id}" />
+                                <DataGridTextColumn Header="№" Binding="{Binding id}" />
                                 <DataGridTextColumn Header="Поставщика" Binding="{Binding supplierName}" />
                                 <DataGridTextColumn Header="Дата поставки" Binding="{Binding data,StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}" />
                                 <DataGridTextColumn Header="Стоимость" Binding="{Binding cost}" />
@@ -372,14 +364,13 @@ CanUserAddRows="False">
                             </DataGrid.Columns>
                         </DataGrid>
                         <Button Content="➕ Добавить" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="120" Background="#FF00BAB9" Foreground="White" FontWeight="Bold" Command="{Binding AddSupplyCommand}" RenderTransformOrigin="0.143,0.53" />
-                        <!--<Button Content="🆙 Обновить" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="134" Height="30" Background="#FF00BAB9" Foreground="White" FontWeight="Bold" Command="{Binding RefreshSuppliesCommand}"/>
-                        <Button Content="✏️ Изменить" HorizontalAlignment="Left " Margin="350,10,0,0" VerticalAlignment="Top " Width="120 " Height="30 " Background="#FF00BAB9 " Foreground="White" FontWeight="Bold" Command="{Binding Up}" Cursor="Hand"/>-->
-
+                      
                     </Grid>
                 </TabItem>
-                <TabItem Header="Кредиты" Background="White" Width="134">
+               <TabItem Header="Кредиты" Background="White" Width="134" 
+         IsSelected="{Binding IsSelected, Mode=TwoWay}">
                     <TabItem.DataContext>
-                        <vm:loanAgreementVM/>
+                        <vm:loanAgreementVM />
                     </TabItem.DataContext>
                     <Grid Background="#FF315266">
                         <DataGrid Background="#FF315266" 
@@ -405,8 +396,8 @@ CanUserAddRows="False">
                                 </Style>
                             </DataGrid.Resources>
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="ID" Binding="{Binding id}" />
-                                <DataGridTextColumn Header="Номер поставки" Binding="{Binding sup_id}" />
+                                <!--<DataGridTextColumn Header="ID" Binding="{Binding id}" />-->
+                                <DataGridTextColumn Header="№ поставки" Binding="{Binding sup_id}" />
                                 <DataGridTextColumn Header="Сумма" Binding="{Binding sum}" />
                                 <DataGridTextColumn Header="Сумма погашения" Binding="{Binding end_sum}" />
                                 <DataGridTextColumn Header="Процент" Binding="{Binding percent}" />
@@ -415,19 +406,17 @@ CanUserAddRows="False">
                                 <DataGridTextColumn Header="Конец" Binding="{Binding end}" />
                             </DataGrid.Columns>
                         </DataGrid>
-
-                        <Button Content="✏️ Изменить" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="120 " Height="30 " Background="#FF00BAB9 " Foreground="White" FontWeight="Bold" Command="{Binding EditObjCommand}"/>
+                        <Button Content="✏️ Изменить" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="120" Height="30" Background="#FF00BAB9" Foreground="White" FontWeight="Bold" Command="{Binding EditObjCommand}" />
                     </Grid>
                 </TabItem>
+
                 <TabItem Header="Отчет по продажам">
                     <TabItem.DataContext>
                         <vm:SalesReportViewModel />
                     </TabItem.DataContext>
 
-                    <!-- Scrollable Content -->
-                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="0,0,0,-190">
+                     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="0,0,0,-190">
                         <StackPanel Margin="10" Orientation="Vertical">
-                            <!-- Sales Report DataGrid -->
                             <GroupBox Header="Данные отчета" Margin="0,0,0,10">
                                 <DataGrid ItemsSource="{Binding SalesReports}" AutoGenerateColumns="False" HeadersVisibility="Column" CanUserResizeColumns="True" Margin="5" Height="200">
                                     <DataGrid.Columns>
@@ -437,12 +426,10 @@ CanUserAddRows="False">
                                 </DataGrid>
                             </GroupBox>
 
-                            <!-- Summary and Controls -->
                             <GroupBox Header="Параметры отчета" Margin="0,0,0,10">
                                 <StackPanel Orientation="Vertical" Margin="10">
 
-                                    <!-- Summary Information -->
-                                    <StackPanel Orientation="Vertical" Margin="0,0,0,10">
+                                     <StackPanel Orientation="Vertical" Margin="0,0,0,10">
                                         <TextBlock Text="Общая сумма продаж:" FontWeight="Bold" Margin="0,0,0,5" />
                                         <TextBox Text="{Binding TotalSum, Mode=OneWay, StringFormat=N0}" IsReadOnly="True" Margin="0,0,0,10" />
 
@@ -453,7 +440,6 @@ CanUserAddRows="False">
                                         <TextBox Text="{Binding ClientCheck, Mode=OneWay, StringFormat=N0}" IsReadOnly="True" Margin="0,0,0,10" />
                                     </StackPanel>
 
-                                    <!-- Filters -->
                                     <StackPanel Orientation="Horizontal" Margin="0,10,0,10">
                                         <StackPanel Margin="0,0,20,0">
                                             <Label Content="Дата начала" />
@@ -469,7 +455,6 @@ CanUserAddRows="False">
                                         </StackPanel>
                                     </StackPanel>
 
-                                    <!-- Buttons -->
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,10,0,0">
                                         <Button Content="Сгенерировать отчет" Command="{Binding GenerateReportCommand}" Margin="0,0,10,0" Width="180" />
                                         <Button Content="Сохранить как PDF" Command="{Binding SaveReportAsPdfCommand}" Width="180" />
@@ -478,8 +463,7 @@ CanUserAddRows="False">
                                 </StackPanel>
                             </GroupBox>
 
-                            <!-- Pie Chart -->
-                            <GroupBox Header="Диаграмма">
+                             <GroupBox Header="Диаграмма">
                                 <oxy:PlotView Model="{Binding PieChartModel}" Height="400" Margin="5" />
                             </GroupBox>
 

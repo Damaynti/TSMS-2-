@@ -20,6 +20,7 @@ namespace TSMS_2_.ViewModel
         private List<loanAgreementDTO> _loanAgreements; 
         private readonly IWindowService _windowService;
         private loanAgreementDTO _selectedLoanAgreement;
+        public ICommand LoadDataCommand { get; }
 
         public ICommand UpdObjInDBCommand { get; }
         public ICommand AddObjInDBCommand { get; }
@@ -47,7 +48,25 @@ namespace TSMS_2_.ViewModel
             DeleteObjCommand = new RelayCommand(DeleteSelectedLoanAgreement);
             RefreshObjCommand = new RelayCommand(RefreshLoanAgreements);
             RefreshLoanAgreements();
+            LoadDataCommand = new RelayCommand(LoadLoanAg);
             LoadLoanAg();
+        }
+        private bool _isSelected;
+        public bool IsSelected
+        {
+            get => _isSelected;
+            set
+            {
+                if (_isSelected != value)
+                {
+                    _isSelected = value;
+                    OnPropertyChanged(nameof(IsSelected));
+                    if (_isSelected)
+                    {
+                        LoadLoanAg();
+                    }
+                }
+            }
         }
         private void LoadLoanAg()
         {

@@ -54,7 +54,7 @@ namespace TSMS_2_.Model
 
             if (_loanAg != null)
             {
-                _loanAg.end_sum = _loanAg.sum*(100+_loanAg.percent)/100;
+                _loanAg.end_sum = TotalSum*(100+_loanAg.percent)/100;
                 _loanAg.sup_id = id;
                 _loanAg.sum = TotalSum;
                 _loanAg.status_id = 2;

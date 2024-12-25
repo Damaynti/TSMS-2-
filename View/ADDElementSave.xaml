@@ -5,80 +5,107 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TSMS_2_.View"
         mc:Ignorable="d" 
-        Title="ADDElementSave" Height="464" Width="870"
-                           xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-TextElement.Foreground="{DynamicResource MaterialDesignBody}"
-TextElement.FontWeight="Regular"
-TextElement.FontSize="13"
-TextOptions.TextFormattingMode="Ideal"
-TextOptions.TextRenderingMode="Auto"
-Background="#FF315266"
-FontFamily="{DynamicResource MaterialDesignFont}">
-    <Grid Margin="10,0,10,-6" Height="453" VerticalAlignment="Bottom" >
-        <TextBlock Text="Поиск по артикулу:" Foreground="White" FontWeight="Bold" Margin="12,28,625,405" />
+        Title="ADDElementSave" Height="464" Width="1030"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="#FF315266"
+        FontFamily="{DynamicResource MaterialDesignFont}">
+    <Grid Margin="10">
+        <!-- Определяем строки и столбцы для масштабирования -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
 
-        <TextBox x:Name="Sname" Width="200" Margin="316,55,334,370" 
-                 
-                 Text="{Binding SearchTerm, UpdateSourceTrigger=PropertyChanged}" Background="White" HorizontalAlignment="Left" VerticalAlignment="Top"  />
-        <TextBlock Text="Поиск по названию:" Foreground="White" FontWeight="Bold" Margin="316,30,333,401" />
-        <TextBox x:Name="id" Width="200" Margin="12,53,638,368" 
-                Text="{Binding IdFilter, UpdateSourceTrigger=PropertyChanged, TargetNullValue='', FallbackValue=''}" 
-         Background="White" HorizontalAlignment="Left" VerticalAlignment="Top"  />
+        <!-- Верхний блок с текстовыми полями -->
+        <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="0,0,0,10">
+            <StackPanel Orientation="Vertical" Margin="10,0,10,0">
+                <TextBlock Text="Поиск по артикулу:" Foreground="White" FontWeight="Bold" />
+                <TextBox x:Name="id" Width="200" 
+                         Text="{Binding IdFilter, UpdateSourceTrigger=PropertyChanged, TargetNullValue='', FallbackValue=''}"
+                         Background="White" />
+            </StackPanel>
+            <StackPanel Orientation="Vertical" Margin="10,0,10,0">
+                <TextBlock Text="Поиск по названию:" Foreground="White" FontWeight="Bold" />
+                <TextBox x:Name="Sname" Width="200" 
+                         Text="{Binding SearchTerm, UpdateSourceTrigger=PropertyChanged}" 
+                         Background="White" />
+            </StackPanel>
+        </StackPanel>
 
-
-        <Grid Margin="0,100,0,47" Grid.ColumnSpan="2">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="31*"/>
-                <ColumnDefinition Width="99*"/>
-            </Grid.ColumnDefinitions>
-
-            <DataGrid x:Name="datagrid" Background="#FF315266" 
-    ItemsSource="{Binding Products}" 
-    SelectedItem="{Binding SelectedProduct, Mode=OneWayToSource}"
-    AutoGenerateColumns="False" 
-    BorderBrush="White" 
-    Margin="10,0,0,40"
-    RowHeight="30"
-    CanUserAddRows="False" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Top" >
-                <!-- Убираем пустую строку -->
-
+        <!-- DataGrid с прокруткой -->
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+            <DataGrid x:Name="datagrid" Background="#FF315266"
+                      ItemsSource="{Binding Products}" 
+                      SelectedItem="{Binding SelectedProduct, Mode=OneWayToSource}"
+                      AutoGenerateColumns="False" 
+                      BorderBrush="White" 
+                      CanUserAddRows="False" 
+                      VerticalAlignment="Stretch"
+                      HorizontalAlignment="Stretch">
+                <!-- Стили для строк и заголовков -->
                 <DataGrid.Resources>
-                    <!-- Определяем стиль для заголовков столбцов -->
                     <Style TargetType="DataGridColumnHeader">
-                        <Setter Property="Foreground" Value="White"/>
-                        <Setter Property="Background" Value="#FF315266"/>
-                        <Setter Property="FontWeight" Value="Bold"/>
-                        <!-- Жирный шрифт для заголовков -->
-                        <Setter Property="Padding" Value="10,0,0,0"/>
-                        <!-- Сдвиг вправо -->
-                        <Setter Property="HorizontalContentAlignment" Value="Left"/>
-                        <!-- Выравнивание текста -->
+                        <Setter Property="Foreground" Value="White" />
+                        <Setter Property="Background" Value="#FF315266" />
+                        <Setter Property="FontWeight" Value="Bold" />
+                        <Setter Property="Padding" Value="10,0,0,0" />
+                        <Setter Property="HorizontalContentAlignment" Value="Left" />
                     </Style>
-
-                    <!-- Определяем стиль для строк -->
                     <Style TargetType="DataGridRow">
-                        <Setter Property="Height" Value="30"/>
-                        <Setter Property="Background" Value="#FF315266"/>
-                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="Background" Value="#FF315266" />
+                        <Setter Property="Foreground" Value="White" />
                     </Style>
                 </DataGrid.Resources>
 
+                <!-- Определение столбцов -->
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Артикул" Binding="{Binding id, Mode=OneWay}" />
+                    <DataGridTextColumn Header="Артикул" Binding="{Binding id, Mode=OneWay}"  />
                     <DataGridTextColumn Header="Категория" Binding="{Binding categorisName, Mode=OneWay}" />
-                    <DataGridTextColumn Header="Название" Binding="{Binding name, Mode=OneWay}" />
-                    <DataGridTextColumn Header="технические характеристики" Binding="{Binding tex, Mode=OneWay}" />
+                    <DataGridTemplateColumn Header="Название" Width="200">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding name}" 
+                                           TextWrapping="Wrap" 
+                                           VerticalAlignment="Top" 
+                                           HorizontalAlignment="Left" 
+                                           MaxWidth="200" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="технические характеристики" Width="300">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding tex}" 
+                                           TextWrapping="Wrap" 
+                                           VerticalAlignment="Top" 
+                                           HorizontalAlignment="Left" 
+                                           MaxWidth="300" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                     <DataGridTextColumn x:Name="p" Header="Цена" Binding="{Binding price, Mode=OneWay}" />
-                    <DataGridTextColumn Header="Количество" Binding="{Binding count, Mode=OneWay}" />
+                    <DataGridTextColumn Header="Количество" Binding="{Binding count, Mode=OneWay}"  />
                 </DataGrid.Columns>
             </DataGrid>
+        </ScrollViewer>
 
-        </Grid>
-        <Button Content="Добавить в корзину" HorizontalAlignment="Left" Margin="425,387,0,0" VerticalAlignment="Top" Height="30" Background="#FF00BAB9" Foreground="White" Width="235" FontWeight="Bold" Command="{Binding AddToCartCommand}"  />
-
-
-
-        <Button Content="Сбросить фильтры" Command="{Binding RefreshProductsCommand}" Margin="12,387,0,0" Background="#FF046565" HorizontalAlignment="Left" VerticalAlignment="Top" Width="176"/>
-        <Button x:Name="btn" Content="Добавить новый товар" HorizontalAlignment="Left" Margin="615,53,0,0" VerticalAlignment="Top" Width="197" Command="{Binding ADDProductsCommand}"/>
+        <!-- Нижние кнопки -->
+        <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Center" Margin="0,10,0,0">
+            <Button Content="Сбросить фильтры" Command="{Binding RefreshProductsCommand}" 
+                    Foreground="White" Width="188" Margin="10" />
+            <Button x:Name="btn" Content="Добавить новый товар" Command="{Binding ADDProductsCommand}" 
+                   Foreground="White" Width="209" Margin="10" />
+            <Button Content="Добавить в корзину" Command="{Binding AddToCartCommand}" 
+                    Background="#FF00BAB9" Foreground="White" Width="200" Margin="10" />
+        </StackPanel>
     </Grid>
 </Window>

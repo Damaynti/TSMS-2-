@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TSMS_2_.View"
         mc:Ignorable="d"
-        Title="SupAddSup" Height="450" Width="800">
+        Title="SupAddSup" Height="450" Width="1001">
     <Grid Background="#FF315266">
         <DataGrid Background="#FF315266" 
                         ItemsSource="{Binding Sup}"
@@ -31,7 +31,7 @@ CanUserAddRows="False"
                 </Style>
             </DataGrid.Resources>
             <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" Binding="{Binding id}" />
+                <!--<DataGridTextColumn Header="№" Binding="{Binding id}" />-->
                 <DataGridTextColumn Header="ФИО" Binding="{Binding FullName}" />
                 <DataGridTextColumn Header="Название компании" Binding="{Binding CompanyName}" />
                 <DataGridTextColumn Header="Адрес" Binding="{Binding address}" />
