@@ -209,7 +209,7 @@ namespace TSMS_2_.ViewModel
         {
             if (string.IsNullOrEmpty(FileName))
             {
-                MessageBox.Show("Please enter a file name.");
+                MessageBox.Show("Пожайлуста, введите имя файла.");
                 return;
             }
 
@@ -292,7 +292,7 @@ namespace TSMS_2_.ViewModel
                 }
 
                 document.Save(saveFileDialog.FileName);
-                MessageBox.Show("Report saved successfully.");
+                MessageBox.Show("Отчет успешно сохранен.");
             }
         }
 
